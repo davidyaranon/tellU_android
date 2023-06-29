@@ -1,0 +1,175 @@
+/**************** SHARED ****************/
+@import url('https://fonts.googleapis.com/css2?family=Dosis&family=Noto+Serif+Khojki&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis&family=Noto+Serif+Khojki&family=Tinos:wght@700&display=swap');
+
+.header-md {
+  background: none;
+}
+
+ion-select {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+}
+
+.ion-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -25%);
+}
+
+ion-button,
+ion-back-button,
+ion-title,
+ion-item,
+ion-label,
+ion-input,
+ion-note ion-content,
+ion-page,
+input,
+form,
+label,
+ion-checkbox,
+ion-label,
+ion-item,
+svg,
+html,
+body,
+label,
+button,
+ion-loading,
+ion-card,
+ion-select,
+ion-card-title,
+ion-alert,
+button,
+ion-button,
+p,
+ion-note,
+ion-header {
+  font-family: 'Dosis', sans-serif;
+  font-family: 'Noto Serif Khojki', serif;
+  font-family: 'Dosis', sans-serif;
+  font-family: 'Noto Serif Khojki', serif;
+}
+
+ion-toast {
+  font-family: 'Tinos', serif;
+  font-size: medium;
+}
+
+ion-input {
+  --ion-font-family: 'Dosis', sans-serif;
+  --ion-font-family: 'Noto Serif Khojki', serif;
+}
+
+.ion-toolbar-trans {
+  --background: transparent;
+  --ion-color-base: transparent !important;
+}
+
+.back-button {
+  background-color: transparent;
+  border-radius: 5px;
+  padding-left: 0.75rem;
+  font-size: 1.1em;
+}
+
+.transparent-ion-toolbar {
+  --background: transparent;
+  --ion-color-base: transparent !important;
+}
+
+/**************** LOADING PAGE ****************/
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/**************** LANDING PAGE ****************/
+.login-button {
+  width: 85%;
+  margin: auto;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  height: 65px;
+  color: white;
+  font-size: large;
+  border-radius: 5px;
+  background: rgb(0, 191, 255);
+  background: linear-gradient(90deg, rgba(0, 191, 255, 1) 0%, rgba(97, 219, 251, 1) 75%, rgba(28, 198, 255, 1) 100%);
+}
+
+/**************** SIGN IN PAGE ****************/
+.login-label {
+  padding-left: 10%;
+  color: var(--ion-color-primary);
+}
+
+ion-item.login-input {
+  width: 85%;
+  margin: auto;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-bottom: 16px;
+  height: 50px;
+  --border-radius: 5px;
+}
+
+/**************** REGISTER PAGE ****************/
+.custom-alert .alert-wrapper {
+  width: 100vw;
+}
+
+.custom-alert {
+  font-family: 'Dosis', sans-serif;
+  font-family: 'Noto Serif Khojki', serif;
+}
+
+.custom-alert .alert-button-group {
+  max-width: 400px !important;
+}
+
+
+button.alert-button.alert-button-confirm {
+  color: var(--ion-color-splash-screen-background);
+}
+
+.md button.alert-button.alert-button-confirm {
+  border-radius: 4px;
+}
+
+.ios .custom-alert button.alert-button {
+  color: var(--ion-color-primary);
+}
+
+ion-item.register-input-select {
+  width: 85%;
+  margin: auto;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  height: 50px;
+  --border-radius: 5px;
+}
+
+ion-item.register-input {
+  width: 85%;
+  margin: auto;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  height: 50px;
+  --border-radius: 5px;
+}
+
+ion-item.login-input {
+  width: 85%;
+  margin: auto;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  margin-bottom: 16px;
+  height: 50px;
+  --border-radius: 5px;
+}
