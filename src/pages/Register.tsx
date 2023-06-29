@@ -26,6 +26,7 @@ import { Preferences } from "@capacitor/preferences";
 import { dynamicNavigate } from "../components/Shared/Navigation";
 import { useAppContext } from "../my-context";
 import { Toolbar } from "../components/Shared/Toolbar";
+import { Capacitor } from "@capacitor/core";
 
 /* Global variables */
 const emojis = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
@@ -52,6 +53,12 @@ const selectInterfaceOptions: AlertOptions = {
   header: "University",
   subHeader: "Select your university",
   cssClass: 'custom-alert',
+  buttons: [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+    }
+  ]
 }
 
 const Register: React.FC = () => {
@@ -75,12 +82,14 @@ const Register: React.FC = () => {
   /**
    * @description Uses Firebase Auth to register using email (emailSignUp) and password (passwordSignUp).
    * User input must meet certain requirements.
+   * The user is redirected to the home page upon successful registration.
    */
   async function register() {
     setBusy(true);
     if (schoolName) {
       var idx = emailSignUp.lastIndexOf('@');
-      if (idx > -1 && (emailSignUp.slice(idx + 1)).toLowerCase() === schoolEmailEnding) {
+      if (idx > -1 && (emailSignUp.slice(idx + 1)).toLowerCase() !== schoolEmailEnding) {
+        // do nothing
       } else {
         const toast = Toast.create({ message: 'Use your University\'s email address', duration: 2000, color: 'toast-error' });
         toast.present();
@@ -88,11 +97,7 @@ const Register: React.FC = () => {
         return;
       }
     }
-    if (
-      userNameSignUp.trim() === "" ||
-      passwordSignUp.trim() === "" ||
-      emailSignUp.trim() === ""
-    ) {
+    if (userNameSignUp.trim() === "" || passwordSignUp.trim() === "" || emailSignUp.trim() === "") {
       const toast = Toast.create({ message: 'Enter a value in each field', duration: 2000, color: 'toast-error' });
       toast.present();
     } else if (schoolName.length == 0) {
@@ -192,6 +197,7 @@ const Register: React.FC = () => {
   }, [user, loading]);
 
   React.useEffect(() => {
+    if (Capacitor.getPlatform() !== 'md' || Capacitor.getPlatform() !== 'ios') { return; }
     Keyboard.addListener('keyboardWillShow', info => {
       Keyboard.setResizeMode(defaultResizeOptions);
     });
@@ -200,9 +206,6 @@ const Register: React.FC = () => {
     };
   }, []);
 
-  const handleUsernameInput = (e: any) => {
-    setUserNameSignUp(e.detail.value);
-  }
 
   return (
     <IonPage>
@@ -218,6 +221,7 @@ const Register: React.FC = () => {
           <IonSelect
             aria-label="university-label"
             value={schoolName}
+            interface="action-sheet"
             interfaceOptions={selectInterfaceOptions}
             placeholder="University of California"
             onIonChange={(e: any) => {
@@ -319,13 +323,12 @@ const Register: React.FC = () => {
             <IonSelectOption disabled value="UCSF">UCSF</IonSelectOption>
             <IonSelectOption disabled value="UC Santa Barbara">UC Santa Barbara</IonSelectOption>
             <IonSelectOption disabled value="UC Santa Cruz">UC Santa Cruz</IonSelectOption>
-            <IonSelectOption disabled value="More schools to come!...">More schools to come!...</IonSelectOption>
           </IonSelect>
         </IonItem>
 
         <IonLabel id="school-email-label" className="login-label">School Email</IonLabel>
         <IonItem className='register-input'>
-          <IonInput aria-labelledby="school-email-label" clearInput value={emailSignUp} type="email" placeholder="email@email.com" id="emailSignUp" onIonChange={(e: any) => setEmailSignUp(e.detail.value)} />
+          <IonInput aria-labelledby="school-email-label" clearInput value={emailSignUp} type="email" placeholder="email@email.com" id="emailSignUp" onIonInput={(e: any) => setEmailSignUp(e.detail.value)} />
         </IonItem>
         {emailSignUp.length > 0 && schoolName.length <= 0 ?
           <p style={inputNoteError}>Select a University</p>
@@ -338,24 +341,24 @@ const Register: React.FC = () => {
 
         <IonLabel id="username-label-reg" className="login-label">Username</IonLabel>
         <IonItem className='register-input'>
-          <IonInput aria-labelledby="username-label-reg" maxlength={15} clearInput value={userNameSignUp} type="text" placeholder="userName1234" id="userNameSignUp" onIonChange={(e: any) => { handleUsernameInput(e) }} />
+          <IonInput aria-labelledby="username-label-reg" maxlength={15} clearInput value={userNameSignUp} type="text" placeholder="userName1234" id="userNameSignUp" onIonInput={(e) => { setUserNameSignUp(e.detail.value!) }} />
         </IonItem>
         <p style={inputNote}> {userNameSignUp.length} / 15 </p>
 
         <IonLabel id="password-label-reg" className="login-label">Password</IonLabel>
         <IonItem className='register-input'>
-          <IonInput aria-labelledby="password-label-reg" value={passwordSignUp} clearInput clearOnEdit={false} type={showPassword ? "text" : "password"} placeholder="••••••••" id="passwordSignUp" onIonChange={(e: any) => setPasswordSignUp(e.detail.value)} />
+          <IonInput aria-labelledby="password-label-reg" value={passwordSignUp} clearInput clearOnEdit={false} type={showPassword ? "text" : "password"} placeholder="••••••••" id="passwordSignUp" onIonInput={(e) => setPasswordSignUp(e.detail.value!)} />
           <IonButton slot="end" fill="clear" onClick={() => { setShowPassword(!showPassword) }}>
             <IonIcon color="medium" icon={showPassword ? eyeOutline : eyeOffOutline} />
           </IonButton>
         </IonItem>
+
         {passwordSignUp.length > 0 && passwordSignUp.length < 8 ?
-          // <FadeIn>
           <p style={inputNoteError}> {passwordSignUp.length > 0 && passwordSignUp.length < 8 ? "Password must be at least 8 characters" : ""} </p>
-          // </FadeIn>
           :
           <p style={inputNoteError}> {passwordSignUp.length > 0 && passwordSignUp.length < 8 ? "Password must be at least 8 characters" : ""} </p>
         }
+
         <div style={{ height: "1%" }} />
 
         <IonButton className="login-button" onClick={() => { register(); }} fill="clear" expand="block" id="signInButton" >Register</IonButton>

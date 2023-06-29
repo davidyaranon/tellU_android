@@ -80,11 +80,8 @@ const keyStyleOptionsDark: KeyboardStyleOptions = {
   style: KeyboardStyle.Dark
 }
 
-/**
- * Handles routing in app
- * Includes tab bar routing and all page components
- */
 const RoutingSystem: React.FunctionComponent = () => {
+
   /* hooks */
   const context = useAppContext();
   const history = useHistory();
@@ -160,11 +157,13 @@ const RoutingSystem: React.FunctionComponent = () => {
   }, []);
 
   return (
+
     /* Allows use of toast popups throughout app using the useToast() hook */
     <ToastProvider value={{ color: "primary", duration: 2000 }}>
 
       {/* Routing */}
       <IonTabs onIonTabsDidChange={(e) => { setSelectedTab(e.detail.tab) }}>
+        
         <IonRouterOutlet>
           <Route path="/" exact component={LoadingPage} />
           <Route path="/loadingPage" exact component={LoadingPage} />
@@ -212,17 +211,14 @@ const RoutingSystem: React.FunctionComponent = () => {
         </IonTabBar>
 
       </IonTabs>
+
     </ToastProvider>
   )
 };
 
 
-/**
- * Main App starting point
- * Provides context wrapper for setting dark mode, tabs, etc.
- * @returns Rendered application
- */
 const App: React.FC = () => {
+
   // hooks
   const context = useAppContext();
 
@@ -293,14 +289,14 @@ const App: React.FC = () => {
   };
 
   /**
-   * temp function to set school name to Cal Poly Humboldt
+   * @description temp function to set school name to Cal Poly Humboldt
    */
   const setSchoolName = React.useCallback(async () => {
     await Preferences.set({ key: "school", value: "Cal Poly Humboldt" });
   }, []);
 
   /**
-   * Dark mode use effect
+   * @description Dark mode use effect
    */
   useEffect(() => {
     setSchoolName().catch((err) => console.log(err));
@@ -312,9 +308,8 @@ const App: React.FC = () => {
     }
   }, []);
 
-  /**
-   * Main App
-   */
+
+
   return (
     <IonApp>
       <IonReactRouter history={historyInstance}>
