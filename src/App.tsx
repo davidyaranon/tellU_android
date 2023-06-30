@@ -24,7 +24,7 @@ import React from 'react';
 import { Route, useHistory } from 'react-router-dom';
 import {
   IonApp, IonIcon, IonRouterOutlet, IonTabBar,
-  IonTabButton, IonTabs, setupIonicReact, useIonRouter, useIonToast,
+  IonTabButton, IonTabs, setupIonicReact, useIonToast,
 } from '@ionic/react';
 import { useEffect } from 'react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -221,7 +221,6 @@ const App: React.FC = () => {
 
   // hooks
   const context = useAppContext();
-  const router = useIonRouter();
 
   /**
    * @description Runs on app startup.

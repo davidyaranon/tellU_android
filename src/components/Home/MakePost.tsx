@@ -9,12 +9,10 @@ import { PostModal } from "./PostModal";
 import { PollModal } from "./PollModal";
 import { LocationPinModal } from "./LocationPinModal";
 import { App as CapacitorApp } from "@capacitor/app";
-import { navigateBack } from "../Shared/Navigation";
 
 export const MakePost = (props: any) => {
 
   const context = useAppContext();
-  const router = useIonRouter();
 
   const schoolName = props.schoolName;
   const setShowProgressBar = props.handleSetShowProgressBar;
@@ -125,25 +123,24 @@ export const MakePost = (props: any) => {
   }, []);
 
   React.useEffect(() => {
-    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
-      console.log('Post modal = ' + showModal);
-      console.log('Location pin modal = ' + showLocationPinModal);
-      console.log('Gif modal = ' + showGifModal);
-      console.log('Poll modal = ' + showPollModal);
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        if (showLocationPinModal === true) {
+          handleSetModalStates(true, false, false, false);
+        } else if (showModal === true || showGifModal === true || showPollModal === true) {
+          handleSetModalStates(false, false, false, false);
+        }
+      });
+    };
 
-      if (showLocationPinModal === true) {
-        handleSetModalStates(true, false, false, false);
-      } else if (showModal === true || showGifModal === true || showPollModal === true) {
-        handleSetModalStates(false, false, false, false);
-      } else if (canGoBack) {
-        navigateBack(router);
-      }
-    });
+    document.addEventListener('ionBackButton', eventListener);
 
     return () => {
-      CapacitorApp.removeAllListeners();
+      document.removeEventListener('ionBackButton', eventListener);
     };
   }, [handleSetModalStates, showLocationPinModal, showModal, showPollModal, showGifModal]);
+
+
 
 
   return (
