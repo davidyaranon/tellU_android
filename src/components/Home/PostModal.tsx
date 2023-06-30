@@ -11,12 +11,9 @@ import { cameraOutline, closeOutline } from "ionicons/icons";
 /* Other imports */
 import { useAppContext } from "../../my-context";
 import { ClassSelections } from "./ClassSelections";
+import { useToast } from "@agney/ir-toast";
 
-const ionInputStyle = {
-  height: "12.5vh",
-  width: "95vw",
-  marginLeft: "2.5vw",
-};
+const IMAGES_ALLOWED: number = 3;
 
 export const PostModal = (props: any) => {
 
@@ -37,6 +34,7 @@ export const PostModal = (props: any) => {
   const setLocationPinModal = props.setLocationPinModal;
 
   const context = useAppContext();
+  const Toast = useToast();
 
   const takePicture = async () => {
     try {
@@ -46,7 +44,11 @@ export const PostModal = (props: any) => {
       });
       let blobsArr: any[] = [];
       let photoArr: GalleryPhoto[] = [];
-      for (let i = 0; i < images.photos.length; ++i) {
+      if(images.photos.length > IMAGES_ALLOWED) {
+        const toast = Toast.create({ message: 'The maximum allowed photos is 3', duration: 2000, color: 'warning' });
+        toast.present();
+      }
+      for (let i = 0; i < IMAGES_ALLOWED; ++i) {
         let res = await fetch(images.photos[i].webPath!);
         let blobRes = await res.blob();
         blobsArr.push(blobRes);

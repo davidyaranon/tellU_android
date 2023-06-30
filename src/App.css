@@ -1350,3 +1350,8 @@ ion-select::part(placeholder),
 ion-select::part(text) {
   font-size: 4vw;
 }
+
+.gif-searchbar {
+  border: 0 !important;
+  box-shadow: none !important;
+}

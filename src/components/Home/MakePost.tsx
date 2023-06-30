@@ -8,7 +8,6 @@ import { GifModal } from "./GifModal";
 import { PostModal } from "./PostModal";
 import { PollModal } from "./PollModal";
 import { LocationPinModal } from "./LocationPinModal";
-import { App as CapacitorApp } from "@capacitor/app";
 
 export const MakePost = (props: any) => {
 

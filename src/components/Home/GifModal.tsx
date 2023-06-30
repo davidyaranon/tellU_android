@@ -116,7 +116,7 @@ export const GifModal = (props: any) => {
           </IonToolbar>
           <br />
           <IonToolbar className='ion-no-border'>
-            <IonSearchbar className="ion-no-border" color={context.darkMode ? "medium" : "light"} enterkeyhint="search" onKeyDown={e => isEnterPressedGif(e.key)} animated ref={gifSearchRef}></IonSearchbar>
+            <IonSearchbar className='gif-searchbar' enterkeyhint="search" onKeyDown={e => isEnterPressedGif(e.key)} animated ref={gifSearchRef}></IonSearchbar>
           </IonToolbar>
         </div>
 
