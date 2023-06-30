@@ -13,8 +13,6 @@ import { useAppContext } from "../../my-context";
 import { ClassSelections } from "./ClassSelections";
 import { useToast } from "@agney/ir-toast";
 
-const IMAGES_ALLOWED: number = 3;
-
 export const PostModal = (props: any) => {
 
   const photos = props.photos;
@@ -36,7 +34,12 @@ export const PostModal = (props: any) => {
   const context = useAppContext();
   const Toast = useToast();
 
+  const handleRemoveImage = (index: number) => {
+    setPhotos((prevPhotos: any) => prevPhotos && prevPhotos.filter((_ : any, i : number) => i !== index));
+  }
+
   const takePicture = async () => {
+    setPhotos([]);
     try {
       const images = await Camera.pickImages({
         quality: 50,
@@ -44,17 +47,17 @@ export const PostModal = (props: any) => {
       });
       let blobsArr: any[] = [];
       let photoArr: GalleryPhoto[] = [];
-      if(images.photos.length > IMAGES_ALLOWED) {
+      if (images.photos.length > 3) {
         const toast = Toast.create({ message: 'The maximum allowed photos is 3', duration: 2000, color: 'warning' });
         toast.present();
       }
-      for (let i = 0; i < IMAGES_ALLOWED; ++i) {
+      for (let i = 0; i < images.photos.length; ++i) {
         let res = await fetch(images.photos[i].webPath!);
         let blobRes = await res.blob();
         blobsArr.push(blobRes);
         photoArr.push(images.photos[i]);
       }
-      setPhotos(photoArr);
+      setPhotos(photoArr.slice(0, 3));
       setBlob(blobsArr);
     } catch (err: any) {
       // Toast.error(err.message.toString());
@@ -120,7 +123,7 @@ export const PostModal = (props: any) => {
                     ref={inputRef}
                     rows={3}
                     maxlength={500}
-                    style={context.darkMode ? { color: "white", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' } : { color: "black",  height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' }}
+                    style={context.darkMode ? { color: "white", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' } : { color: "black", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' }}
                     disabled={prevPostUploading}
                     placeholder="Start typing..."
                     id="message"
@@ -171,8 +174,16 @@ export const PostModal = (props: any) => {
               {photos.map((photo: GalleryPhoto, index: number) => {
                 return (
                   <IonCard key={"photo_" + index.toString()}>
-                    <IonImg src={photo?.webPath} />
+                    <div style={{ position: 'relative' }}>
+                      <IonImg src={photo?.webPath} />
+                      <div style={{ position: 'absolute', top: '0', right: '0' }}>
+                        <IonButton fill='solid' color='dark' onClick={() => { handleRemoveImage(index) }}>
+                          <IonIcon size='small' icon={closeOutline} />
+                        </IonButton>
+                      </div>
+                    </div>
                   </IonCard>
+
                 )
               })}
             </>
