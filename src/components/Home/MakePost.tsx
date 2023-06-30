@@ -1,5 +1,5 @@
 import React from "react";
-import { IonFab, IonFabButton, IonFabList, IonIcon, IonImg } from "@ionic/react";
+import { IonFab, IonFabButton, IonFabList, IonIcon, IonImg, useIonRouter } from "@ionic/react";
 import { useAppContext } from "../../my-context"
 import GifIcon from '@mui/icons-material/Gif';
 import { add, chatboxEllipsesOutline, statsChartOutline } from "ionicons/icons";
@@ -8,11 +8,13 @@ import { GifModal } from "./GifModal";
 import { PostModal } from "./PostModal";
 import { PollModal } from "./PollModal";
 import { LocationPinModal } from "./LocationPinModal";
-import DynamicFormIcon from '@mui/icons-material/DynamicForm';
+import { App as CapacitorApp } from "@capacitor/app";
+import { navigateBack } from "../Shared/Navigation";
 
 export const MakePost = (props: any) => {
 
   const context = useAppContext();
+  const router = useIonRouter();
 
   const schoolName = props.schoolName;
   const setShowProgressBar = props.handleSetShowProgressBar;
@@ -77,7 +79,7 @@ export const MakePost = (props: any) => {
   }, []);
 
   /**
-   * @descroption handles state update of blob from child components
+   * @description handles state update of blob from child components
    * 
    * @param {any} blob photo data
    */
@@ -111,6 +113,38 @@ export const MakePost = (props: any) => {
   const handleSetShowModal = React.useCallback((show: boolean) => {
     setShowModal(show);
   }, []);
+
+  /**
+   * @description handles the use of the hardware back button and determines which modals to close.
+   */
+  const handleSetModalStates = React.useCallback((showModal: boolean, showLocationPinModal: boolean, showGifModal: boolean, showPollModal: boolean) => {
+    setShowModal(showModal);
+    setShowLocationPinModal(showLocationPinModal);
+    setShowGifModal(showGifModal);
+    setShowPollModal(showPollModal);
+  }, []);
+
+  React.useEffect(() => {
+    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+      console.log('Post modal = ' + showModal);
+      console.log('Location pin modal = ' + showLocationPinModal);
+      console.log('Gif modal = ' + showGifModal);
+      console.log('Poll modal = ' + showPollModal);
+
+      if (showLocationPinModal === true) {
+        handleSetModalStates(true, false, false, false);
+      } else if (showModal === true || showGifModal === true || showPollModal === true) {
+        handleSetModalStates(false, false, false, false);
+      } else if (canGoBack) {
+        navigateBack(router);
+      }
+    });
+
+    return () => {
+      CapacitorApp.removeAllListeners();
+    };
+  }, [handleSetModalStates, showLocationPinModal, showModal, showPollModal, showGifModal]);
+
 
   return (
     <>

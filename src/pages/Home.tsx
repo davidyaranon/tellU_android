@@ -197,6 +197,18 @@ const Home: React.FC = () => {
     SplashScreen.hide();
   }, []);
 
+  useIonViewWillEnter(() => {
+    if (Capacitor.getPlatform() === 'ios' || Capacitor.getPlatform() === 'md') {
+      StatusBar.setStyle({ style: Style.Dark })
+    }
+  });
+
+  useIonViewWillEnter(() => {
+    if (context.showTabs === false) {
+      context.setShowTabs(true);
+    }
+  });
+
   React.useEffect(() => {
     hideSplashScreen();
   }, []);
@@ -204,12 +216,6 @@ const Home: React.FC = () => {
   React.useEffect(() => {
     setSchool();
   }, [setSchool]);
-
-  useIonViewWillEnter(() => {
-    if (context.showTabs === false) {
-      context.setShowTabs(true);
-    }
-  });
 
   const handleGetVersion = React.useCallback(async () => {
     const serverVersion: null | string = await getAppVersionNum();
@@ -224,12 +230,6 @@ const Home: React.FC = () => {
   React.useEffect(() => {
     handleGetVersion();
   }, []);
-
-  useIonViewWillEnter(() => {
-    if (Capacitor.getPlatform() === 'ios' || Capacitor.getPlatform() === 'md') {
-      StatusBar.setStyle({ style: Style.Dark })
-    }
-  });
 
 
   React.useEffect(() => {

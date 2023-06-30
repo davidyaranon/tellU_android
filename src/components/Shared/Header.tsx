@@ -47,7 +47,7 @@ class TellUHeader extends Component<any, any>{
             display: "inline-block",
             backgroundImage: `url(${humboldtImage})`,
             backgroundSize: '95vw',
-            backgroundPosition: '10% -120%'
+            backgroundPosition: '10% 80%'
           }}>
             <IonHeader className="ion-no-border" style={{ textAlign: "center", top: "1vh" }}>
               <img
@@ -75,7 +75,7 @@ class TellUHeader extends Component<any, any>{
             display: "inline-block",
             backgroundImage: `url(${humboldtImage})`,
             backgroundSize: '95vw',
-            backgroundPosition: '10% -120%'
+            backgroundPosition: '10% 80%'
           }}>
             <IonHeader className="ion-no-border" style={{ textAlign: "center", top: "1vh" }}>
               <img
@@ -103,7 +103,7 @@ class TellUHeader extends Component<any, any>{
             display: "inline-block",
             backgroundImage: `url(${humboldtImage})`,
             backgroundSize: '95vw',
-            backgroundPosition: '10% -120%'
+            backgroundPosition: '10% 80%'
           }}>
             <IonHeader className="ion-no-border" style={{ textAlign: "center", top: "1vh" }}>
               <img
@@ -131,7 +131,7 @@ class TellUHeader extends Component<any, any>{
             display: "inline-block",
             backgroundImage: `url(${humboldtImage})`,
             backgroundSize: '95vw',
-            backgroundPosition: '10% -120%'
+            backgroundPosition: '10% 80%'
           }}>
             <IonHeader className="ion-no-border" style={{ textAlign: "center", top: "1vh" }}>
               <img

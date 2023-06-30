@@ -25,7 +25,7 @@ import React from 'react';
 import { Route, useHistory } from 'react-router-dom';
 import {
   IonApp, IonIcon, IonRouterOutlet, IonTabBar,
-  IonTabButton, IonTabs, setupIonicReact, useIonToast,
+  IonTabButton, IonTabs, setupIonicReact, useIonRouter, useIonToast,
 } from '@ionic/react';
 import { useEffect } from 'react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -67,6 +67,7 @@ import { useAppContext } from "./my-context";
 import { FCM } from '@capacitor-community/fcm';
 import aiIconFilled from './images/aiFilled.svg';
 import aiIconUnfilled from './images/aiUnfilled.svg';
+import { navigateBack } from './components/Shared/Navigation';
 
 // Global variables
 setupIonicReact({ mode: 'md' }); // ios for iPhone, md for Android, affects ALL components
@@ -76,6 +77,7 @@ SplashScreen.show({
   fadeInDuration: 300,
   fadeOutDuration: 300,
 });
+StatusBar.setOverlaysWebView({ overlay: false});
 const keyStyleOptionsDark: KeyboardStyleOptions = {
   style: KeyboardStyle.Dark
 }
@@ -163,7 +165,7 @@ const RoutingSystem: React.FunctionComponent = () => {
 
       {/* Routing */}
       <IonTabs onIonTabsDidChange={(e) => { setSelectedTab(e.detail.tab) }}>
-        
+
         <IonRouterOutlet>
           <Route path="/" exact component={LoadingPage} />
           <Route path="/loadingPage" exact component={LoadingPage} />
@@ -221,6 +223,7 @@ const App: React.FC = () => {
 
   // hooks
   const context = useAppContext();
+  const router = useIonRouter();
 
   /**
    * @description Runs on app startup.
@@ -307,7 +310,6 @@ const App: React.FC = () => {
       registerNotifications();
     }
   }, []);
-
 
 
   return (

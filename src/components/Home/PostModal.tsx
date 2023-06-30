@@ -106,8 +106,8 @@ export const PostModal = (props: any) => {
           <IonRow class="ion-padding-top">
             {profilePhoto ? (
               <>
-                <IonCol size="2.75" style={{ paddingRight: "10px", paddingTop: "15px" }}>
-                  <IonAvatar style={{ padding: "5px" }}>
+                <IonCol size="2.75" style={{ paddingRight: "10px", paddingTop: "10px" }}>
+                  <IonAvatar style={{ padding: "7.5px" }}>
                     <img src={profilePhoto} />
                   </IonAvatar>
                 </IonCol>
@@ -116,9 +116,9 @@ export const PostModal = (props: any) => {
                     aria-label=""
                     spellcheck={true}
                     ref={inputRef}
-                    rows={4}
+                    rows={3}
                     maxlength={500}
-                    style={context.darkMode ? { color: "white", height: "20vh", fontSize: "large", paddingLeft: '5px' } : { color: "black", height: "20vh", fontSize: "large", paddingLeft: '5px' }}
+                    style={context.darkMode ? { color: "white", height: "75px", fontSize: "large", paddingLeft: '5px' } : { color: "black", height: "20vh", fontSize: "large", paddingLeft: '5px' }}
                     disabled={prevPostUploading}
                     placeholder="Start typing..."
                     id="message"
@@ -132,9 +132,9 @@ export const PostModal = (props: any) => {
                     aria-label=""
                     spellcheck={true}
                     ref={inputRef}
-                    rows={4}
+                    rows={3}
                     maxlength={500}
-                    style={context.darkMode ? { color: "white", height: "20vh", fontSize: "large", paddingLeft: '5px' } : { color: "black", height: "20vh", fontSize: "large", paddingLeft: '5px' }}
+                    style={context.darkMode ? { color: "white", height: "75px", fontSize: "large", paddingLeft: '5px' } : { color: "black", height: "20vh", fontSize: "large", paddingLeft: '5px' }}
                     disabled={prevPostUploading}
                     placeholder="Start typing..."
                     id="message"
