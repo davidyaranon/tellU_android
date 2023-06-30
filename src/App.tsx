@@ -5,20 +5,19 @@ import LandingPage from './pages/LandingPage';
 import ForgotPassword from './pages/ForgotPassword';
 import SignIn from './pages/SignIn';
 import Register from './pages/Register';
-
-// import Settings from './pages/Settings';
-// import Maps from './pages/Maps';
-// import Class from './pages/Class';
-// import Post from './pages/Post';
-// import DirectMessages from './pages/DirectMessages';
-// import Posttypes from './pages/Posttypes';
-// import ChatRoom from './pages/ChatRoom';
-// import { Notifications } from './pages/Notifications';
-// import { PrivacyPolicy } from './pages/PrivacyPolicy';
-// import { Events } from './pages/Events';
-// import { UserProfile } from './pages/UserProfile';
-// import { MapMarkerInfo } from './pages/MapMarkerInfo';
-// import { HumboldtHank } from './pages/HumboldtHank';
+import Settings from './pages/Settings';
+import Maps from './pages/Maps';
+import Class from './pages/Class';
+import Post from './pages/Post';
+import DirectMessages from './pages/DirectMessages';
+import PostTypes from './pages/PostTypes';
+import ChatRoom from './pages/ChatRoom';
+import Notifications from './pages/Notifications';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Events from './pages/Events';
+import UserProfile from './pages/UserProfile';
+import MapMarkerInfo from './pages/MapMarkerInfo';
+import HumboldtHank from './pages/HumboldtHank';
 
 // Ionic/Capacitor + React
 import React from 'react';
@@ -67,7 +66,6 @@ import { useAppContext } from "./my-context";
 import { FCM } from '@capacitor-community/fcm';
 import aiIconFilled from './images/aiFilled.svg';
 import aiIconUnfilled from './images/aiUnfilled.svg';
-import { navigateBack } from './components/Shared/Navigation';
 
 // Global variables
 setupIonicReact({ mode: 'md' }); // ios for iPhone, md for Android, affects ALL components
@@ -77,7 +75,7 @@ SplashScreen.show({
   fadeInDuration: 300,
   fadeOutDuration: 300,
 });
-StatusBar.setOverlaysWebView({ overlay: false});
+StatusBar.setOverlaysWebView({ overlay: false });
 const keyStyleOptionsDark: KeyboardStyleOptions = {
   style: KeyboardStyle.Dark
 }
@@ -174,7 +172,7 @@ const RoutingSystem: React.FunctionComponent = () => {
           <Route path="/forgot-password" exact component={ForgotPassword} />
           <Route path="/register" exact component={Register} />
           <Route path="/:tab(home)" exact component={Home} />
-          {/* <Route path="/:tab(maps)" exact component={Maps} />
+          <Route path="/:tab(maps)" exact component={Maps} />
           <Route path="/:tab(events)" exact component={Events} />
           <Route path="/:tab(settings)" exact component={Settings} />
           <Route path="/:tab(hank)" exact component={HumboldtHank} />
@@ -186,7 +184,7 @@ const RoutingSystem: React.FunctionComponent = () => {
           <Route path="/privacy-policy" exact component={PrivacyPolicy} />
           <Route path="/notifications" exact component={Notifications} />
           <Route path="/class/:schoolName/:className" component={Class} />
-          <Route path="/type/:schoolName/:type" exact component={Posttypes} /> */}
+          <Route path="/type/:schoolName/:type" exact component={PostTypes} />
         </IonRouterOutlet>
 
         {/* Bottom Tabs / Tab Bar */}

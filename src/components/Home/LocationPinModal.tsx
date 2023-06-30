@@ -238,7 +238,7 @@ export const LocationPinModal = (props: any) => {
       initialBreakpoint={0.99}
       handle={false}
     >
-      <IonHeader className="ion-no-border" translucent>
+      <div style={{ width: "100%" }}>
         <IonToolbar mode="md">
           <IonButtons slot="start">
             <IonButton
@@ -252,46 +252,48 @@ export const LocationPinModal = (props: any) => {
             </IonButton>
           </IonButtons>
         </IonToolbar>
-      </IonHeader>
-      <IonList lines="none">
+      </div>
+      <IonList lines="none" >
         <IonRadioGroup value={checkboxSelection.charAt(0).toUpperCase() + checkboxSelection.slice(1)}>
-          <IonItem style={{'--min-height': '1vh'}}>
+          <IonItem style={{ '--min-height': '1vh' }}>
             <IonLabel id='general-radio' style={{ fontSize: "1.1em" }} color="general">General</IonLabel>
             <IonRadio aria-labelledby='general-radio' slot="end" value="General" color="general" onIonFocus={() => setCheckboxSelection("general")}></IonRadio>
           </IonItem>
-          <IonItem style={{'--min-height': '1vh'}}>
+          <IonItem style={{ '--min-height': '1vh' }}>
             <IonLabel id='alert-radio' style={{ fontSize: "1.1em" }} color="alert">Alert</IonLabel>
             <IonRadio aria-labelledby="alert-radio" color="alert" slot="end" value="Alert" onIonFocus={() => setCheckboxSelection("alert")}></IonRadio>
           </IonItem>
-          <IonItem style={{'--min-height': '1vh'}}>
+          <IonItem style={{ '--min-height': '1vh' }}>
             <IonLabel id='sighting-radio' style={{ fontSize: "1.1em" }} color="sighting">Sighting</IonLabel>
             <IonRadio aria-labelledby="sighting-radio" color="sighting" slot="end" value="Sighting" onIonFocus={() => setCheckboxSelection("sighting")}></IonRadio>
           </IonItem>
-          <IonItem style={{'--min-height': '1vh'}}>
+          <IonItem style={{ '--min-height': '1vh' }}>
             <IonLabel id='buysell-radio' style={{ fontSize: "1.1em" }} color="buysell">Buy / Sell</IonLabel>
             <IonRadio aria-labelledby="buysell-radio" color="buysell" slot="end" value="Buy/Sell" onIonFocus={() => setCheckboxSelection("buy/Sell")}></IonRadio>
           </IonItem>
-          <IonItem style={{'--min-height': '1vh'}}>
+          <IonItem style={{ '--min-height': '1vh' }}>
             <IonLabel id='housing-radio' style={{ fontSize: "1.1em" }} color="housing" >Housing</IonLabel>
             <IonRadio aria-labelledby="housing-radio" color="housing" slot="end" value="Housing" onIonFocus={() => setCheckboxSelection("housing")}></IonRadio>
           </IonItem>
-          <IonItem style={{'--min-height': '1vh'}}>
+          <IonItem style={{ '--min-height': '1vh' }}>
             <IonLabel id='event-radio' style={{ fontSize: "1.1em" }} color="event" >Event</IonLabel>
             <IonRadio aria-labelledby="event-radio" color="event" slot="end" value="Event" onIonFocus={() => setCheckboxSelection("event")}></IonRadio>
           </IonItem>
-          <IonItem style={{'--min-height': '1vh'}}>
+          <IonItem style={{ '--min-height': '1vh' }}>
             <IonLabel id='research-radio' style={{ fontSize: "1.1em" }} color="research">Research</IonLabel>
             <IonRadio aria-labelledby="research-radio" color="research" slot="end" value="Research" onIonFocus={() => setCheckboxSelection("research")}></IonRadio>
           </IonItem>
-          <IonItem style={{'--min-height': '1vh'}}>
+          <IonItem style={{ '--min-height': '1vh' }}>
             <IonLabel id='dining-radio' style={{ fontSize: "1.1em" }} color="dining" >Dining</IonLabel>
             <IonRadio aria-labelledby="dining-radio" color="dining" slot="end" value="Dining" onIonFocus={() => setCheckboxSelection("dining")}></IonRadio>
           </IonItem>
         </IonRadioGroup>
       </IonList>
 
+      <div style={{height : "1vh", padding : '10px'}} />
+
       <IonList mode="md">
-        <IonItem style={{'--min-height': '1vh'}} mode="md" lines="none">
+        <IonItem style={{ '--min-height': '1vh' }} mode="md" lines="none">
           {POI.length > 0 ?
             <IonLabel> Add post to map? </IonLabel>
             :
@@ -313,10 +315,10 @@ export const LocationPinModal = (props: any) => {
       {POI.length > 0 ?
         <IonNote style={{ textAlign: "center" }}>Location: {POI}</IonNote>
         :
-        <IonNote style={{ textAlign: "center", width : "95vw", padding: "10px" }}>*Uses your current location to link your post to a on campus.</IonNote>
+        <IonNote style={{ textAlign: "center", width: "95vw", padding: "10px" }}>*Uses your current location to link your post to a on campus.</IonNote>
       }
 
-      <div className="ion-button-container">
+      <div className="ion-button-container" style={{marginBottom : "35%"}}>
         <IonButton
           onClick={() => {
             handleSendMessage();

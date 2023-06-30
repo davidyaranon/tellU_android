@@ -118,7 +118,7 @@ export const PostModal = (props: any) => {
                     ref={inputRef}
                     rows={3}
                     maxlength={500}
-                    style={context.darkMode ? { color: "white", height: "75px", fontSize: "large", paddingLeft: '5px' } : { color: "black", height: "20vh", fontSize: "large", paddingLeft: '5px' }}
+                    style={context.darkMode ? { color: "white", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' } : { color: "black",  height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' }}
                     disabled={prevPostUploading}
                     placeholder="Start typing..."
                     id="message"
@@ -134,7 +134,7 @@ export const PostModal = (props: any) => {
                     ref={inputRef}
                     rows={3}
                     maxlength={500}
-                    style={context.darkMode ? { color: "white", height: "75px", fontSize: "large", paddingLeft: '5px' } : { color: "black", height: "20vh", fontSize: "large", paddingLeft: '5px' }}
+                    style={context.darkMode ? { color: "white", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' } : { color: "black", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' }}
                     disabled={prevPostUploading}
                     placeholder="Start typing..."
                     id="message"
