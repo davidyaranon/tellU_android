@@ -106,8 +106,8 @@ export const PostModal = (props: any) => {
           <IonRow class="ion-padding-top">
             {profilePhoto ? (
               <>
-                <IonCol size="2.5">
-                  <IonAvatar>
+                <IonCol size="2.75" style={{ paddingRight: "10px", paddingTop: "15px" }}>
+                  <IonAvatar style={{ padding: "5px" }}>
                     <img src={profilePhoto} />
                   </IonAvatar>
                 </IonCol>
@@ -118,7 +118,7 @@ export const PostModal = (props: any) => {
                     ref={inputRef}
                     rows={4}
                     maxlength={500}
-                    style={context.darkMode ? { color: "white" } : { color: "black" }}
+                    style={context.darkMode ? { color: "white", height: "20vh", fontSize: "large", paddingLeft: '5px' } : { color: "black", height: "20vh", fontSize: "large", paddingLeft: '5px' }}
                     disabled={prevPostUploading}
                     placeholder="Start typing..."
                     id="message"
@@ -133,9 +133,8 @@ export const PostModal = (props: any) => {
                     spellcheck={true}
                     ref={inputRef}
                     rows={4}
-                    color="secondary"
                     maxlength={500}
-                    style={ionInputStyle}
+                    style={context.darkMode ? { color: "white", height: "20vh", fontSize: "large", paddingLeft: '5px' } : { color: "black", height: "20vh", fontSize: "large", paddingLeft: '5px' }}
                     disabled={prevPostUploading}
                     placeholder="Start typing..."
                     id="message"
@@ -143,7 +142,7 @@ export const PostModal = (props: any) => {
                 </>
               )}
           </IonRow>
-          <br /> <br /> <br />
+          <br /> <br />
           <IonRow>
 
             <ClassSelections setPostClassName={setPostClassName} setPostClassNumber={setPostClassNumber} schoolName={schoolName} postClassNumber={postClassNumber} postClassName={postClassName} />
@@ -165,6 +164,7 @@ export const PostModal = (props: any) => {
 
           {photos && photos.length > 0 ? (
             <>
+              <br />
               <br />
               {photos.map((photo: GalleryPhoto, index: number) => {
                 return (

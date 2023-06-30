@@ -986,6 +986,7 @@ export const ClassSelections = memo((props: classInfo) => {
                 setPostClassNumber("");
                 setPostClassName(e.detail.value);
               }}
+              className='post-class'
             >
               <IonSelectOption value="AERO ENG" class="all-option">AERO ENG</IonSelectOption>
               <IonSelectOption value="AEROSPC" class="all-option">AEROSPC</IonSelectOption>

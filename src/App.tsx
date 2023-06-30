@@ -74,7 +74,7 @@ const historyInstance = createBrowserHistory();
 SplashScreen.show({
   autoHide: true,
   fadeInDuration: 300,
-  fadeOutDuration: 300
+  fadeOutDuration: 300,
 });
 const keyStyleOptionsDark: KeyboardStyleOptions = {
   style: KeyboardStyle.Dark
