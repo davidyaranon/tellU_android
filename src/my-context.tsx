@@ -10,8 +10,6 @@ export type ContextType = {
   setShowTabs : React.Dispatch<React.SetStateAction<boolean>>;
   darkMode : boolean;
   setDarkMode : React.Dispatch<React.SetStateAction<boolean>>;
-  schoolColorToggled : boolean;
-  setSchoolColorToggled : React.Dispatch<React.SetStateAction<boolean>>;
   sensitivityToggled : boolean;
   setSensitivityToggled : React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -20,12 +18,11 @@ export const Context = React.createContext<ContextType | null>(null);
 export const ContextProvider = ({ children } : Props) => {
   const [showTabs, setShowTabs] = React.useState<boolean>(false);
   const [darkMode, setDarkMode] = React.useState<boolean>(false);
-  const [schoolColorToggled, setSchoolColorToggled] = React.useState<boolean>(false);
   const [sensitivityToggled, setSensitivityToggled] = React.useState<boolean>(false);
 
   const memoizedContextValue = React.useMemo(() => ({
-    showTabs, setShowTabs, darkMode, setDarkMode, schoolColorToggled, setSchoolColorToggled, sensitivityToggled, setSensitivityToggled
-  }), [showTabs, setShowTabs, darkMode, setDarkMode, schoolColorToggled, setSchoolColorToggled, sensitivityToggled, setSensitivityToggled]);
+    showTabs, setShowTabs, darkMode, setDarkMode, sensitivityToggled, setSensitivityToggled
+  }), [showTabs, setShowTabs, darkMode, setDarkMode, sensitivityToggled, setSensitivityToggled]);
 
   return(
     <Context.Provider value={memoizedContextValue}> { children } </Context.Provider>
@@ -35,7 +32,7 @@ export const ContextProvider = ({ children } : Props) => {
 export const useAppContext = () => {
   const context = React.useContext(Context);
   if(!context) {
-    throw new Error("Context is not available");
+    throw new Error("App context is not available");
   }
   return context;
 }
@@ -63,7 +60,7 @@ export const UserContextProvider = ({ children } : Props) => {
 export const useUserContext = () => {
   const context = React.useContext(UserContext);
   if(!context) {
-    throw new Error("Tabs context error");
+    throw new Error("User context error");
   }
   return context;
 }

@@ -72,7 +72,7 @@ export const PostModal = (props: any) => {
           <IonToolbar mode="md">
             <IonButtons slot="start">
               <IonButton
-                color={schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : "primary"}
+                color={"primary"}
                 mode="md"
                 onClick={() => {
                   setPhotos([]);
@@ -97,7 +97,7 @@ export const PostModal = (props: any) => {
                 onClick={() => {
                   setLocationPinModal(true);
                 }}
-                className={context.schoolColorToggled ? "post-button-humboldt" : "post-button"}
+                className={"post-button"}
                 fill="clear"
                 expand="block"
                 id="message"

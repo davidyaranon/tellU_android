@@ -52,13 +52,13 @@ export const Toolbar = (props: any) => {
               className="back-button"
               icon={chevronBackOutline}
               text={text || "Back"}
-              color={color ? color : context.schoolColorToggled ? "tertiary" : "primary"}
+              color={color ? color : "primary"}
             >
             </IonBackButton>
           </IonButtons>
           {schoolName && setShowReportModal &&
             <IonButtons slot='end'>
-              <IonButton color={schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : "primary"} slot="end" onClick={() => { reportPost(); }}>
+              <IonButton color={"primary"} slot="end" onClick={() => { reportPost(); }}>
                 <IonIcon icon={alertCircleOutline} />
               </IonButton>
             </IonButtons>
@@ -66,7 +66,7 @@ export const Toolbar = (props: any) => {
           {dm && user && user.uid !== uid &&
             <IonButtons slot='end'>
               <IonButton
-                color={schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : "primary"}
+                color={"primary"}
                 slot="end"
                 mode="md"
                 onClick={() => {

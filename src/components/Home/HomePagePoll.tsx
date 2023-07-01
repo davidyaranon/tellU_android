@@ -80,43 +80,41 @@ export const HomePagePoll = (props: any) => {
   }
 
   return (
-    <FadeIn key={postIndex} delay={500}>
-      <IonCard mode="md" >
-        <IonCardContent style={{ minHeight: "50vh" }}>
-          <IonText color="medium">
-            <IonAvatar
-              class="posts-avatar"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (profileClickable !== false)
-                  history.push("/about/" + schoolName + "/" + poll.uid);
-              }}
-            >
-              <ProfilePhoto uid={post.uid}></ProfilePhoto>
-            </IonAvatar>
-            <p> {post.userName} </p>
-          </IonText>
-          <IonCardTitle style={{ fontSize: "1.35em", width: "95%", marginLeft: "0%" }}>{poll.question}</IonCardTitle>
-          <br />
-          <IonList lines="full" mode="md">
-            {poll.options.map((option: any, pollIndex: number) => {
-              return (
-                <IonItem style={{ fontWeight: "bold", fontSize: "0.95em" }} disabled={poll.voteMap[user!.uid] !== undefined || voteBeingCasted}
-                  color={poll.voteMap[user!.uid] === pollIndex && schoolName !== "Cal Poly Humboldt" ? "primary" : poll.voteMap[user!.uid] === pollIndex && schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : poll.voteMap[user!.uid] === pollIndex && schoolName === "Cal Poly Humboldt" && !context.schoolColorToggled ? "primary" : ""}
-                  key={pollIndex} mode="md" lines="full" onClick={() => {
-                    handlePollVote(pollIndex, poll.key);
-                  }} >
-                  <div style={{ width: "100%" }}>{option.text}</div> <p hidden={poll.voteMap[user!.uid] === undefined} slot="end">{Math.round(((poll.results[pollIndex] / poll.votes) * 100) * 10) / 10 + "%"}</p>
-                </IonItem>
-              )
-            })}
-          </IonList>
-          <br />
-          <IonFab vertical="bottom" horizontal="start">
-            <p>{poll.votes} Votes &#183; Asked {getDate(poll.timestamp)}</p>
-          </IonFab>
-        </IonCardContent>
-      </IonCard>
-    </FadeIn>
+    <IonCard mode="md" key={postIndex} >
+      <IonCardContent style={{ minHeight: "50vh" }}>
+        <IonText color="medium">
+          <IonAvatar
+            class="posts-avatar"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (profileClickable !== false)
+                history.push("/about/" + schoolName + "/" + poll.uid);
+            }}
+          >
+            <ProfilePhoto uid={post.uid}></ProfilePhoto>
+          </IonAvatar>
+          <p style={{ color: "var(--ion-color-light)" }}> {post.userName} </p>
+        </IonText>
+        <IonCardTitle style={{ fontSize: "1.35em", width: "95%", marginLeft: "0%", color: "var(--ion-color-light)" }}>{poll.question}</IonCardTitle>
+        <br />
+        <IonList lines="full" mode="md">
+          {poll.options.map((option: any, pollIndex: number) => {
+            return (
+              <IonItem style={{ fontWeight: "bold", fontSize: "0.95em" }} disabled={poll.voteMap[user!.uid] !== undefined || voteBeingCasted}
+                color={poll.voteMap[user!.uid] === pollIndex && schoolName !== "Cal Poly Humboldt" ? "primary" : poll.voteMap[user!.uid] === pollIndex && poll.voteMap[user!.uid] === pollIndex && schoolName === "Cal Poly Humboldt" ? "primary" : ""}
+                key={pollIndex} mode="md" lines="full" onClick={() => {
+                  handlePollVote(pollIndex, poll.key);
+                }} >
+                <div style={{ width: "100%" }}>{option.text}</div> <p hidden={poll.voteMap[user!.uid] === undefined} slot="end">{Math.round(((poll.results[pollIndex] / poll.votes) * 100) * 10) / 10 + "%"}</p>
+              </IonItem>
+            )
+          })}
+        </IonList>
+        <br />
+        <IonFab vertical="bottom" horizontal="start">
+          <p>{poll.votes} Votes &#183; Asked {getDate(poll.timestamp)}</p>
+        </IonFab>
+      </IonCardContent>
+    </IonCard>
   )
 }

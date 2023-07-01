@@ -29,28 +29,31 @@ export const ClassSelections = memo((props: classInfo) => {
   const setPostClassNumber = props.setPostClassNumber;
 
   useEffect(() => {
-    if (schoolName === "Cal Poly Humboldt" && context.schoolColorToggled) {
+    // if (schoolName === "Cal Poly Humboldt" && context.schoolColorToggled) {
+    //   setSelectOptions({
+    //     cssClass: 'my-custom-interface',
+    //     header: 'Class',
+    //     subHeader: 'Select a class to post about'
+    //   })
+    //   setSelectOptionsNumber({
+    //     cssClass: 'my-custom-interface',
+    //     header: 'Class Number',
+    //     subHeader: 'Select a class number'
+    //   });
+    // } 
+    // else {
       setSelectOptions({
-        cssClass: 'my-custom-interface',
         header: 'Class',
-        subHeader: 'Select a class to post about'
-      })
-      setSelectOptionsNumber({
-        cssClass: 'my-custom-interface',
-        header: 'Class Number',
-        subHeader: 'Select a class number'
-      });
-    } else {
-      setSelectOptions({
-        header: 'Class',
-        subHeader: 'Select a class to post about'
+        subHeader: 'Select a class to post about',
+        cssClass: 'custom-alert'
       });
       setSelectOptionsNumber({
         header: 'Class Number',
-        subHeader: 'Select a class number'
+        subHeader: 'Select a class number',
+        cssClass: 'custom-alert'
       });
-    }
-  }, [context.schoolColorToggled]);
+    // }
+  }, [/* context.schoolColorToggled */]);
 
   if (schoolName && schoolName === "Cal Poly Humboldt") {
     return (

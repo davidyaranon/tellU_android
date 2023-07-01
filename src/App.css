@@ -155,7 +155,7 @@ ion-item.login-input {
   background: #1b1b20;
   --backdrop-opacity: 0.6;
   --button-color: var(--ion-color-primary);
-  --color: white;
+  --color: rgba(255, 255, 255, 0.725);
 }
 
 button.alert-button.alert-button-confirm {
@@ -166,7 +166,7 @@ button.alert-button.alert-button-confirm {
   border-radius: 4px;
 }
 
-.ios .custom-alert button.alert-button {
+.md .custom-alert button.alert-button {
   color: var(--ion-color-primary);
 }
 
@@ -950,6 +950,7 @@ hr {
 .h2-message {
   white-space: pre-line;
   font-weight: bold;
+  color: var(--ion-color-light);
 }
 
 .navbar_label {

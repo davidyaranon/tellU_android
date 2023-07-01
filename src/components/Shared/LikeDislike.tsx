@@ -33,7 +33,6 @@ export const LikeDislike = memo((props: any) => {
   const index = props.index;
   const user = props.user;
   const schoolName = props.schoolName;
-  const schoolColorToggled = props.schoolColorToggled;
 
   useEffect(() => {
     if (props.likes) {
@@ -134,13 +133,9 @@ export const LikeDislike = memo((props: any) => {
         fill="outline"
         color={
           user &&
-            likes[user.uid] !== undefined && schoolName !== "Cal Poly Humboldt"
-            ? "toast-success"
-            : user && likes[user.uid] !== undefined && schoolName === "Cal Poly Humboldt" && schoolColorToggled
-              ? "tertiary"
-              : user && likes[user.uid] !== undefined && schoolName === "Cal Poly Humboldt" && !schoolColorToggled
-                ? "toast-success"
-                : "medium"
+            likes[user.uid] !== undefined
+            ? "primary"
+            : "medium"
         }
         onClick={() => {
           setLikeAnimation(post.key);

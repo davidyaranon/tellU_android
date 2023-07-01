@@ -164,18 +164,18 @@ export const MakePost = (props: any) => {
         setShowModal={handleSetShowModal} setGifModal={handleSetGifModal} />
 
       <IonFab vertical="bottom" horizontal="end" slot="fixed">
-        <IonFabButton color={schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : "primary"}>
+        <IonFabButton color={"primary"}>
           <IonIcon icon={add} />
         </IonFabButton>
         <IonFabList side="top">
-          <IonFabButton onClick={() => { handleSetShowPollModal(true) }} color={context.schoolColorToggled ? "secondary" : "ion-blue"}>
-            <IonIcon icon={statsChartOutline} />
+          <IonFabButton onClick={() => { handleSetShowPollModal(true) }} color={"light"}>
+            <IonIcon icon={statsChartOutline} color="ion-blue" />
           </IonFabButton>
-          <IonFabButton onClick={() => { handleSetGifModal(true); }} color={context.schoolColorToggled ? "secondary" : "ion-blue"}>
-            <GifIcon />
+          <IonFabButton onClick={() => { handleSetGifModal(true); }} color={"light"}>
+            <GifIcon style={{color : "#00A4C2"}} />
           </IonFabButton>
-          <IonFabButton onClick={() => { handleSetShowModal(true); }} color={context.schoolColorToggled ? "secondary" : "ion-blue"}>
-            <IonIcon icon={chatboxEllipsesOutline} />
+          <IonFabButton onClick={() => { handleSetShowModal(true); }} color={"light"}>
+            <IonIcon icon={chatboxEllipsesOutline} color="ion-blue" />
           </IonFabButton>
         </IonFabList>
       </IonFab>

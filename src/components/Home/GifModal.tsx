@@ -100,7 +100,7 @@ export const GifModal = (props: any) => {
             <IonCardTitle slot="end" style={{ margin: "15px" }}>GIF Search</IonCardTitle>
             <IonButtons slot="start">
               <IonButton
-                color={schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : "primary"}
+                color={"primary"}
                 onClick={() => {
                   Keyboard.hide().then(() => {
                     setTimeout(() => setGifModal(false), 100);
@@ -161,7 +161,7 @@ export const GifModal = (props: any) => {
         }
         {gifsLoading &&
           <div className="ion-spinner">
-            <IonSpinner color={schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : "primary"} />
+            <IonSpinner color={"primary"} />
           </div>
         }
         <br /> <br />

@@ -1,6 +1,7 @@
 /* Ionic/React + Capacitor */
 import {
   IonButton, IonButtons, IonCardTitle, IonCheckbox, IonHeader,
+  IonIcon,
   IonItem, IonLabel, IonList, IonModal, IonNote, IonRadio, IonRadioGroup, IonTitle, IonToolbar, useIonLoading
 } from "@ionic/react";
 import { useState } from "react";
@@ -16,6 +17,7 @@ import Map from "@mui/icons-material/Map";
 import { useToast } from "@agney/ir-toast";
 import { useAppContext } from "../../my-context";
 import { humboldtPOIs } from "../../helpers/maps-config";
+import { chevronBackOutline } from "ionicons/icons";
 
 /* options for getting user's location using {@awesome-cordova-plugins/geolocation} */
 const locationOptions: GeolocationOptions = {
@@ -242,13 +244,13 @@ export const LocationPinModal = (props: any) => {
         <IonToolbar mode="md">
           <IonButtons slot="start">
             <IonButton
-              color={schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : "primary"}
+              color={"primary"}
               mode="md"
               onClick={() => {
                 setLocationPinModal(false);
               }}
             >
-              Back
+              <IonIcon icon={chevronBackOutline} />
             </IonButton>
           </IonButtons>
         </IonToolbar>
@@ -323,7 +325,7 @@ export const LocationPinModal = (props: any) => {
           onClick={() => {
             handleSendMessage();
           }}
-          className={context.schoolColorToggled ? "location-post-button-humboldt" : "login-button"} fill="clear" expand="block"
+          className={"login-button"} fill="clear" expand="block"
           id="message"
           style={{ width: "75vw", fontSize: "1.25em" }}
         >
