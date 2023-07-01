@@ -234,67 +234,68 @@ const Register: React.FC = () => {
                 setSchoolEmailEnding('berkeley.edu');
               } else if (e.detail.value == 'UC Davis') {
                 setSchoolEmailEnding('ucdavis.edu');
-              } else if (e.detail.value == 'UC Irvine') {
-                setSchoolEmailEnding('uci.edu');
-              } else if (e.detail.value == 'UCLA') {
-                setSchoolEmailEnding('ucla.edu');
-              } else if (e.detail.value == 'UC Merced') {
-                setSchoolEmailEnding('ucmerced.edu');
-              } else if (e.detail.value == 'UC Riverside') {
-                setSchoolEmailEnding('ucr.edu');
-              } else if (e.detail.value == 'UC San Diego') {
-                setSchoolEmailEnding('ucsd.edu');
-              } else if (e.detail.value == 'UCSF') {
-                setSchoolEmailEnding('ucsf.edu');
-              } else if (e.detail.value == 'UC Santa Barbara') {
-                setSchoolEmailEnding('ucsb.edu');
-              } else if (e.detail.value == 'UC Santa Cruz') {
-                setSchoolEmailEnding('ucsc.edu');
-              } else if (e.detail.value == 'Cal Poly Pomona') {
-                setSchoolEmailEnding('cpp.edu');
-              } else if (e.detail.value == 'Cal Poly San Luis Obispo') {
-                setSchoolEmailEnding('calpoly.edu');
-              } else if (e.detail.value == "Cal State Fullerton") {
-                setSchoolEmailEnding('fullerton.edu');
-              } else if (e.detail.value == "Cal State East Bay") {
-                setSchoolEmailEnding('csueastbay.edu');
-              } else if (e.detail.value == "Cal State LA") {
-                setSchoolEmailEnding('calstatela.edu');
-              } else if (e.detail.value == "Cal Maritime") {
-                setSchoolEmailEnding('csum.edu');
-              } else if (e.detail.value == "Cal State San Bernardino") {
-                setSchoolEmailEnding('csusb.edu');
-              } else if (e.detail.value == "Cal State Long Beach") {
-                setSchoolEmailEnding('csulb.edu');
-              } else if (e.detail.value == "SF State") {
-                setSchoolEmailEnding('sfsu.edu');
-              } else if (e.detail.value == "San Jose State") {
-                setSchoolEmailEnding('sjsu.edu');
-              } else if (e.detail.value == "Chico State") {
-                setSchoolEmailEnding('csuchico.edu');
-              } else if (e.detail.value == "Fresno State") {
-                setSchoolEmailEnding('csufresno.edu');
-              } else if (e.detail.value == "Stanislaus State") {
-                setSchoolEmailEnding('csustan.edu');
-              } else if (e.detail.value == "Sac State") {
-                setSchoolEmailEnding('csus.edu');
-              } else if (e.detail.value == "CSUN") {
-                setSchoolEmailEnding('csun.edu');
-              } else if (e.detail.value == "CSU Bakersfield") {
-                setSchoolEmailEnding('csub.edu');
-              } else if (e.detail.value == "CSU Dominguez Hills") {
-                setSchoolEmailEnding('csudh.edu');
-              } else if (e.detail.value == "CSU Dominguez Hills") {
-                setSchoolEmailEnding('csudh.edu');
-              } else if (e.detail.value == "CSU Channel Islands") {
-                setSchoolEmailEnding('csuci.edu');
-              } else if (e.detail.value == "CSU Monterey Bay") {
-                setSchoolEmailEnding('csumb.edu');
-              }
+              } 
+              // else if (e.detail.value == 'UC Irvine') {
+              //   setSchoolEmailEnding('uci.edu');
+              // } else if (e.detail.value == 'UCLA') {
+              //   setSchoolEmailEnding('ucla.edu');
+              // } else if (e.detail.value == 'UC Merced') {
+              //   setSchoolEmailEnding('ucmerced.edu');
+              // } else if (e.detail.value == 'UC Riverside') {
+              //   setSchoolEmailEnding('ucr.edu');
+              // } else if (e.detail.value == 'UC San Diego') {
+              //   setSchoolEmailEnding('ucsd.edu');
+              // } else if (e.detail.value == 'UCSF') {
+              //   setSchoolEmailEnding('ucsf.edu');
+              // } else if (e.detail.value == 'UC Santa Barbara') {
+              //   setSchoolEmailEnding('ucsb.edu');
+              // } else if (e.detail.value == 'UC Santa Cruz') {
+              //   setSchoolEmailEnding('ucsc.edu');
+              // } else if (e.detail.value == 'Cal Poly Pomona') {
+              //   setSchoolEmailEnding('cpp.edu');
+              // } else if (e.detail.value == 'Cal Poly San Luis Obispo') {
+              //   setSchoolEmailEnding('calpoly.edu');
+              // } else if (e.detail.value == "Cal State Fullerton") {
+              //   setSchoolEmailEnding('fullerton.edu');
+              // } else if (e.detail.value == "Cal State East Bay") {
+              //   setSchoolEmailEnding('csueastbay.edu');
+              // } else if (e.detail.value == "Cal State LA") {
+              //   setSchoolEmailEnding('calstatela.edu');
+              // } else if (e.detail.value == "Cal Maritime") {
+              //   setSchoolEmailEnding('csum.edu');
+              // } else if (e.detail.value == "Cal State San Bernardino") {
+              //   setSchoolEmailEnding('csusb.edu');
+              // } else if (e.detail.value == "Cal State Long Beach") {
+              //   setSchoolEmailEnding('csulb.edu');
+              // } else if (e.detail.value == "SF State") {
+              //   setSchoolEmailEnding('sfsu.edu');
+              // } else if (e.detail.value == "San Jose State") {
+              //   setSchoolEmailEnding('sjsu.edu');
+              // } else if (e.detail.value == "Chico State") {
+              //   setSchoolEmailEnding('csuchico.edu');
+              // } else if (e.detail.value == "Fresno State") {
+              //   setSchoolEmailEnding('csufresno.edu');
+              // } else if (e.detail.value == "Stanislaus State") {
+              //   setSchoolEmailEnding('csustan.edu');
+              // } else if (e.detail.value == "Sac State") {
+              //   setSchoolEmailEnding('csus.edu');
+              // } else if (e.detail.value == "CSUN") {
+              //   setSchoolEmailEnding('csun.edu');
+              // } else if (e.detail.value == "CSU Bakersfield") {
+              //   setSchoolEmailEnding('csub.edu');
+              // } else if (e.detail.value == "CSU Dominguez Hills") {
+              //   setSchoolEmailEnding('csudh.edu');
+              // } else if (e.detail.value == "CSU Dominguez Hills") {
+              //   setSchoolEmailEnding('csudh.edu');
+              // } else if (e.detail.value == "CSU Channel Islands") {
+              //   setSchoolEmailEnding('csuci.edu');
+              // } else if (e.detail.value == "CSU Monterey Bay") {
+              //   setSchoolEmailEnding('csumb.edu');
+              // }
             }}
           >
             <IonSelectOption value="Cal Poly Humboldt">Cal Poly Humboldt</IonSelectOption>
-            <IonSelectOption value="Cal Poly Pomona">Cal Poly Pomona</IonSelectOption>
+            {/* <IonSelectOption value="Cal Poly Pomona">Cal Poly Pomona</IonSelectOption>
             <IonSelectOption value="Cal Poly San Luis Obispo">Cal Poly San Luis Obispo</IonSelectOption>
             <IonSelectOption value="Cal State Fullerton">Cal State Fullerton</IonSelectOption>
             <IonSelectOption value="Cal State East Bay">Cal State East Bay</IonSelectOption>
@@ -314,17 +315,17 @@ const Register: React.FC = () => {
             <IonSelectOption value="CSU Bakersfield">CSU Bakersfield</IonSelectOption>
             <IonSelectOption value="CSU Dominguez Hills">CSU Dominguez Hills</IonSelectOption>
             <IonSelectOption value="CSU Channel Islands">CSU Channel Islands</IonSelectOption>
-            <IonSelectOption value="CSU Monterey Bay">CSU Monterey Bay</IonSelectOption>
+            <IonSelectOption value="CSU Monterey Bay">CSU Monterey Bay</IonSelectOption> */}
             <IonSelectOption value="UC Berkeley">UC Berkeley</IonSelectOption>
             <IonSelectOption value="UC Davis">UC Davis</IonSelectOption>
-            <IonSelectOption value="UC Irvine">UC Irvine</IonSelectOption>
+            {/* <IonSelectOption value="UC Irvine">UC Irvine</IonSelectOption>
             <IonSelectOption value="UCLA">UCLA</IonSelectOption>
             <IonSelectOption value="UC Merced">UC Merced</IonSelectOption>
             <IonSelectOption value="UC Riverside">UC Riverside</IonSelectOption>
             <IonSelectOption value="UC San Diego">UC San Diego</IonSelectOption>
             <IonSelectOption value="UCSF">UCSF</IonSelectOption>
             <IonSelectOption value="UC Santa Barbara">UC Santa Barbara</IonSelectOption>
-            <IonSelectOption value="UC Santa Cruz">UC Santa Cruz</IonSelectOption>
+            <IonSelectOption value="UC Santa Cruz">UC Santa Cruz</IonSelectOption> */}
           </IonSelect>
         </IonItem>
 
