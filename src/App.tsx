@@ -126,7 +126,7 @@ const RoutingSystem: React.FunctionComponent = () => {
    * Adds a listener to PushNotifications
    */
   useEffect(() => {
-    if (Capacitor.getPlatform() !== 'ios') {
+    if (Capacitor.getPlatform() !== 'md') {
       return;
     }
     PushNotifications.addListener(
@@ -303,7 +303,7 @@ const App: React.FC = () => {
     handleDarkMode().catch((err) => { console.log(err); })
     handleSchoolColorToggle().catch((err) => { console.log(err); })
     handleSensitivityToggle().catch((err) => { console.log(err); })
-    if (Capacitor.getPlatform() === 'ios') {
+    if (Capacitor.getPlatform() !== 'web') {
       registerNotifications();
     }
   }, []);

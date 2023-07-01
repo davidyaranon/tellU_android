@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">tellU</string>
     <string name="title_activity_main">tellU</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="package_name">com.example.v3.quantum</string>
+    <string name="custom_url_scheme">com.example.v3.quantum</string>
+    <string name="default_notification_channel_id">default_channel</string>
 </resources>

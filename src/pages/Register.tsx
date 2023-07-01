@@ -88,7 +88,7 @@ const Register: React.FC = () => {
     setBusy(true);
     if (schoolName) {
       var idx = emailSignUp.lastIndexOf('@');
-      if (idx > -1 && (emailSignUp.slice(idx + 1)).toLowerCase() !== schoolEmailEnding) {
+      if (idx > -1 && (emailSignUp.slice(idx + 1)).toLowerCase() === schoolEmailEnding) {
         // do nothing
       } else {
         const toast = Toast.create({ message: 'Use your University\'s email address', duration: 2000, color: 'toast-error' });
@@ -139,14 +139,16 @@ const Register: React.FC = () => {
           Toast.error('Connection interrupted. Your account should be created, try logging in');
         } else {
           await setSchool(schoolName);
-          const notificationsToken = localStorage.getItem("notificationsToken") || "";
+          const notificationsToken : string = localStorage.getItem("notificationsToken") || "";
           if (notificationsToken.length <= 0) {
             FCM.deleteInstance().then(() => console.log("FCM instance deleted")).catch((err) => console.log(err));
             FCM.getToken().then((token) => {
               localStorage.setItem("notificationsToken", token.token);
               updateNotificationsToken(token.token);
+              console.log("FCM TOKEN: " + token.token);
             });
           } else {
+            console.log("NOTIFICATIONS TOKEN EXISTS : " + notificationsToken);
             updateNotificationsToken(notificationsToken);
           }
           const toast = Toast.create({ message: 'Registered Successfully', duration: 2000, color: 'toast-success' });
@@ -377,3 +379,5 @@ const Register: React.FC = () => {
 };
 
 export default Register;
+
+// test android FCM token: dxpDwKJjTrCRuYmzcPzsQb:APA91bG6Jy-3YB4tSt9i069lXVf3RisORY9jrrqgf8EduSx_pvViVPZ9baAWbf7-9duBdzmbUCz_v4d0CdvZJMDocZ5gyFexg3Hn0rrEjr2jMvzXf9hjoKULnWixGbHaHH5McwZctqxd

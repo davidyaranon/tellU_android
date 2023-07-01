@@ -46,7 +46,7 @@ export const HomePagePost = (props: any) => {
   }, [])
 
   return (
-    <FadeIn key={index}>
+    <FadeIn key={index} delay={200}>
       <IonList inset mode="md" >
         <IonItem lines="none" mode="md" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
           <IonLabel>
