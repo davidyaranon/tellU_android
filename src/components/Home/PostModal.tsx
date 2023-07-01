@@ -12,6 +12,7 @@ import { cameraOutline, closeOutline } from "ionicons/icons";
 import { useAppContext } from "../../my-context";
 import { ClassSelections } from "./ClassSelections";
 import { useToast } from "@agney/ir-toast";
+import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 
 export const PostModal = (props: any) => {
 
@@ -35,7 +36,7 @@ export const PostModal = (props: any) => {
   const Toast = useToast();
 
   const handleRemoveImage = (index: number) => {
-    setPhotos((prevPhotos: any) => prevPhotos && prevPhotos.filter((_ : any, i : number) => i !== index));
+    setPhotos((prevPhotos: any) => prevPhotos && prevPhotos.filter((_: any, i: number) => i !== index));
   }
 
   const takePicture = async () => {
@@ -171,21 +172,22 @@ export const PostModal = (props: any) => {
             <>
               <br />
               <br />
-              {photos.map((photo: GalleryPhoto, index: number) => {
-                return (
-                  <IonCard key={"photo_" + index.toString()}>
-                    <div style={{ position: 'relative' }}>
-                      <IonImg src={photo?.webPath} />
-                      <div style={{ position: 'absolute', top: '0', right: '0' }}>
-                        <IonButton fill='solid' color='dark' onClick={() => { handleRemoveImage(index) }}>
-                          <IonIcon size='small' icon={closeOutline} />
-                        </IonButton>
+              <FadeIn>
+                {photos.map((photo: GalleryPhoto, index: number) => {
+                  return (
+                    <IonCard key={"photo_" + index.toString()}>
+                      <div style={{ position: 'relative' }}>
+                        <IonImg src={photo?.webPath} />
+                        <div style={{ position: 'absolute', top: '0', right: '0' }}>
+                          <IonButton fill='solid' color='dark' onClick={() => { handleRemoveImage(index) }}>
+                            <IonIcon size='small' icon={closeOutline} />
+                          </IonButton>
+                        </div>
                       </div>
-                    </div>
-                  </IonCard>
-
-                )
-              })}
+                    </IonCard>
+                  )
+                })}
+              </FadeIn>
             </>
           ) : <> <br></br><br></br> </>}
 

@@ -2,17 +2,17 @@
 import React from "react";
 import {
   IonButton, IonButtons, IonCardTitle, IonCol, IonContent, IonGrid,
-  IonHeader, IonIcon, IonModal, IonRow, IonSearchbar, IonSpinner, IonTitle, IonToolbar
+  IonIcon, IonModal, IonRow, IonSearchbar, IonSpinner, IonToolbar
 } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 import { Keyboard } from "@capacitor/keyboard";
 import { GalleryPhoto } from "@capacitor/camera";
+import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 
 /* Other imports */
 import { useAppContext } from "../../my-context";
 import { timeout } from "../Shared/Timeout";
 import { useToast } from "@agney/ir-toast";
-// import FadeIn from "react-fade-in/lib/FadeIn";
 
 function mapInSlices(array: any[], sliceSize: number, sliceFunc: any) {
   const out = [];
@@ -97,7 +97,7 @@ export const GifModal = (props: any) => {
       <IonContent>
         <div style={{ width: "100%" }}>
           <IonToolbar mode="md">
-            <IonCardTitle slot="end" style={{margin: "15px"}}>GIF Search</IonCardTitle>
+            <IonCardTitle slot="end" style={{ margin: "15px" }}>GIF Search</IonCardTitle>
             <IonButtons slot="start">
               <IonButton
                 color={schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : "primary"}
@@ -124,35 +124,37 @@ export const GifModal = (props: any) => {
           <IonGrid>
             {mapInSlices(gifs, 3, (slice: any[], index: number) => {
               return (
-                <IonRow key={index}>
-                  {slice.map((gif: any, index: number) => {
-                    return (
-                      <IonCol key={index}>
-                        <img style={{ width: "200px", height: "125px" }} key={index.toString() + gif.id} src={gif.media_formats.tinygif.url}
-                          onClick={async () => {
-                            try {
-                              const p: GalleryPhoto[] = [];
-                              const blobsArr: any[] = [];
-                              p.push({ webPath: gif.media_formats.tinygif.url, format: "gif" });
-                              setPhotos(p);
-                              let res = await fetch(p[0].webPath!);
-                              let blobRes = await res.blob();
-                              blobsArr.push(blobRes);
-                              setBlob(blobsArr);
-                              setShowModal(true);
-                              await timeout(500);
-                              setGifModal(false);
-                            } catch (err: any) {
-                              console.log(err);
-                              const toast = Toast.create({ message: err.toString(), duration: 2000, color: 'toast-error' });
-                              toast.present();
-                            }
-                          }}
-                        />
-                      </IonCol>
-                    )
-                  })}
-                </IonRow>
+                <FadeIn key={index}>
+                  <IonRow>
+                    {slice.map((gif: any, index: number) => {
+                      return (
+                        <IonCol key={index}>
+                          <img style={{ width: "200px", height: "125px" }} key={index.toString() + gif.id} src={gif.media_formats.tinygif.url}
+                            onClick={async () => {
+                              try {
+                                const p: GalleryPhoto[] = [];
+                                const blobsArr: any[] = [];
+                                p.push({ webPath: gif.media_formats.tinygif.url, format: "gif" });
+                                setPhotos(p);
+                                let res = await fetch(p[0].webPath!);
+                                let blobRes = await res.blob();
+                                blobsArr.push(blobRes);
+                                setBlob(blobsArr);
+                                setShowModal(true);
+                                await timeout(500);
+                                setGifModal(false);
+                              } catch (err: any) {
+                                console.log(err);
+                                const toast = Toast.create({ message: err.toString(), duration: 2000, color: 'toast-error' });
+                                toast.present();
+                              }
+                            }}
+                          />
+                        </IonCol>
+                      )
+                    })}
+                  </IonRow>
+                </FadeIn>
               )
             })}
           </IonGrid>

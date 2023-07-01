@@ -9,6 +9,7 @@ import { LikeDislike } from "../Shared/LikeDislike";
 import { useCallback, useEffect } from "react";
 import { Preferences } from "@capacitor/preferences";
 import { useToast } from "@agney/ir-toast";
+import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 
 import '../../App.css';
 
@@ -45,21 +46,23 @@ export const HomePagePost = (props: any) => {
   }, [])
 
   return (
-    <IonList inset mode="md" key={index}>
-      <IonItem lines="none" mode="md" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
-        <IonLabel>
-          <IonText color="medium">
-            <IonAvatar class="posts-avatar" onClick={(e) => { e.stopPropagation(); if (profileClickable !== false) history.push("/about/" + schoolName + "/" + post.uid); }} >
-              <ProfilePhoto uid={post.uid} />
-            </IonAvatar>
-            <p> {post.userName} </p>
-          </IonText>
-          <PostType schoolName={schoolName} type={post.postType} marker={post.marker} POI={post.POI} timestamp={post.timestamp} />
-          <PostMessage schoolName={schoolName} message={post.message} classNumber={post.classNumber} className={post.className} reports={post.reports || 0} />
-          <PostImages userName={post.userName} imgSrc={post.imgSrc || []} reports={post.reports || 0} />
-        </IonLabel>
-      </IonItem>
-      <LikeDislike user={user} schoolName={schoolName} schoolColorToggled={context.schoolColorToggled} post={post} likes={post.likes} dislikes={post.dislikes} index={index} />
-    </IonList>
+    <FadeIn key={index}>
+      <IonList inset mode="md" >
+        <IonItem lines="none" mode="md" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
+          <IonLabel>
+            <IonText color="medium">
+              <IonAvatar class="posts-avatar" onClick={(e) => { e.stopPropagation(); if (profileClickable !== false) history.push("/about/" + schoolName + "/" + post.uid); }} >
+                <ProfilePhoto uid={post.uid} />
+              </IonAvatar>
+              <p> {post.userName} </p>
+            </IonText>
+            <PostType schoolName={schoolName} type={post.postType} marker={post.marker} POI={post.POI} timestamp={post.timestamp} />
+            <PostMessage schoolName={schoolName} message={post.message} classNumber={post.classNumber} className={post.className} reports={post.reports || 0} />
+            <PostImages userName={post.userName} imgSrc={post.imgSrc || []} reports={post.reports || 0} />
+          </IonLabel>
+        </IonItem>
+        <LikeDislike user={user} schoolName={schoolName} schoolColorToggled={context.schoolColorToggled} post={post} likes={post.likes} dislikes={post.dislikes} index={index} />
+      </IonList>
+    </FadeIn>
   )
 }

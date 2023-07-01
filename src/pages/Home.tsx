@@ -28,6 +28,7 @@ import TellUHeader, { ionHeaderStyle } from "../components/Shared/Header";
 
 import { Virtuoso } from 'react-virtuoso';
 import { useToast } from '@agney/ir-toast';
+import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 
 // CSS
 import '../App.css';
@@ -160,9 +161,11 @@ const Home: React.FC = () => {
    */
   const Footer = () => {
     return (
-      <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center' }} >
-        {!noMorePosts ? "Loading..." : ""}
-      </div>
+      <FadeIn>
+        <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center' }} >
+          {!noMorePosts ? "Loading..." : ""}
+        </div>
+      </FadeIn>
     )
   };
 
