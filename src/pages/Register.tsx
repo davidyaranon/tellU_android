@@ -86,6 +86,8 @@ const Register: React.FC = () => {
    */
   async function register() {
     setBusy(true);
+    await Preferences.clear();
+    context.setSchoolName('');
     if (schoolName) {
       var idx = emailSignUp.lastIndexOf('@');
       if (idx > -1 && (emailSignUp.slice(idx + 1)).toLowerCase() === schoolEmailEnding) {
@@ -163,6 +165,7 @@ const Register: React.FC = () => {
 
   const setSchool = React.useCallback(async (school: string) => {
     await Preferences.set({ key: "school", value: school });
+    context.setSchoolName(school);
   }, []);
 
   React.useEffect(() => {
@@ -173,6 +176,7 @@ const Register: React.FC = () => {
           console.log(res.value);
           setBusy(false);
           dynamicNavigate(router, 'home', 'root');
+          window.location.reload();
         } else {
           let school = "";
           const userRef = doc(db, "userData", user.uid);
@@ -184,12 +188,14 @@ const Register: React.FC = () => {
             }
             setBusy(false);
             dynamicNavigate(router, 'home', 'root');
+            window.location.reload();
           });
         }
       }).catch((err) => {
         console.log(err);
         setBusy(false);
         history.replace("/home");
+        window.location.reload();
       });
     }
     setBusy(false);

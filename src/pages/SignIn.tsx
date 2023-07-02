@@ -57,6 +57,8 @@ const SignIn = () => {
   * Toasts error upon incorrect credentials
   */
   const login = async () => {
+    context.setSchoolName("");
+    await Preferences.clear();
     const emailRefValue = emailRef.current;
     const passwordRefValue = passwordRef.current;
     if (emailRefValue && passwordRefValue) {
@@ -89,6 +91,7 @@ const SignIn = () => {
         toast.present();
         toast.dismiss();
         dynamicNavigate(router, "/home", "root");
+        window.location.reload();
         dismiss();
       } else {
         const toast = Toast.create({ message: 'Invalid credentials', duration: 2000, color: 'toast-error' });

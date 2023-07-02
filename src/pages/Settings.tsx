@@ -260,6 +260,8 @@ const Settings: React.FC = () => {
     // }
     await logout();
     context.setShowTabs(false);
+    await Preferences.clear();
+    context.setSchoolName('');
     const toast = Toast.create({ message: 'Logged out', duration: 2000, color: 'toast-success' });
     toast.present();
     toast.dismiss();

@@ -276,10 +276,12 @@ const App: React.FC = () => {
   };
 
   /**
-   * @description temp function to set school name to Cal Poly Humboldt
+   * @description set school name context
    */
   const setSchoolName = React.useCallback(async () => {
-    await Preferences.set({ key: "school", value: "Cal Poly Humboldt" });
+    const schoolName = await Preferences.get({ key: 'school' });
+    if (schoolName.value)
+      context.setSchoolName(schoolName.value);
   }, []);
 
   /**

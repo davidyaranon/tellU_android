@@ -951,6 +951,7 @@ hr {
   white-space: pre-line;
   font-weight: bold;
   color: var(--ion-color-light);
+  padding: 2.5%;
 }
 
 .navbar_label {
@@ -1040,6 +1041,17 @@ ion-img::part(image) {
   -webkit-transform: translate3d(0, 0, 1px);
   -webkit-backface-visibility: hidden;
   image-rendering: pixelated;
+}
+
+.ion-img-container-margin {
+  background-size: cover;
+  background-position: center;
+  height: 20.5vh;
+  -webkit-transform: translate3d(0, 0, 1px);
+  -webkit-backface-visibility: hidden;
+  image-rendering: pixelated;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .ion-img-container.visible {

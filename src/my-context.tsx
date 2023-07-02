@@ -11,6 +11,8 @@ export type ContextType = {
   darkMode : boolean;
   setDarkMode : React.Dispatch<React.SetStateAction<boolean>>;
   sensitivityToggled : boolean;
+  schoolName : string;
+  setSchoolName : React.Dispatch<React.SetStateAction<string>>;
   setSensitivityToggled : React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -18,11 +20,12 @@ export const Context = React.createContext<ContextType | null>(null);
 export const ContextProvider = ({ children } : Props) => {
   const [showTabs, setShowTabs] = React.useState<boolean>(false);
   const [darkMode, setDarkMode] = React.useState<boolean>(false);
+  const [schoolName, setSchoolName] = React.useState<string>('');
   const [sensitivityToggled, setSensitivityToggled] = React.useState<boolean>(false);
 
   const memoizedContextValue = React.useMemo(() => ({
-    showTabs, setShowTabs, darkMode, setDarkMode, sensitivityToggled, setSensitivityToggled
-  }), [showTabs, setShowTabs, darkMode, setDarkMode, sensitivityToggled, setSensitivityToggled]);
+    showTabs, setShowTabs, darkMode, setDarkMode, schoolName, setSchoolName, sensitivityToggled, setSensitivityToggled
+  }), [showTabs, setShowTabs, darkMode, setDarkMode, schoolName, setSchoolName, sensitivityToggled, setSensitivityToggled]);
 
   return(
     <Context.Provider value={memoizedContextValue}> { children } </Context.Provider>
@@ -38,29 +41,29 @@ export const useAppContext = () => {
 }
 
 
-/* User Info Context */
-export type UserContextType = {
-  schoolName : string | null;
-  setSchoolName : React.Dispatch<React.SetStateAction<string | null>>;
-}
+// /* User Info Context */
+// export type UserContextType = {
+//   schoolName : string | null;
+//   setSchoolName : React.Dispatch<React.SetStateAction<string | null>>;
+// }
 
-export const UserContext = React.createContext<UserContextType | null>(null);
-export const UserContextProvider = ({ children } : Props) => {
-  const [schoolName, setSchoolName] = React.useState<string | null>(null);
+// export const UserContext = React.createContext<UserContextType | null>(null);
+// export const UserContextProvider = ({ children } : Props) => {
+//   const [schoolName, setSchoolName] = React.useState<string | null>(null);
 
-  const memoizedUserContextValue = React.useMemo(() => ({
-    schoolName, setSchoolName
-  }), [schoolName, setSchoolName]);
+//   const memoizedUserContextValue = React.useMemo(() => ({
+//     schoolName, setSchoolName
+//   }), [schoolName, setSchoolName]);
 
-  return (
-    <UserContext.Provider value={memoizedUserContextValue}> { children } </UserContext.Provider>
-  )
-}
+//   return (
+//     <UserContext.Provider value={memoizedUserContextValue}> { children } </UserContext.Provider>
+//   )
+// }
 
-export const useUserContext = () => {
-  const context = React.useContext(UserContext);
-  if(!context) {
-    throw new Error("User context error");
-  }
-  return context;
-}
+// export const useUserContext = () => {
+//   const context = React.useContext(UserContext);
+//   if(!context) {
+//     throw new Error("User context error");
+//   }
+//   return context;
+// }

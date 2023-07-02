@@ -1,4 +1,4 @@
-import { IonList, IonLabel, IonText, IonAvatar, IonItem } from "@ionic/react";
+import { IonList, IonLabel, IonAvatar, IonItem, IonRow } from "@ionic/react";
 import { useHistory } from "react-router";
 import ProfilePhoto from "../Shared/ProfilePhoto";
 import { PostType } from "../Shared/PostType";
@@ -9,7 +9,6 @@ import { LikeDislike } from "../Shared/LikeDislike";
 import { useCallback, useEffect } from "react";
 import { Preferences } from "@capacitor/preferences";
 import { useToast } from "@agney/ir-toast";
-import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 
 import '../../App.css';
 
@@ -49,12 +48,12 @@ export const HomePagePost = (props: any) => {
     <IonList key={index} inset mode="md" >
       <IonItem lines="none" mode="md" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
         <IonLabel>
-          <IonText color="medium">
+          <IonRow>
             <IonAvatar class="posts-avatar" onClick={(e) => { e.stopPropagation(); if (profileClickable !== false) history.push("/about/" + schoolName + "/" + post.uid); }} >
               <ProfilePhoto uid={post.uid} />
             </IonAvatar>
-            <p style={{ color: "var(--ion-color-light)" }}> {post.userName} </p>
-          </IonText>
+            <p style={{ color: "var(--ion-color-light)", padding : "10px" }}> {post.userName} </p>
+          </IonRow>
           <PostType schoolName={schoolName} type={post.postType} marker={post.marker} POI={post.POI} timestamp={post.timestamp} />
           <PostMessage schoolName={schoolName} message={post.message} classNumber={post.classNumber} className={post.className} reports={post.reports || 0} />
           <PostImages userName={post.userName} imgSrc={post.imgSrc || []} reports={post.reports || 0} />

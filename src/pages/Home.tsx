@@ -179,9 +179,6 @@ const Home: React.FC = () => {
     const school = await Preferences.get({ key: 'school' });
     if (school && school.value) {
       setSchoolName(school.value);
-    } else {
-      setSchoolName('Cal Poly Humboldt');
-      await Preferences.set({ key: "school", value: "Cal Poly Humboldt" });
     }
   }, []);
 
@@ -234,12 +231,19 @@ const Home: React.FC = () => {
     handleGetVersion();
   }, []);
 
+  React.useEffect(() => {
+    if(posts && posts.length <= 15) {
+      setNoMorePosts(true);
+    }
+  }, [posts]);
+
 
   React.useEffect(() => {
     if (!loading && !user) {
       dynamicNavigate(router, '/landing-page', 'root');
       history.replace('/landing-page');
     } else {
+      console.log("USER LOADED " + user?.displayName);
       if (user && "uid" in user && user.uid && user.uid.length > 0) {
         getDownloadURL(ref(storage, "profilePictures/" + user.uid + "photoURL")).then((res) => {
           console.log(res);
@@ -254,6 +258,7 @@ const Home: React.FC = () => {
     if (schoolName) {
       school = schoolName.toString().replace(/\s+/g, "");
     }
+    console.log(school);
     const q = query(collection(db, "schoolPosts", school, "allPosts"), orderBy("timestamp", "desc"), limit(15));
     const unsubscribe = onSnapshot(q, async (snapshot) => {
       const data: any = [];
@@ -276,12 +281,16 @@ const Home: React.FC = () => {
             justAdded[0].dislikes = { 'null': true };
             justAdded[0].commentAmount = 0;
             const finalData: any[] = justAdded.concat(datasCopy);
+            console.log(finalData);
             await timeout(500);
-            try {
-              setPosts([...finalData, ...postsRef.current]);
-            } catch (err) {
-              window.location.reload();
-            }
+            // try {
+              if(postsRef.current)
+                setPosts([...finalData, ...postsRef.current]);
+              else 
+              setPosts([...finalData]);
+            // } catch (err) {
+            //   window.location.reload();
+            // }
             virtuosoRef && virtuosoRef.current && virtuosoRef.current.scrollTo({ top: 0, behavior: "auto" })
             setNewPostsLoaded(false);
             setNewData([]);
@@ -318,6 +327,7 @@ const Home: React.FC = () => {
           }
           setNewPostsLoaded(true);
         } else { // on initial load
+          console.log("INIT LOAD")
           for (let i = 0; i < data.length; ++i) {
             const likesData = await getLikes(data[i].key);
             if (likesData) {

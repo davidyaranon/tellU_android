@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import Map from "@mui/icons-material/Map";
 import { useToast } from "@agney/ir-toast";
 import { useAppContext } from "../../my-context";
-import { humboldtPOIs } from "../../helpers/maps-config";
+import { davisPOIs, humboldtPOIs } from "../../helpers/maps-config";
 import { chevronBackOutline } from "ionicons/icons";
 
 /* options for getting user's location using {@awesome-cordova-plugins/geolocation} */
@@ -183,7 +183,13 @@ export const LocationPinModal = (props: any) => {
    * @param {number} long the longitude of the user's current position
    */
   const checkPOI = (lat: number, long: number) => {
-    for (const [key, value] of Object.entries(humboldtPOIs)) {
+    let POIs: Record<string, number[]> = {};
+    if (context.schoolName === "Cal Poly Humboldt") {
+      POIs = humboldtPOIs;
+    } else if (context.schoolName === "UC Davis") {
+      POIs = davisPOIs;
+    }
+    for (const [key, value] of Object.entries(POIs)) {
       const arr: number[] = value;
       const A = area(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5]) +
         area(arr[0], arr[1], arr[6], arr[7], arr[4], arr[5]);
@@ -292,7 +298,7 @@ export const LocationPinModal = (props: any) => {
         </IonRadioGroup>
       </IonList>
 
-      <div style={{height : "1vh", padding : '10px'}} />
+      <div style={{ height: "1vh", padding: '10px' }} />
 
       <IonList mode="md">
         <IonItem style={{ '--min-height': '1vh' }} mode="md" lines="none">
@@ -320,7 +326,7 @@ export const LocationPinModal = (props: any) => {
         <IonNote style={{ textAlign: "center", width: "95vw", padding: "10px" }}>*Uses your current location to link your post to a on campus.</IonNote>
       }
 
-      <div className="ion-button-container" style={{marginBottom : "35%"}}>
+      <div className="ion-button-container" style={{ marginBottom: "35%" }}>
         <IonButton
           onClick={() => {
             handleSendMessage();
