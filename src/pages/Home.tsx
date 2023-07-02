@@ -11,7 +11,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 // Firebase/Google
-import auth, { db, getAllPostsNextBatch, getAppVersionNum, getLikes, promiseTimeout, storage } from '../fbConfig';
+import auth, { db, downVote, getAllPostsNextBatch, getAppVersionNum, getLikes, promiseTimeout, storage, upVote } from '../fbConfig';
 import { collection, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 
@@ -32,6 +32,7 @@ import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 
 // CSS
 import '../App.css';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 
 const versionNum: string = '3.2.2';
@@ -50,6 +51,8 @@ const Home: React.FC = () => {
   const [user, loading, error] = useAuthState(auth);
 
   // state variables
+  const [postLikes, setPostLikes] = React.useState<any[]>([]);
+  const [postDislikes, setPostDislikes] = React.useState<any[]>([]);
   const [schoolName, setSchoolName] = React.useState<string | null>(null);
   const [profilePhoto, setProfilePhoto] = React.useState<string | null>(null);
   const [lastKey, setLastKey] = React.useState<string>("");
@@ -63,6 +66,73 @@ const Home: React.FC = () => {
   const [newData, setNewData] = React.useState<any[] | null>(null);
   const newDataRef = React.useRef<any>();
   newDataRef.current = newData;
+
+  /**
+   * @description upvotes a post and updates the state
+   * 
+   * @param {string} postKey the Firestore key of the post
+   * @param {number} index the index of the post in the posts array
+   * @param {any} post the post object used for updating user's likes document
+  */
+  const handleUpVote = async (postKey: string, index: number, post: any) => {
+    const val = await upVote(postKey, post);
+    if (val && (val === 1 || val === -1)) {
+      if (val === 1) {
+        Haptics.impact({ style: ImpactStyle.Light });
+      }
+      if (user) {
+        let likesCopy: any = { ...postLikes };
+        let dislikesCopy: any = { ...postDislikes };
+        if (likesCopy[index][user.uid]) {
+          delete likesCopy[index][user.uid];
+        } else {
+          if (dislikesCopy[index][user.uid]) {
+            delete dislikesCopy[index][user.uid];
+          }
+          likesCopy[index][user.uid] = true;
+        }
+        setPostLikes(likesCopy);
+        setPostDislikes(dislikesCopy);
+        await timeout(250);
+      }
+    } else {
+      const toast = Toast.create({ message: 'Unable to like post', duration: 2000, color: 'toast-error' });
+      toast.present();
+    }
+  };
+
+  /**
+   * @description downvotes a post and updates the state
+   * 
+   * @param {string} postKey the Firestore key of the post
+   * @param {number} index the index of the post in the posts array
+   */
+  const handleDownVote = async (postKey: string, index: number) => {
+    const val = await downVote(postKey);
+    if (val && (val === 1 || val === -1)) {
+      if (val === 1) {
+        Haptics.impact({ style: ImpactStyle.Light });
+      }
+      if (user) {
+        let likesCopy: any = { ...postLikes };
+        let dislikesCopy: any = { ...postDislikes };
+        if (dislikesCopy[index][user.uid]) {
+          delete dislikesCopy[index][user.uid];
+        } else {
+          if (likesCopy[index][user.uid]) {
+            delete likesCopy[index][user.uid];
+          }
+          dislikesCopy[index][user.uid] = true;
+        }
+        setPostLikes(likesCopy);
+        setPostDislikes(dislikesCopy);
+        await timeout(250);
+      }
+    } else {
+      const toast = Toast.create({ message: 'Unable to dislike post', duration: 2000, color: 'toast-error' });
+      toast.present();
+    }
+  };
 
   /**
    * @description runs when the New Posts button is clicked
@@ -182,6 +252,39 @@ const Home: React.FC = () => {
     }
   }, []);
 
+  const handleSetLikes = React.useCallback(() => {
+    if (posts) {
+      let likes: any[] = [];
+      for (let i = 0; i < posts.length; i++) {
+        if ("likes" in posts[i]) {
+          likes.push(posts[i].likes);
+        }
+      }
+      setPostLikes(likes);
+      console.log(likes);
+    }
+  }, [posts]);
+
+
+  const handleSetDislikes = React.useCallback(() => {
+    if (posts) {
+      let dislikes: any[] = [];
+      for (let i = 0; i < posts.length; i++) {
+        if ("dislikes" in posts[i]) {
+          dislikes.push(posts[i].dislikes);
+        }
+      }
+      setPostDislikes(dislikes);
+    }
+  }, [posts]);
+
+  React.useEffect(() => {
+    if (posts) {
+      handleSetLikes();
+      handleSetDislikes();
+    }
+  }, [posts])
+
   React.useEffect(() => {
     context.setDarkMode(true);
     document.body.classList.toggle("dark");
@@ -232,8 +335,10 @@ const Home: React.FC = () => {
   }, []);
 
   React.useEffect(() => {
-    if(posts && posts.length <= 15) {
+    if (posts && posts.length < 15) {
       setNoMorePosts(true);
+    } else {
+      setNoMorePosts(false);
     }
   }, [posts]);
 
@@ -284,9 +389,9 @@ const Home: React.FC = () => {
             console.log(finalData);
             await timeout(500);
             // try {
-              if(postsRef.current)
-                setPosts([...finalData, ...postsRef.current]);
-              else 
+            if (postsRef.current)
+              setPosts([...finalData, ...postsRef.current]);
+            else
               setPosts([...finalData]);
             // } catch (err) {
             //   window.location.reload();
@@ -367,13 +472,15 @@ const Home: React.FC = () => {
             itemContent={(item) => {
               let index = item;
               let post = posts[index];
+              let likes = postLikes[index] || {};
+              let dislikes = postDislikes[index] || {};
               if ("question" in post) {
                 return (
                   <HomePagePoll updatePosts={updatePosts} postIndex={index} post={post} user={user} schoolName={schoolName} />
                 )
               }
               return (
-                <HomePagePost schoolName={schoolName} user={user} index={index} post={post} />
+                <HomePagePost handleDownVote={handleDownVote} handleUpVote={handleUpVote} likes={likes} dislikes={dislikes} schoolName={schoolName} user={user} index={index} post={post} />
               );
             }}
             style={{ height: "100%" }}
