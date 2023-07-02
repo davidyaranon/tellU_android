@@ -148,7 +148,7 @@ const Home: React.FC = () => {
     return (
       <>
         <IonHeader className="ion-no-border" style={ionHeaderStyle} >
-          <TellUHeader darkMode={context.darkMode} colorPallete={context.schoolColorToggled} schoolName={schoolName} zoom={1} />
+          <TellUHeader darkMode={context.darkMode} schoolName={schoolName} zoom={1} />
         </IonHeader>
       </>
     )
@@ -381,7 +381,7 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <div className="ion-spinner">
-        <IonSpinner color={schoolName === "Cal Poly Humboldt" && context.schoolColorToggled ? "tertiary" : "primary"} />
+        <IonSpinner color={"primary"} />
       </div>
     </IonPage>
   );

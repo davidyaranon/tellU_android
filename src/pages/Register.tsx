@@ -139,7 +139,7 @@ const Register: React.FC = () => {
           Toast.error('Connection interrupted. Your account should be created, try logging in');
         } else {
           await setSchool(schoolName);
-          const notificationsToken : string = localStorage.getItem("notificationsToken") || "";
+          const notificationsToken: string = localStorage.getItem("notificationsToken") || "";
           if (notificationsToken.length <= 0) {
             FCM.deleteInstance().then(() => console.log("FCM instance deleted")).catch((err) => console.log(err));
             FCM.getToken().then((token) => {
@@ -162,7 +162,7 @@ const Register: React.FC = () => {
   }
 
   const setSchool = React.useCallback(async (school: string) => {
-    await Preferences.set({ key: "school",value: school });
+    await Preferences.set({ key: "school", value: school });
   }, []);
 
   React.useEffect(() => {
@@ -214,7 +214,7 @@ const Register: React.FC = () => {
       <Toolbar color="primary" />
       <IonContent>
         <IonHeader className="ion-no-border" style={{ paddingBottom: "5vh" }}>
-          <Header darkMode={context.darkMode} schoolName="" zoom={1.1} />
+          <Header darkMode={context.darkMode} schoolName="" zoom={1.1} style={{ fontWeight: "bold", margin: 0 }} />
           <p style={{ textAlign: "center", fontSize: "1.5em", fontFamily: 'Arial' }}>Register</p>
         </IonHeader>
 
@@ -234,7 +234,7 @@ const Register: React.FC = () => {
                 setSchoolEmailEnding('berkeley.edu');
               } else if (e.detail.value == 'UC Davis') {
                 setSchoolEmailEnding('ucdavis.edu');
-              } 
+              }
               // else if (e.detail.value == 'UC Irvine') {
               //   setSchoolEmailEnding('uci.edu');
               // } else if (e.detail.value == 'UCLA') {
@@ -350,7 +350,7 @@ const Register: React.FC = () => {
 
         <IonLabel id="password-label-reg" className="login-label">Password</IonLabel>
         <IonItem className='register-input'>
-          <IonInput aria-labelledby="password-label-reg"value={passwordSignUp} clearInput clearOnEdit={false} type={showPassword ? "text" : "password"} placeholder="••••••••" id="passwordSignUp" onIonInput={(e) => setPasswordSignUp(e.detail.value!)} />
+          <IonInput aria-labelledby="password-label-reg" value={passwordSignUp} clearInput clearOnEdit={false} type={showPassword ? "text" : "password"} placeholder="••••••••" id="passwordSignUp" onIonInput={(e) => setPasswordSignUp(e.detail.value!)} />
           <IonButton slot="end" fill="clear" onClick={() => { setShowPassword(!showPassword) }}>
             <IonIcon color="medium" icon={showPassword ? eyeOutline : eyeOffOutline} />
           </IonButton>

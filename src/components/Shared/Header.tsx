@@ -46,7 +46,7 @@ class TellUHeader extends Component<any, any>{
   render() {
     const dark: boolean = this.props.darkMode;
     const zoom: number = this.props.zoom;
-    let schoolStyle = { fontWeight: "bold" };
+    const schoolStyle = this.props.style || { fontWeight: "bold" };
 
     const schoolName = this.props.schoolName in headerInfo ? this.props.schoolName : "";
 

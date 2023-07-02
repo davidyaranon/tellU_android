@@ -27,10 +27,10 @@ import { Toolbar } from '../components/Shared/Toolbar';
 
 /* global variables */
 const defaultResizeOptions: KeyboardResizeOptions = { mode: KeyboardResize.Body }
-const inputNote : React.CSSProperties = {
+const inputNote: React.CSSProperties = {
   fontSize: "0.85em",
   textAlign: "right",
-  color : "gray",
+  color: "gray",
   fontFamily: "Arial",
   marginTop: "-1.5vh",
   marginRight: "7.5vw"
@@ -172,10 +172,10 @@ const SignIn = () => {
 
   return (
     <IonPage>
-      <Toolbar color="primary"/>
+      <Toolbar color="primary" />
       <IonContent >
         <IonHeader className='ion-no-border' style={{ padding: "5vh" }}>
-          <Header darkMode={context.darkMode} schoolName="" zoom={1.1} />
+          <Header darkMode={context.darkMode} schoolName="" zoom={1.1} style={{ fontWeight: "bold", margin: 0 }} />
           <p style={{ textAlign: "center", fontSize: "1.5em", fontFamily: 'Arial' }}>Sign In</p>
         </IonHeader>
 

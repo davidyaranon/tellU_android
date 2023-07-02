@@ -89,6 +89,54 @@ const Settings: React.FC = () => {
   const emojis = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
 
 
+  /**
+   * @description handles the use of the hardware back button and determines which modals to close.
+   */
+  const handleSetModalStates = React.useCallback((showSpotifyModal: boolean, showAboutModal: boolean) => {
+    setSpotifyModal(showSpotifyModal);
+    setShowAboutModal(showAboutModal);
+  }, []);
+
+  React.useEffect(() => {
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        if (spotifyModal === true) {
+          handleSetModalStates(false, true);
+        } else if (showAboutModal === true) {
+          handleSetModalStates(false, false);
+        }
+        Keyboard.hide().then(() => {
+          setTimeout(() => {
+            setShowAboutModal(false);
+            setEditableUserBio(userBio);
+            setEditableUserInstagram(userInstagram);
+            setEditableUserMajor(userMajor);
+            setEditableUserTiktok(userTiktok);
+            setEditableUserSnapchat(userSnapchat);
+            setEditableSpotifyUri(spotifyUri);
+          }, 100);
+        }).catch((err) => {
+          setTimeout(() => {
+            setShowAboutModal(false);
+            setEditableUserBio(userBio);
+            setEditableUserInstagram(userInstagram);
+            setEditableUserMajor(userMajor);
+            setEditableUserTiktok(userTiktok);
+            setEditableUserSnapchat(userSnapchat);
+            setEditableSpotifyUri(spotifyUri);
+          }, 100);
+        });
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, [handleSetModalStates, spotifyModal, showAboutModal]);
+
+
   const handleEditAbout = () => {
     if (user && user.uid) {
       if (!userDataHasLoaded) {
@@ -814,7 +862,7 @@ const Settings: React.FC = () => {
                 color={"primary"}
                 maxlength={150}
                 value={editableUserBio}
-                onIonChange={(e: any) => {
+                onIonInput={(e: any) => {
                   setEditableUserBio(e.detail.value);
                 }}
               />
@@ -830,8 +878,8 @@ const Settings: React.FC = () => {
                 color={"primary"}
                 maxlength={50}
                 value={editableUserMajor}
-                onIonChange={(e: any) => {
-                  setEditableUserMajor(e.detail.value);
+                onIonInput={(e) => {
+                  setEditableUserMajor(e.detail.value!);
                 }}
               />
             </IonCardContent>
@@ -846,7 +894,7 @@ const Settings: React.FC = () => {
                 color={"primary"}
                 maxlength={50}
                 value={editableUserSnapchat}
-                onIonChange={(e: any) => {
+                onIonInput={(e: any) => {
                   setEditableUserSnapchat(e.detail.value);
                 }}
               />
@@ -862,7 +910,7 @@ const Settings: React.FC = () => {
                 color={"primary"}
                 maxlength={50}
                 value={editableUserInstagram}
-                onIonChange={(e: any) => {
+                onIonInput={(e: any) => {
                   setEditableUserInstagram(e.detail.value);
                 }}
               />
@@ -878,7 +926,7 @@ const Settings: React.FC = () => {
                 color={"primary"}
                 maxlength={50}
                 value={editableUserTiktok}
-                onIonChange={(e: any) => {
+                onIonInput={(e: any) => {
                   setEditableUserTiktok(e.detail.value);
                 }}
               />
@@ -973,7 +1021,7 @@ const Settings: React.FC = () => {
               style={{ width: "75vw" }}
               readonly={false}
               value={editableEmail}
-              onIonChange={(e) => {
+              onIonInput={(e) => {
                 if (typeof e.detail.value === "string")
                   setEditableEmail(e.detail.value || "");
               }}
@@ -1014,7 +1062,7 @@ const Settings: React.FC = () => {
               style={{ width: "75vw" }}
               readonly={false}
               value={editableUserName}
-              onIonChange={(e) => {
+              onIonInput={(e) => {
                 if (typeof e.detail.value === "string")
                   setEditableUserName(e.detail.value || "");
               }}
@@ -1027,7 +1075,7 @@ const Settings: React.FC = () => {
         <IonContent>
           <div className="ion-modal">
             <IonHeader mode="md">
-              <IonTitle color="secondary" class="ion-title">
+              <IonTitle color="light" class="ion-title">
                 {" "}
                 <div>Email Change</div>{" "}
               </IonTitle>
@@ -1045,7 +1093,7 @@ const Settings: React.FC = () => {
                   type="password"
                   placeholder="Enter your password again..."
                   id="passwordSignIn"
-                  onIonChange={(e: any) => setPasswordReAuth(e.detail.value)}
+                  onIonInput={(e: any) => setPasswordReAuth(e.detail.value)}
                 ></IonInput>
               </IonItem>
               <br />
@@ -1085,7 +1133,7 @@ const Settings: React.FC = () => {
         <IonContent>
           <div className="ion-modal">
             <IonHeader mode="md">
-              <IonTitle color="secondary" class="ion-title">
+              <IonTitle color="light" className="ion-title">
                 {" "}
                 <div>Username Change</div>{" "}
               </IonTitle>
@@ -1103,7 +1151,7 @@ const Settings: React.FC = () => {
                   type="password"
                   placeholder="Enter your password again..."
                   id="passwordSignIn"
-                  onIonChange={(e: any) => setPasswordReAuth(e.detail.value)}
+                  onIonInput={(e: any) => setPasswordReAuth(e.detail.value)}
                 ></IonInput>
               </IonItem>
               <br />

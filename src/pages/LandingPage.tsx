@@ -119,7 +119,7 @@ const LandingPage = () => {
         <div style={{ height: "15vh" }} />
 
         <IonHeader className="ion-no-border" style={{ paddingBottom: "5vh" }}>
-          <Header darkMode={context.darkMode} schoolName="" zoom={1.1} />
+          <Header darkMode={context.darkMode} schoolName="" zoom={1.1} style={{ fontWeight: "bold", margin: 0 }} />
           <p style={{ textAlign: "center", fontSize: "1.5em", fontFamily: 'Arial' }}>University Chats</p>
         </IonHeader>
 
