@@ -1,7 +1,7 @@
 import React from "react";
 import {
   IonCard, IonCardContent, IonAvatar, IonText,
-  IonCardTitle, IonList, IonItem, IonFab
+  IonCardTitle, IonList, IonItem, IonFab, IonRow
 } from "@ionic/react";
 import { useHistory } from "react-router";
 import { getDate } from "../../helpers/timeago";
@@ -80,9 +80,9 @@ export const HomePagePoll = (props: any) => {
   }
 
   return (
-    <IonCard mode="md" key={postIndex} >
+    <IonCard mode="md" key={postIndex}>
       <IonCardContent style={{ minHeight: "50vh" }}>
-        <IonText color="medium">
+        <IonRow>
           <IonAvatar
             class="posts-avatar"
             onClick={(e) => {
@@ -93,9 +93,9 @@ export const HomePagePoll = (props: any) => {
           >
             <ProfilePhoto uid={post.uid}></ProfilePhoto>
           </IonAvatar>
-          <p style={{ color: "var(--ion-color-light)" }}> {post.userName} </p>
-        </IonText>
-        <IonCardTitle style={{ fontSize: "1.35em", width: "95%", marginLeft: "0%", color: "var(--ion-color-light)" }}>{poll.question}</IonCardTitle>
+          <p style={{ color: "var(--ion-color-light)", padding: "10px", fontWeight: 'bold' }}> {post.userName} </p>
+        </IonRow>
+        <IonCardTitle style={{ fontSize: "1.35em", width: "95%", padding: "7.5px", color: "var(--ion-color-light)" }}>{poll.question}</IonCardTitle>
         <br />
         <IonList lines="full" mode="md">
           {poll.options.map((option: any, pollIndex: number) => {

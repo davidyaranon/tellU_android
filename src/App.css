@@ -1368,3 +1368,12 @@ ion-select::part(text) {
   border: 0 !important;
   box-shadow: none !important;
 }
+
+div.item-inner {
+  padding-inline-end: 0 !important;
+}
+
+ion-item.spotify-emb::part(native) {
+  padding-inline-start: 7.5px; 
+  padding-inline-end: 0px;
+}

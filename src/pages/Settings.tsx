@@ -19,7 +19,7 @@ import '../App.css';
 import { useToast } from '@agney/ir-toast';
 import { useAppContext } from '../my-context';
 import { useHistory } from 'react-router';
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -29,7 +29,7 @@ import { PostType } from '../components/Shared/PostType';
 import ProfilePhoto from '../components/Shared/ProfilePhoto';
 import { PostMessage } from '../components/Home/PostMessage';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
-import { chevronBackOutline, logoInstagram, logoSnapchat, logoTiktok, refreshOutline, warningSharp } from 'ionicons/icons';
+import { checkmarkCircleOutline, chevronBackOutline, logoInstagram, logoSnapchat, logoTiktok, refreshOutline, warningSharp } from 'ionicons/icons';
 import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -569,7 +569,7 @@ const Settings: React.FC = () => {
       <IonContent ref={contentRef} scrollY={false}>
         <SettingsHeader schoolName={schoolName} logout={handleLogout} user={user} editableUsername={editableUserName} />
 
-        <Swiper
+        {/* <Swiper
           id="settings-swiper"
           pagination={{ dynamicBullets: true }}
           modules={[Pagination]}
@@ -591,7 +591,7 @@ const Settings: React.FC = () => {
             }
           }}
         >
-          <SwiperSlide>
+        <SwiperSlide> */}
             <div style={{ height: "2vh" }}></div>
             <IonHeader class="ion-no-border" style={{ textAlign: "center", fontSize: "1em", color: "#898989", transform: "translateY(15%)" }}>
               Settings
@@ -671,8 +671,8 @@ const Settings: React.FC = () => {
                 />
               </IonItem>
             </IonList>
-          </SwiperSlide>
-          <SwiperSlide>
+          {/* </SwiperSlide> */}
+          {/* <SwiperSlide>
             <IonFab style={{ transform: "translateY(-10%)" }} horizontal="end">
               <IonButton mode="md" fill="clear" onClick={loadUserLikes} color={"primary"}>
                 <IonIcon icon={refreshOutline} />
@@ -726,7 +726,7 @@ const Settings: React.FC = () => {
               </IonContent>
             </IonCard>
           </SwiperSlide>
-        </Swiper>
+        </Swiper> */}
 
         <IonLoading
           message="Please wait..."
@@ -787,9 +787,11 @@ const Settings: React.FC = () => {
                 {spotifyResults.map((track, index) => {
                   return (
                     <FadeIn key={track.id + index.toString()} delay={1000} transitionDuration={750}>
-                      <IonItem className="spotify-emb" mode="md" lines="none">
-                        <Spotify allow="encrypted-media" style={{ width: "82.5vw", backgroundColor: "#2f2f2f", borderRadius: "15px", maxHeight: "80px", opacity: 100, colorScheme: "normal" }} wide link={"https://open.spotify.com/track/" + track.uri.toString().substring(14)} />
-                        <IonButton style={{ alignItems: "center", textAlign: "center", width: "25vw" }} key={track.id + index.toString()} color="medium" mode="md" fill="clear" onClick={() => { setEditableSpotifyUri(track.uri); setSpotifyModal(false); if (spotifyTextSearch && spotifyTextSearch.current) { spotifyTextSearch.current.value = ""; } setSpotifyResults([]); }}>Select</IonButton>
+                      <IonItem className='spotify-emb' mode="md" lines="none">
+                        <Spotify allow="encrypted-media" style={{ width: "80vw", backgroundColor: "#2f2f2f", borderRadius: "15px", maxHeight: "80px", opacity: 100, colorScheme: "normal" }} wide link={"https://open.spotify.com/track/" + track.uri.toString().substring(14)} />
+                        <IonButton style={{ alignItems: "center", textAlign: "center", width: "25vw" }} key={track.id + index.toString()} color="medium" mode="md" fill="clear" onClick={() => { setEditableSpotifyUri(track.uri); setSpotifyModal(false); if (spotifyTextSearch && spotifyTextSearch.current) { spotifyTextSearch.current.value = ""; } setSpotifyResults([]); }}>
+                          <IonIcon size='large' icon={checkmarkCircleOutline} />
+                        </IonButton>
                       </IonItem>
                       <div style={{ height: "20px", backgroundColor: "#0D1117" }}> </div>
                     </FadeIn>
@@ -905,7 +907,7 @@ const Settings: React.FC = () => {
           <IonCard mode="md">
             <IonCardContent>
               <IonLabel>Instagram <IonIcon icon={logoInstagram} /> </IonLabel>
-              <IonTextarea
+              <IonInput
                 style={{ fontWeight: "bold", color: 'var(--ion-color-light)' }}
                 mode="md"
                 id="bio"
@@ -921,7 +923,7 @@ const Settings: React.FC = () => {
           <IonCard mode="md">
             <IonCardContent>
               <IonLabel>TikTok <IonIcon icon={logoTiktok} /> </IonLabel>
-              <IonTextarea
+              <IonInput
                 style={{ fontWeight: "bold", color: 'var(--ion-color-light)' }}
                 mode="md"
                 id="bio"

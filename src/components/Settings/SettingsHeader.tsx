@@ -7,7 +7,6 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { cameraReverseOutline, chatbubblesOutline, informationCircleOutline, notificationsOutline } from "ionicons/icons";
 import { useCallback, useEffect, useState } from "react";
 import { getUserPhotoUrl, storage, uploadImage } from "../../fbConfig";
-import { useAppContext } from "../../my-context";
 import { dynamicNavigate } from "../Shared/Navigation";
 import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 
@@ -18,7 +17,6 @@ export const SettingsHeader = (props: any) => {
   const editableUsername = props.editableUsername;
 
   const router = useIonRouter();
-  const context = useAppContext();
   const Toast = useToast();
   const [present, dismiss] = useIonLoading();
 
@@ -113,7 +111,7 @@ export const SettingsHeader = (props: any) => {
 
   return (
     <>
-      <IonToolbar mode="md" style={{ height: "5vh" }}>
+      <IonToolbar mode="md" style={{ height: "7.5vh" }}>
         <IonButtons slot="start">
           <IonButton
             onClick={logout}
