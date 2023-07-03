@@ -105,7 +105,7 @@ export async function registerWithEmailAndPassword(name: string, email: string, 
       }
       return res;
     }
-  } catch (err : any) {
+  } catch (err: any) {
     return err.message.toString();
   }
 }
@@ -1527,7 +1527,7 @@ export const updateUserInfo = async (bio: string, instagram: string, major: stri
 export const spotifySearch = async (query: string) => {
   try {
     console.log(query);
-    const res : any = await fetch('https://accounts.spotify.com/api/token', {
+    const res: any = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       body: 'grant_type=client_credentials&client_id=' + REACT_APP_SPOTIFY_CLIENT_ID + '&client_secret=' + REACT_APP_SPOTIFY_SECRET_ID,
       headers: {
@@ -1537,7 +1537,7 @@ export const spotifySearch = async (query: string) => {
       console.log(err);
     });
     console.log({ res });
-    const data = await res.json().catch((err : any) => { console.log(err); });
+    const data = await res.json().catch((err: any) => { console.log(err); });
     const token = data.access_token;
     spotifyApi.setAccessToken(token);
     console.log(spotifyApi.getAccessToken());
@@ -1676,3 +1676,24 @@ export const testOpenAi = async (msg: string) => {
 
   return answer.data.content.toString();
 }
+
+/**
+ * @description Gets the user's data from Firestore in /userData/{uid}
+ * Data includes displayName, email, photoURL, uid, school, and socials
+ * 
+ * @param {string} uid the user's uid used as the document id in Firestore
+ * @returns the user's data from Firestore
+ */
+export const getUserData = async (uid: string) => {
+  try {
+    if (auth && db) {
+      const usersRef = doc(db, "userData", uid.toString());
+      const res = await getDoc(usersRef);
+      if (res.exists()) {
+        return { ...res.data(), key: doc.name }
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};

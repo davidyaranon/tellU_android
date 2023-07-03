@@ -71,7 +71,6 @@ export const HomePagePost = (props: any) => {
           <PostImages userName={post.userName} imgSrc={post.imgSrc || []} reports={post.reports || 0} />
         </IonLabel>
       </IonItem>
-      {/* <LikeDislike user={user} schoolName={schoolName} post={post} likes={post.likes} dislikes={post.dislikes} index={index} /> */}
       <IonItem lines="none" mode="md">
         <IonButton
           onAnimationEnd={() => { setLikeAnimation(-1); }}

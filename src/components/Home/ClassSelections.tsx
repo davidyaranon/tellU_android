@@ -23,7 +23,7 @@ export const ClassSelections = memo((props: classInfo) => {
 
   const context = useAppContext();
 
-  const schoolName = props.schoolName;
+  const schoolName = props.schoolName || context.schoolName;
   const postClassName = props.postClassName;
   const postClassNumber = props.postClassNumber;
   const setPostClassName = props.setPostClassName;
@@ -70,7 +70,7 @@ export const ClassSelections = memo((props: classInfo) => {
                   setPostClassNumber(e.detail.value);
                 }}
               >
-                {classSelections["Cal Poly Humboldt"][postClassName].map((classNumber: string, index: number) => {
+                {classSelections[schoolName][postClassName].map((classNumber: string, index: number) => {
                   return (
                     <IonSelectOption key={index} value={classNumber}>{classNumber}</IonSelectOption>
                   );

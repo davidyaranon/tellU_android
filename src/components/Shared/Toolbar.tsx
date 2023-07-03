@@ -43,9 +43,9 @@ export const Toolbar = (props: any) => {
 
   return (
     <>
-      <IonHeader className='ion-no-border'>
-        <IonToolbar>
-          {title && title.length > 0 && <IonTitle style={{ fontSize: "1.2em" }}>{title}</IonTitle>}
+      <IonHeader className='ion-no-border' mode='ios'>
+        <IonToolbar mode='ios'>
+          {title && title.length > 0 && <IonTitle>{title}</IonTitle>}
           <IonButtons style={{ marginLeft: "-2.5%" }}>
             <IonBackButton
               defaultHref="/home"
@@ -53,13 +53,14 @@ export const Toolbar = (props: any) => {
               icon={chevronBackOutline}
               text={text || "Back"}
               color={color ? color : "primary"}
+              style={{fontSize : '.75em', marginLeft : '5px'}}
             >
             </IonBackButton>
           </IonButtons>
           {schoolName && setShowReportModal &&
             <IonButtons slot='end'>
               <IonButton color={"primary"} slot="end" onClick={() => { reportPost(); }}>
-                <IonIcon icon={alertCircleOutline} />
+                <IonIcon icon={alertCircleOutline} size={'small'}/>
               </IonButton>
             </IonButtons>
           }
