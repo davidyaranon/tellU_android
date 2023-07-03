@@ -1,14 +1,14 @@
 // Ionic/Capacitor + React
 import React from 'react';
 import {
-  IonAvatar,
   IonButton, IonButtons, IonCard, IonCardContent, IonCardTitle, IonCol, IonContent, IonFab, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonLoading, IonModal, IonNote,
-  IonPage, IonRow, IonSearchbar, IonSpinner, IonText, IonTextarea, IonTitle, IonToggle, IonToolbar, useIonLoading, useIonViewWillEnter,
+  IonPage, IonRow, IonSearchbar, IonSpinner, IonText, IonTextarea, IonTitle, IonToggle, IonToolbar, useIonLoading, useIonRouter, useIonViewWillEnter,
 } from '@ionic/react';
 import { Keyboard, KeyboardStyle, KeyboardStyleOptions } from '@capacitor/keyboard';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { Dialog } from '@capacitor/dialog';
 import { Preferences } from '@capacitor/preferences';
+import { App as CapacitorApp } from '@capacitor/app';
 
 // Firebase/Google
 import auth, { checkUsernameUniqueness, db, getCurrentUserData, getUserLikedPosts, logout, promiseTimeout, spotifySearch, updateUserInfo } from '../fbConfig';
@@ -35,6 +35,7 @@ import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updatePro
 import { doc, updateDoc } from 'firebase/firestore';
 import { timeout } from '../helpers/timeout';
 import Spotify from 'react-spotify-embed';
+import { navigateBack } from '../components/Shared/Navigation';
 
 const keyStyleOptionsDark: KeyboardStyleOptions = {
   style: KeyboardStyle.Dark
@@ -49,6 +50,7 @@ const Settings: React.FC = () => {
 
   // hooks  
   const history = useHistory();
+  const router = useIonRouter();
   const context = useAppContext();
   const Toast = useToast();
   const [present] = useIonLoading();
@@ -100,10 +102,13 @@ const Settings: React.FC = () => {
   React.useEffect(() => {
     const eventListener: any = (ev: CustomEvent<any>) => {
       ev.detail.register(10, () => {
+        console.log("BACK BUTTON SETTINGS PAGE");
         if (spotifyModal === true) {
           handleSetModalStates(false, true);
         } else if (showAboutModal === true) {
           handleSetModalStates(false, false);
+        } else {
+          CapacitorApp.exitApp();
         }
         Keyboard.hide().then(() => {
           setTimeout(() => {
@@ -134,7 +139,7 @@ const Settings: React.FC = () => {
     return () => {
       document.removeEventListener('ionBackButton', eventListener);
     };
-  }, [handleSetModalStates, spotifyModal, showAboutModal]);
+  }, [handleSetModalStates, spotifyModal, showAboutModal, router]);
 
 
   const handleEditAbout = () => {
@@ -592,87 +597,87 @@ const Settings: React.FC = () => {
           }}
         >
         <SwiperSlide> */}
-            <div style={{ height: "2vh" }}></div>
-            <IonHeader class="ion-no-border" style={{ textAlign: "center", fontSize: "1em", color: "#898989", transform: "translateY(15%)" }}>
-              Settings
-            </IonHeader>
+        <div style={{ height: "2vh" }}></div>
+        <IonHeader class="ion-no-border" style={{ textAlign: "center", fontSize: "1em", color: "#898989", transform: "translateY(15%)" }}>
+          Settings
+        </IonHeader>
 
-            <IonList mode="md" inset={true}>
-              <IonItem key="singleton_item_3" mode="md">
-                <IonRow>
-                  <IonLabel mode="md">
-                    <IonText color="medium">
-                      <p> Email </p>
-                    </IonText>
-                  </IonLabel>
-                </IonRow>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <IonRow>
-                  {editableEmail.length > 20 ?
-                    <p style={{ fontSize: "0.85em" }}>{editableEmail.substring(0, 20) + "..."}</p>
-                    :
-                    <p style={{ fontSize: "0.85em" }}>{editableEmail}</p>
+        <IonList mode="md" inset={true}>
+          <IonItem key="singleton_item_3" mode="md">
+            <IonRow>
+              <IonLabel mode="md">
+                <IonText color="medium">
+                  <p> Email </p>
+                </IonText>
+              </IonLabel>
+            </IonRow>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <IonRow>
+              {editableEmail.length > 20 ?
+                <p style={{ fontSize: "0.85em" }}>{editableEmail.substring(0, 20) + "..."}</p>
+                :
+                <p style={{ fontSize: "0.85em" }}>{editableEmail}</p>
 
-                  }
-                </IonRow>
-                <IonButton color="medium" slot="end" onClick={() => setShowEditEmailModal(true)}>
-                  Edit
-                </IonButton>
-              </IonItem>
-              <IonItem key="singleton_item_4" mode="md">
-                <IonRow>
-                  <IonLabel mode="md">
-                    <IonText color="medium">
-                      <p> Username </p>
-                    </IonText>
-                  </IonLabel>
-                </IonRow>
-                &nbsp;&nbsp;
-                <IonRow>
-                  {editableUserName.length > 20 ?
-                    <p style={{ fontSize: "0.85em" }}>{editableUserName.substring(0, 20) + "..."}</p>
-                    :
-                    <p style={{ fontSize: "0.85em" }}>{editableUserName}</p>
+              }
+            </IonRow>
+            <IonButton color="medium" slot="end" onClick={() => setShowEditEmailModal(true)}>
+              Edit
+            </IonButton>
+          </IonItem>
+          <IonItem key="singleton_item_4" mode="md">
+            <IonRow>
+              <IonLabel mode="md">
+                <IonText color="medium">
+                  <p> Username </p>
+                </IonText>
+              </IonLabel>
+            </IonRow>
+            &nbsp;&nbsp;
+            <IonRow>
+              {editableUserName.length > 20 ?
+                <p style={{ fontSize: "0.85em" }}>{editableUserName.substring(0, 20) + "..."}</p>
+                :
+                <p style={{ fontSize: "0.85em" }}>{editableUserName}</p>
 
-                  }
-                </IonRow>
-                <IonButton color="medium" slot="end" onClick={() => setShowEditUsernameModal(true)}>
-                  Edit
-                </IonButton>
-              </IonItem>
-              <IonItem mode="md">
-                <IonRow>
-                  <IonLabel mode="md">
-                    <IonText color="medium">
-                      <p> About </p>
-                    </IonText>
-                  </IonLabel>
-                </IonRow>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <IonRow>
-                  <p style={{ fontSize: "0.85em", }}>...</p>
-                </IonRow>
-                <IonButton color="medium" slot="end" onClick={handleEditAbout}>
-                  Edit
-                </IonButton>
-              </IonItem>
-            </IonList>
-            <IonList mode="md" inset={true}>
-              <IonItem mode="md">
-                <p style={{ fontSize: "0.85em" }}> Hide Sensitive Content</p>&nbsp;&nbsp;
-                <IonIcon color="medium" icon={warningSharp} />
-                <IonToggle
-                  id="themeToggle"
-                  slot="end"
-                  checked={context.sensitivityToggled}
-                  enableOnOffLabels={true}
-                  color={"primary"}
-                  onIonChange={(e) => { toggleSensitivity(e.detail.checked); Haptics.impact({ style: ImpactStyle.Light }); }}
-                />
-              </IonItem>
-            </IonList>
-          {/* </SwiperSlide> */}
-          {/* <SwiperSlide>
+              }
+            </IonRow>
+            <IonButton color="medium" slot="end" onClick={() => setShowEditUsernameModal(true)}>
+              Edit
+            </IonButton>
+          </IonItem>
+          <IonItem mode="md">
+            <IonRow>
+              <IonLabel mode="md">
+                <IonText color="medium">
+                  <p> About </p>
+                </IonText>
+              </IonLabel>
+            </IonRow>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <IonRow>
+              <p style={{ fontSize: "0.85em", }}>...</p>
+            </IonRow>
+            <IonButton color="medium" slot="end" onClick={handleEditAbout}>
+              Edit
+            </IonButton>
+          </IonItem>
+        </IonList>
+        <IonList mode="md" inset={true}>
+          <IonItem mode="md">
+            <p style={{ fontSize: "0.85em" }}> Hide Sensitive Content</p>&nbsp;&nbsp;
+            <IonIcon color="medium" icon={warningSharp} />
+            <IonToggle
+              id="themeToggle"
+              slot="end"
+              checked={context.sensitivityToggled}
+              enableOnOffLabels={true}
+              color={"primary"}
+              onIonChange={(e) => { toggleSensitivity(e.detail.checked); Haptics.impact({ style: ImpactStyle.Light }); }}
+            />
+          </IonItem>
+        </IonList>
+        {/* </SwiperSlide> */}
+        {/* <SwiperSlide>
             <IonFab style={{ transform: "translateY(-10%)" }} horizontal="end">
               <IonButton mode="md" fill="clear" onClick={loadUserLikes} color={"primary"}>
                 <IonIcon icon={refreshOutline} />

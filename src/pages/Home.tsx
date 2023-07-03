@@ -20,7 +20,7 @@ import { useAppContext } from '../my-context';
 import { MakePost } from '../components/Home/MakePost';
 import { NewPostsButton } from '../components/Home/NewPostsButton';
 import { ProgressBar } from '../components/Home/ProgressBar';
-import { dynamicNavigate } from '../components/Shared/Navigation';
+import { dynamicNavigate, navigateBack } from '../components/Shared/Navigation';
 import { timeout } from '../components/Shared/Timeout';
 import { HomePagePost } from '../components/Home/HomePagePost';
 import { HomePagePoll } from '../components/Home/HomePagePoll';
@@ -341,6 +341,21 @@ const Home: React.FC = () => {
       setNoMorePosts(false);
     }
   }, [posts]);
+
+  React.useEffect(() => {
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        console.log("BACK BUTTON HOME");
+        navigateBack(router);
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, [router]);
 
 
   React.useEffect(() => {

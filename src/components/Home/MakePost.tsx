@@ -124,6 +124,7 @@ export const MakePost = (props: any) => {
   React.useEffect(() => {
     const eventListener: any = (ev: CustomEvent<any>) => {
       ev.detail.register(10, () => {
+        console.log("BACK BUTTON MAKE POST");
         if (showLocationPinModal === true) {
           handleSetModalStates(true, false, false, false);
         } else if (showModal === true || showGifModal === true || showPollModal === true) {
