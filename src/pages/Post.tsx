@@ -3,15 +3,14 @@ import React from "react";
 import {
   IonCol, IonContent, IonFab,
   IonFabButton, IonIcon, IonImg, IonInfiniteScroll,
-  IonInfiniteScrollContent, IonLoading, IonNote, IonPage, IonRow
+  IonInfiniteScrollContent, IonLoading, IonNote, IonPage, IonRow, useIonRouter
 } from "@ionic/react";
 import { memo, useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { RouteComponentProps, useHistory } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { Keyboard, KeyboardResize, KeyboardResizeOptions } from "@capacitor/keyboard";
 import { Camera, CameraResultType, CameraSource, Photo } from "@capacitor/camera";
 import { arrowUpOutline, banOutline, cameraOutline } from "ionicons/icons";
-import { App as CapacitorApp } from "@capacitor/app";
 
 /* CSS */
 import "../App.css";
@@ -36,6 +35,7 @@ import PostPagePost from "../components/PostPage/PostPagePost";
 import { CommentLoading, PostLoading } from "../components/PostPage/PostLoading";
 import { ReportModal } from "../components/PostPage/ReportModal";
 import { PostComment } from "../components/PostPage/Comment";
+import { navigateBack } from "../components/Shared/Navigation";
 
 interface MatchUserPostParams {
   school: string;
@@ -61,7 +61,7 @@ const Post = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
   const Toast = useToast();
   const context = useAppContext();
   const db = getDatabase();
-  const history = useHistory();
+  const router = useIonRouter();
 
   /* State Variables */
   const connectedRef = ref(db, ".info/connected");
@@ -399,15 +399,20 @@ const Post = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
   }, [user, schoolName, match.params.key]);
 
   React.useEffect(() => {
-    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
-      if (!canGoBack) {
-        history.push("/home");
-      } else {
-        history.goBack();
-      }
-    });
-    return () => { CapacitorApp.removeAllListeners(); }
-  }, []);
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        console.log("BACK BUTTON POST\n");
+        navigateBack(router);
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, [router]);
+
 
 
 

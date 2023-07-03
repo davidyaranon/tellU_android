@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router";
-import { IonContent, IonPage } from "@ionic/react";
-import { App as CapacitorApp } from "@capacitor/app";
+import { IonContent, IonPage, useIonRouter } from "@ionic/react";
+
 /* Firebase */
 import auth, { getLikes, getUserPosts, getNextBatchUserPosts, getUserData, storage, downVote, upVote } from '../fbConfig';
 import { ref, getDownloadURL } from "firebase/storage";
@@ -21,6 +21,7 @@ import { HomePagePost } from '../components/Home/HomePagePost';
 import { UserAboutCard } from '../components/Shared/UserAboutCard';
 import { timeout } from "../helpers/timeout";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
+import { navigateBack } from "../components/Shared/Navigation";
 
 interface MatchParams {
   uid: string;
@@ -34,6 +35,7 @@ const UserProfile = ({ match }: RouteComponentProps<MatchParams>) => {
   const Toast = useToast();
   const db = getDatabase();
   const history = useHistory();
+  const router = useIonRouter();
 
   const [postLikes, setPostLikes] = React.useState<any[]>([]);
   const [postDislikes, setPostDislikes] = React.useState<any[]>([]);
@@ -289,15 +291,19 @@ const UserProfile = ({ match }: RouteComponentProps<MatchParams>) => {
   };
 
   React.useEffect(() => {
-    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
-      if (!canGoBack) {
-        history.push("/home");
-      } else {
-        history.goBack();
-      }
-    });
-    return () => { CapacitorApp.removeAllListeners(); }
-  }, []);
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        console.log("BACK BUTTON UserProfile\n");
+        navigateBack(router);
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, [router]);
 
   return (
     <IonPage >
