@@ -1,6 +1,8 @@
 import { IonCardTitle, IonContent, IonPage } from "@ionic/react"
 
 const HumboldtHanks = () => {
+
+
   return (
     <IonPage>
       <IonContent>

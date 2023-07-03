@@ -563,7 +563,7 @@ const Settings: React.FC = () => {
 
   useIonViewWillEnter(() => {
     StatusBar.setStyle({ style: Style.Dark })
-  })
+  });
 
 
   /**
@@ -885,7 +885,7 @@ const Settings: React.FC = () => {
                 mode="md"
                 id="major"
                 color={"primary"}
-                maxlength={50}
+                maxlength={25}
                 value={editableUserMajor}
                 onIonInput={(e) => {
                   setEditableUserMajor(e.detail.value!);
@@ -901,7 +901,7 @@ const Settings: React.FC = () => {
                 mode="md"
                 id="bio"
                 color={"primary"}
-                maxlength={50}
+                maxlength={25}
                 value={editableUserSnapchat}
                 onIonInput={(e: any) => {
                   setEditableUserSnapchat(e.detail.value);
@@ -917,7 +917,7 @@ const Settings: React.FC = () => {
                 mode="md"
                 id="bio"
                 color={"primary"}
-                maxlength={50}
+                maxlength={25}
                 value={editableUserInstagram}
                 onIonInput={(e: any) => {
                   setEditableUserInstagram(e.detail.value);
@@ -933,7 +933,7 @@ const Settings: React.FC = () => {
                 mode="md"
                 id="bio"
                 color={"primary"}
-                maxlength={50}
+                maxlength={25}
                 value={editableUserTiktok}
                 onIonInput={(e: any) => {
                   setEditableUserTiktok(e.detail.value);

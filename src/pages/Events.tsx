@@ -1,6 +1,7 @@
 import { IonCardTitle, IonContent, IonPage } from "@ionic/react"
 
 const Events = () => {
+
   return (
     <IonPage>
       <IonContent>
