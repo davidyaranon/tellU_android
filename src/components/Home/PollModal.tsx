@@ -128,7 +128,7 @@ export const PollModal = (props: any) => {
                 </IonButton>
               </IonButtons>
               <IonButtons slot="end">
-                <IonButton color="light" onClick={submitPoll} className={"post-button"} fill="clear">Post</IonButton>
+                <IonButton color="light" onClick={submitPoll} className={"post-button-modal"} fill="clear">Post</IonButton>
               </IonButtons>
             </IonToolbar>
           </div>

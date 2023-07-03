@@ -97,7 +97,7 @@ export const PostModal = (props: any) => {
                 onClick={() => {
                   setLocationPinModal(true);
                 }}
-                className={"post-button"}
+                className={"post-button-modal"}
                 fill="clear"
                 expand="block"
                 id="message"
