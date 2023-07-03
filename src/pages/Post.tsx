@@ -8,7 +8,7 @@ import {
 import { memo, useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { RouteComponentProps } from "react-router-dom";
-import { Keyboard, KeyboardResize, KeyboardResizeOptions } from "@capacitor/keyboard";
+import { Keyboard } from "@capacitor/keyboard";
 import { Camera, CameraResultType, CameraSource, Photo } from "@capacitor/camera";
 import { arrowUpOutline, banOutline, cameraOutline } from "ionicons/icons";
 
@@ -41,14 +41,6 @@ interface MatchUserPostParams {
   school: string;
   userName: string;
   key: string;
-}
-
-const resizeOptions: KeyboardResizeOptions = {
-  mode: KeyboardResize.None,
-}
-
-const defaultResizeOptions: KeyboardResizeOptions = {
-  mode: KeyboardResize.Body,
 }
 
 const Post = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
@@ -376,18 +368,6 @@ const Post = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
     if (user && schoolName) {
       getPost();
       getPostComments();
-      Keyboard.addListener('keyboardWillShow', info => {
-        Keyboard.setResizeMode(resizeOptions);
-        setKbHeight(info.keyboardHeight);
-      });
-
-      Keyboard.addListener('keyboardWillHide', () => {
-        Keyboard.setResizeMode(defaultResizeOptions);
-        setKbHeight(0);
-      });
-      return () => {
-        Keyboard.removeAllListeners();
-      };
     } else {
       if (!user) {
         console.log("user not a thing");
@@ -520,10 +500,6 @@ const Post = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
             )}
           </>
         </div>
-
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-
 
         <IonInfiniteScroll
           onIonInfinite={(e: any) => { handleLoadCommentsNextBatch(e) }}
