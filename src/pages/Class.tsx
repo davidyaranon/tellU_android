@@ -4,7 +4,7 @@ import {
   IonAvatar, IonBackButton, IonButtons, IonCol, IonContent, IonFab,
   IonHeader, IonItem, IonLabel, IonList,
   IonNote, IonPage, IonRow, IonSelect, IonSelectOption,
-  IonSpinner, IonText, IonTitle, IonToolbar,
+  IonSpinner, IonText, IonTitle, IonToolbar, useIonRouter,
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 import { Virtuoso } from "react-virtuoso";
@@ -25,6 +25,7 @@ import ProfilePhoto from "../components/Shared/ProfilePhoto";
 import { getColor } from "../helpers/getColor";
 import { getDate } from "../helpers/timeago";
 import { classSelections } from "../helpers/class-selections-config";
+import { navigateBack } from "../components/Shared/Navigation";
 
 const selectOptions = {
   header: 'Pin Filters',
@@ -40,6 +41,7 @@ const Class = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
   const postClassName = match.params.className;
   const schoolName = match.params.schoolName;
   const history = useHistory();
+  const router = useIonRouter();
   const [user] = useAuthState(auth);
   const Toast = useToast();
   const [classPosts, setClassPosts] = useState<any[]>();
@@ -166,13 +168,28 @@ const Class = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
         <br></br> <br></br>
       </>
     )
-  }
+  };
+
+  useEffect(() => {
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        console.log("BACK BUTTON classes page\n");
+        navigateBack(router);
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, [router]);
 
   return (
     <IonPage >
       <>
-        <IonHeader>
-          <IonToolbar mode='ios'>
+        <IonHeader className='ion-no-border'>
+          <IonToolbar mode='ios' className='ion-no-border'>
             {postClassName && <IonTitle>All {postClassName} Posts {emoji}</IonTitle>}
             <IonButtons>
               <IonBackButton style={{ fontSize: '.75em', marginLeft: '5px' }} defaultHref="/home" className="back-button" icon={chevronBackOutline} text={"\n"} color={"primary"} >

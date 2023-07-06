@@ -273,16 +273,6 @@ export let markers: Record<string, MapMarker[]> =
   "": [{ location: [], title: "", color: "", imgSrc: [""], description: [""], tag: "" }]
 };
 
-export const markersCopy = markers;
-export const setMarkers = (schoolName: string, filter: string) => {
-  if (!(schoolName in markersCopy)) return;
-  if (filter === "ALL") {
-    markers = markersCopy;
-  } else {
-    markers[schoolName] = markersCopy[schoolName].filter((marker) => marker.tag.includes(filter));
-  }
-}
-
 export const davisPOIs: Record<string, number[]> = {
   "": [2]
 }
@@ -313,7 +303,7 @@ export const humboldtPOIs: Record<string, number[]> = {
   "Forestry": [40.873369735739, -124.07759248444609, 40.87341029918665, -124.07654642293028, 40.87375103116581, -124.07661616036467, 40.87372669322545, -124.07760321328215],
 }
 
-export const schoolInfo = {
+export const schoolInfo : Record<string, number[]> = {
   "Cal Poly Humboldt": [40.87649434150835, -124.07918370203882, 15.5],
   "UC Berkeley": [37.87196553251828, -122.25832234237413, 15.5],
   "UC Davis": [38.53906813693881, -121.7519863294826, 15],

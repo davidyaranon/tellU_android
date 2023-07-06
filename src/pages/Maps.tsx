@@ -7,11 +7,11 @@ import { useHistory } from "react-router";
 import {
   IonContent, IonCardTitle, IonCard, IonButton, IonIcon,
   IonFab, IonCardContent, IonSelect, IonSelectOption, IonPage, useIonViewDidEnter,
-  RouterDirection, useIonViewDidLeave, useIonViewWillEnter, IonText
+  RouterDirection, useIonViewWillEnter, IonText
 } from "@ionic/react";
 import { schoolOutline } from "ionicons/icons";
 import { Keyboard, KeyboardStyle, KeyboardStyleOptions } from "@capacitor/keyboard";
-import { StatusBar, Style } from "@capacitor/status-bar";
+import { App as CapacitorApp } from "@capacitor/app";
 
 /* Firebase */
 import auth from "../fbConfig";
@@ -19,7 +19,7 @@ import auth from "../fbConfig";
 /* CSS + Other components */
 import "../App.css";
 import { useToast } from "@agney/ir-toast";
-import { mapTiler, markers, schoolInfo, setMarkers, zoomControlButtonsStyle, zoomControlButtonsStyleDark } from "../helpers/maps-config";
+import { MapMarker, mapTiler, markers, schoolInfo, zoomControlButtonsStyle, zoomControlButtonsStyleDark } from "../helpers/maps-config";
 import { Map, Marker, ZoomControl, Overlay } from "pigeon-maps";
 import schoolOutlineWhite from '../images/school-outline-white.png';
 import { useAppContext } from "../my-context";
@@ -52,7 +52,6 @@ function Maps() {
   const history = useHistory();
   const context = useAppContext();
 
-
   /* State variables */
   const [user, loading, error] = useAuthState(auth);
   const [schoolName, setSchoolName] = useState<string>("");
@@ -64,6 +63,25 @@ function Maps() {
   const [defaultZoom, setDefaultZoom] = useState(0);
   const [overlayIndex, setOverlayIndex] = useState<number>(-1);
   const [markerFilter, setMarkerFilter] = useState<string>("ALL");
+  const [filteredMarkers, setFilteredMarkers] = useState<Record<string, MapMarker[]>>(markers);
+
+  const setMarkers = (filter: string) => {
+    if (filter === "A") {
+      setFilteredMarkers(markers);
+    } else {
+      const filteredData: Record<string, MapMarker[]> = {};
+
+      Object.keys(markers).forEach((schoolName: string) => {
+        filteredData[schoolName] = markers[schoolName].filter((marker: MapMarker) =>
+          marker.tag.includes(filter)
+        );
+      });
+
+      console.log(filteredData);
+
+      setFilteredMarkers(filteredData);
+    }
+  }
 
 
   /**
@@ -120,19 +138,11 @@ function Maps() {
    */
   const updateMarkers = (filter: string) => {
     setMarkerFilter(filter);
-    setMarkers(schoolName, filter);
+    setMarkers(filter);
   };
-
-  /**
-   * Runs on page exit
-   */
-  useIonViewDidLeave(() => {
-    setMarkerFilter("ALL");
-  });
 
   useIonViewWillEnter(() => {
     setClassName("");
-    StatusBar.setStyle({ style: Style.Light });
   })
 
   /**
@@ -155,9 +165,25 @@ function Maps() {
     context.setDarkMode(true);
     if (Capacitor.getPlatform() === "md") {
       Keyboard.setStyle(keyStyleOptionsDark);
-      StatusBar.setStyle({ style: Style.Dark });
     }
   }, [context]);
+
+  useEffect(() => {
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        console.log("BACK BUTTON MAPS PAGE");
+        CapacitorApp.exitApp();
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, []);
+
+
 
 
   useEffect(() => {
@@ -217,7 +243,7 @@ function Maps() {
               updateMarkers(e.detail.value);
             }}
           >
-            <IonSelectOption value="">All</IonSelectOption>
+            <IonSelectOption value="A">All</IonSelectOption>
             <IonSelectOption value="Dining">Dining</IonSelectOption>
             <IonSelectOption value="Housing">Housing</IonSelectOption>
             <IonSelectOption value="Academics">Academics</IonSelectOption>
@@ -242,7 +268,7 @@ function Maps() {
         >
           <ZoomControl style={{ left: "85%", top: "50%", opacity: "95%", zIndex: '100' }} buttonStyle={context.darkMode ? zoomControlButtonsStyleDark : zoomControlButtonsStyle} />
 
-          {markers[schoolName] ? markers[schoolName].map((marker, index) => {
+          {filteredMarkers[schoolName] && filteredMarkers[schoolName].map((marker, index) => {
             return (
               <Marker
                 color={marker.color}
@@ -270,42 +296,41 @@ function Maps() {
               />
             );
           })
-            :
-            null}
-          {schoolName in markers && overlayIndex != -1 && markers[schoolName][overlayIndex] && "location" in markers[schoolName][overlayIndex] ? (
+          }
+          {schoolName in filteredMarkers && overlayIndex != -1 && filteredMarkers[schoolName][overlayIndex] && "location" in filteredMarkers[schoolName][overlayIndex] ? (
             <Overlay
               anchor={[
-                markers[schoolName][overlayIndex].location[0],
-                markers[schoolName][overlayIndex].location[1],
+                filteredMarkers[schoolName][overlayIndex].location[0],
+                filteredMarkers[schoolName][overlayIndex].location[1],
               ]}
               offset={[110, 25]}
             >
               <IonCard
-                onClick={() => { setClassName("ion-page-md-notch"); dynamicNavigate("markerInfo/" + schoolName + "/" + markers[schoolName][overlayIndex].title, "forward"); }}
+                onClick={() => { setClassName("ion-page-md-notch"); dynamicNavigate("markerInfo/" + schoolName + "/" + filteredMarkers[schoolName][overlayIndex].title, "forward"); }}
                 style={{ width: "55vw", opacity: "90%" }}
                 mode="md"
               >
                 <IonCardContent>
                   <div style={{ height: "1vh" }} />
                   <IonCardTitle style={{ fontSize: "medium" }} mode="md">
-                    {markers[schoolName][overlayIndex].title}
+                    {filteredMarkers[schoolName][overlayIndex].title}
                   </IonCardTitle>
                   <IonFab horizontal="end" vertical="top">
-                    <p style={{ fontWeight: "bold", fontSize: "2.5vw", color: markers[schoolName][overlayIndex].color }}>
-                      {markers[schoolName][overlayIndex].tag}
+                    <p style={{ fontWeight: "bold", fontSize: "2.5vw", color: filteredMarkers[schoolName][overlayIndex].color }}>
+                      {filteredMarkers[schoolName][overlayIndex].tag}
                     </p>
                   </IonFab>
                   <div style={{ height: "1vh" }} />
                   <p>
-                    {markers[schoolName][overlayIndex].description[0].substring(0, 110) + " ... "} <IonText color={getIonColor(markers[schoolName][overlayIndex].color)}>(more)</IonText>
+                    {filteredMarkers[schoolName][overlayIndex].description[0].substring(0, 110) + " ... "} <IonText color={getIonColor(filteredMarkers[schoolName][overlayIndex].color)}>(more)</IonText>
                   </p>
-                  {markers[schoolName][overlayIndex].imgSrc &&
-                    markers[schoolName][overlayIndex].imgSrc.length > 0 ? (
+                  {filteredMarkers[schoolName][overlayIndex].imgSrc &&
+                    filteredMarkers[schoolName][overlayIndex].imgSrc.length > 0 ? (
                     <>
                       <div style={{ height: "1vh" }} />
                       <div
                         className="ion-img-container"
-                        style={{ backgroundImage: `url(${markers[schoolName][overlayIndex].imgSrc[0]})`, borderRadius: '10px' }}
+                        style={{ backgroundImage: `url(${filteredMarkers[schoolName][overlayIndex].imgSrc[0]})`, borderRadius: '10px' }}
                       >
                       </div>
                     </>
@@ -314,10 +339,8 @@ function Maps() {
               </IonCard>
             </Overlay>
           ) : null}
-          <IonFab horizontal="start" vertical="bottom" >
-            <p style={schoolName === 'Cal Poly Humboldt' ?
-              { fontSize: "1em", color: "#0D1117", fontWeight: "bold" } :
-              { fontSize: "1em", color: "#0D1117", fontWeight: "bold" }}>
+          <IonFab horizontal="start" vertical="bottom" style={{ transform: 'translateY(15%)' }}>
+            <p style={{ fontSize: "1em", color: "#0D1117", fontWeight: "bold" }}>
               {schoolName}
             </p>
           </IonFab>

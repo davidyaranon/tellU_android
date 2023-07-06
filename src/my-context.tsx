@@ -6,18 +6,18 @@ type Props = {
 
 /* Tabs and Dark mode Context */
 export type ContextType = {
-  showTabs : boolean;
-  setShowTabs : React.Dispatch<React.SetStateAction<boolean>>;
-  darkMode : boolean;
-  setDarkMode : React.Dispatch<React.SetStateAction<boolean>>;
-  sensitivityToggled : boolean;
-  schoolName : string;
-  setSchoolName : React.Dispatch<React.SetStateAction<string>>;
-  setSensitivityToggled : React.Dispatch<React.SetStateAction<boolean>>;
+  showTabs: boolean;
+  setShowTabs: React.Dispatch<React.SetStateAction<boolean>>;
+  darkMode: boolean;
+  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  sensitivityToggled: boolean;
+  schoolName: string;
+  setSchoolName: React.Dispatch<React.SetStateAction<string>>;
+  setSensitivityToggled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Context = React.createContext<ContextType | null>(null);
-export const ContextProvider = ({ children } : Props) => {
+export const ContextProvider = ({ children }: Props) => {
   const [showTabs, setShowTabs] = React.useState<boolean>(false);
   const [darkMode, setDarkMode] = React.useState<boolean>(false);
   const [schoolName, setSchoolName] = React.useState<string>('');
@@ -27,14 +27,14 @@ export const ContextProvider = ({ children } : Props) => {
     showTabs, setShowTabs, darkMode, setDarkMode, schoolName, setSchoolName, sensitivityToggled, setSensitivityToggled
   }), [showTabs, setShowTabs, darkMode, setDarkMode, schoolName, setSchoolName, sensitivityToggled, setSensitivityToggled]);
 
-  return(
-    <Context.Provider value={memoizedContextValue}> { children } </Context.Provider>
+  return (
+    <Context.Provider value={memoizedContextValue}> {children} </Context.Provider>
   )
 };
 
 export const useAppContext = () => {
   const context = React.useContext(Context);
-  if(!context) {
+  if (!context) {
     throw new Error("App context is not available");
   }
   return context;
