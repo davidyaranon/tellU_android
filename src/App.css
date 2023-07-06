@@ -701,7 +701,7 @@ ion-tab-button[aria-selected=true].tab-light {
   height: 3rem;
   text-align: center;
   margin-left: 14%;
-  color: #00856A;
+  color: #61DBFB;
   background-color: white;
   justify-content: center;
   align-content: center;
@@ -859,17 +859,16 @@ ion-radio.ios {
   position: absolute;
   z-index: 2;
   width: 70%;
-  height: 3rem;
+  height: 3.5rem;
   text-align: center;
   margin-left: 14%;
-  color: #00856A;
+  color: #61DBFB;
   background-color: #2f2f2f;
   justify-content: center;
   align-content: center;
   align-items: center;
-  border-radius: 15px;
-  margin-top: constant(safe-area-inset-top);
-  margin-top: env(safe-area-inset-top);
+  border-radius: 5px;
+  margin-top: 5px;
 }
 
 .user-avatar {
@@ -966,6 +965,14 @@ hr {
   font-weight: bold;
   color: var(--ion-color-light);
   padding: 2.5%;
+}
+
+.h2-message-comment {
+  white-space: pre-line;
+  font-weight: bold;
+  color: var(--ion-color-light);
+  padding-left: 1.5%;
+  padding-top: 2.5%;
 }
 
 .navbar_label {
@@ -1388,6 +1395,16 @@ div.item-inner {
 }
 
 ion-item.spotify-emb::part(native) {
-  padding-inline-start: 7.5px; 
+  padding-inline-start: 7.5px;
   padding-inline-end: 0px;
+}
+
+ion-select.map-select {
+  transform: translateX(25vw);
+  --highlight-color-focused: transparent;
+  --highlight-color-focused-md: transparent;
+}
+
+ion-select::after {
+  display: none;
 }

@@ -13,7 +13,6 @@ import { getDate } from "../../helpers/timeago";
 import DeleteIcon from "@mui/icons-material/Delete";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { useAppContext } from "../../my-context";
 import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 
 export const PostComment = (props: any) => {
@@ -36,7 +35,6 @@ export const PostComment = (props: any) => {
 
   const history = useHistory();
   const Toast = useToast();
-  const context = useAppContext();
 
   /**
    * @description deletes a comment from Firestore
@@ -65,8 +63,6 @@ export const PostComment = (props: any) => {
           toast.dismiss();
           if (comments.length == 0) {
             setComments([]);
-            // setListOfUsers([]);
-            // setListOfUsersMap(new Map<string, string[]>());
           } else {
             let tempComments: any[] = [];
             for (let i = 0; i < comments.length; ++i) {
@@ -101,7 +97,7 @@ export const PostComment = (props: any) => {
   };
 
   /**
-   * @description naviagtes to a user's About page
+   * @description navigates to a user's About page
    * 
    * @param {string} uid the user id of the user who's profile is being viewed
    */
@@ -194,14 +190,14 @@ export const PostComment = (props: any) => {
               </IonAvatar>
               <p style={{ color: "var(--ion-color-light)", padding: "10px", fontWeight: 'bold' }}> {comment.userName} </p>
             </IonRow>
-            <Linkify tagName="h3" className="h2-message">
+            <Linkify tagName="h3" className="h2-message-comment">
               {comment.comment}
             </Linkify>
             {"imgSrc" in comment && comment.imgSrc && comment.imgSrc.length > 0 ? (
               <>
                 <br></br>
                 <div
-                  className="ion-img-container"
+                  className="ion-img-container-margin"
                   style={{ backgroundImage: `url(${comment.imgSrc})`, borderRadius: '10px' }}
                   onClick={(e) => {
                     e.stopPropagation();

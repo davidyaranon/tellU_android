@@ -496,6 +496,7 @@ const Post = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
                       post={post} user={user} postKey={postKey} comment={comment} comments={comments} schoolName={schoolName} index={index} deleted={deleted} />
                   ))
                   : null}
+                <div style={{ height: "25vh" }} />
               </>
             )}
           </>

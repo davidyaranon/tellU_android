@@ -54,7 +54,7 @@ export const PostType = (props: any) => {
   } else {
     return (
       <IonFab vertical="top" horizontal="end">
-        <IonNote style={{ fontSize: "0.5em" }}> {getDate(timestamp)} </IonNote>
+        <IonNote style={{ fontSize: "0.55em" }}> {getDate(timestamp)} </IonNote>
       </IonFab>
     )
   }

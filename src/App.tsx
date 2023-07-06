@@ -201,7 +201,7 @@ const RoutingSystem: React.FunctionComponent = () => {
 
           <IonTabButton tab="hank" href="/hank">
             AI
-            {selectedTab === 'hank' ? <IonIcon style={{ transform: "scale(1.1)" }} src={aiIconFilled} /> : <IonIcon style={{ transform: "scale(1.1)" }} src={aiIconUnfilled} />}
+            {selectedTab === 'hank' ? <IonIcon style={{ transform: "scale(1.2)" }} src={aiIconFilled} /> : <IonIcon style={{ transform: "scale(1.2)" }} src={aiIconUnfilled} />}
           </IonTabButton>
 
           <IonTabButton className={context.darkMode ? "tab-dark" : "tab-light"} tab="maps" href="/maps">
