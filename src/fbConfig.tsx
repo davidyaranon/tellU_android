@@ -60,6 +60,8 @@ export const sendEmailOnReport = httpsCallable(functions, 'sendEmailOnReport');
 export const sendCommentsNotification = httpsCallable(functions, 'sendCommentsNotification');
 export const sendDmNotification = httpsCallable(functions, 'sendDmNotification');
 export const getHumboldtUpdates = httpsCallable(functions, 'getHumboldtUpdates');
+export const getUcDavisUpdates = httpsCallable(functions, 'getUcDavisUpdates');
+export const getUcBerkeleyUpdates = httpsCallable(functions, 'getUcBerkeleyUpdates');
 export const askAI = httpsCallable(functions, 'askAI');
 
 /**
@@ -1599,15 +1601,28 @@ export const getPOIPosts = async (poiName: string) => {
 };
 
 /**
- * @description Gets the latest updates from the Humboldt website.
+ * @description Gets the latest updates from the school's events page
  * Translates the .rss language into html.
  * 
- * @returns a string of html that contains the latest updates from the Humboldt website
+ * @param {string} schoolName The name of the school to pull the events from.
+ * 
+ * @returns a string of html that contains the latest updates from the school's events page.
  */
-export const getEvents = async () => {
-  const updates: any = await getHumboldtUpdates().catch((err) => { console.log(err); });
+export const getEvents = async (schoolName: string) => {
+  let updates: any;
+
+  if (schoolName === 'Cal Poly Humboldt') {
+    updates = await getHumboldtUpdates().catch((err) => { console.log(err); });
+  } else if (schoolName === 'UC Davis') {
+    updates = await getUcDavisUpdates().catch((err) => { console.log(err); });
+  } else if (schoolName === "UC Berkeley") {
+    updates = await getUcBerkeleyUpdates().catch((err) => { console.log(err); });
+  } else {
+    console.log('Invalid school name');
+  }
   let line = "", htmlString = "";
   let inLineTag = false;
+  console.log(updates);
   let lines = updates.data.split('\n');
   for (let i = 0; i < lines.length; i++) {
     line = lines[i];
