@@ -812,7 +812,7 @@ ion-radio.ios {
   line-height: 24px;
   padding: 10px 20px;
   border-radius: 25px;
-  margin-right: 10px;
+  margin-right: 1px;
   position: relative;
   font-size: 0.85em;
   text-align: right;
@@ -1433,7 +1433,6 @@ ion-item.spotify-emb::part(native) {
 }
 
 ion-select.map-select {
-  transform: translateX(25vw);
   --highlight-color-focused: transparent;
   --highlight-color-focused-md: transparent;
 }

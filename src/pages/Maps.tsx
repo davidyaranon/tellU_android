@@ -236,6 +236,7 @@ function Maps() {
             okText="Filter"
             cancelText="Cancel"
             className='map-select'
+            style={markerFilter === 'A' ? { marginLeft: "45%" } : markerFilter === "Dining" ? { marginLeft: "37.5%" } : { marginLeft: "35%" }}
             value={markerFilter}
             placeholder="Filter: ALL"
             onIonChange={(e: any) => {
