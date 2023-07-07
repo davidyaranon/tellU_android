@@ -1,15 +1,219 @@
-import { IonCardTitle, IonContent, IonPage } from "@ionic/react"
+import { Keyboard, KeyboardStyle, KeyboardStyleOptions } from "@capacitor/keyboard";
+import { IonContent, IonHeader, IonToolbar, IonIcon, IonTextarea, IonPage, IonFab, IonRow, IonFabButton, IonImg, useIonViewWillEnter, IonProgressBar, IonTitle, IonAvatar, IonLabel } from "@ionic/react";
+import { arrowUpOutline } from "ionicons/icons";
+import { useAppContext } from "../my-context";
+import { App as CapacitorApp } from "@capacitor/app";
+import { testOpenAi } from "../fbConfig";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Preferences } from "@capacitor/preferences";
+import { useToast } from "@agney/ir-toast";
+import { Capacitor } from "@capacitor/core";
+import { StatusBar, Style } from "@capacitor/status-bar";
+import { Image as CapacitorImage, PhotoViewer as CapacitorPhotoViewer } from '@capacitor-community/photoviewer';
 
-const HumboldtHanks = () => {
+// import Hank from '../images/hank_blue.png';
+import Hank from '../images/hank_blue_crop.png';
+import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
+import { timeout } from "../helpers/timeout";
+
+const keyStyleOptionsDark: KeyboardStyleOptions = {
+  style: KeyboardStyle.Dark
+};
+
+const aiName: Record<string, string> = {
+  "Cal Poly Humboldt": "Hank",
+  "UC Davis": "Davis",
+  "UC Berkeley": "Berkeley",
+  "": ""
+};
+
+const HumboldtHank = () => {
+
+  const context = useAppContext();
+
+  const [answers, setAnswers] = useState<any[]>([]);
+  const [loadingAnswer, setLoadingAnswer] = useState<boolean>(false);
+  const textRef = useRef<HTMLIonTextareaElement>(null);
+  const [schoolName, setSchoolName] = useState<string>('');
+  const [kbHeight, setKbHeight] = useState<number>(0);
+  const contentRef = useRef<HTMLIonContentElement>(null);
+  const Toast = useToast();
+
+  const openImage = () => {
+    const img: CapacitorImage = {
+      url: aiName[schoolName],
+      title: aiName[schoolName]
+    };
+    CapacitorPhotoViewer.show({
+      images: [img],
+      mode: 'one',
+      options: {
+        title: true
+      }
+    });
+  };
+
+  /**
+   * Loads school from local storage (Preferences API)
+  */
+  const setSchool = useCallback(async () => {
+    const school = await Preferences.get({ key: 'school' });
+    if (school && school.value) {
+      setSchoolName(school.value);
+      const answerArr = ['I\'m ' + aiName[school.value] + ' your AI friend. Ask me anything!'];
+      setAnswers(answerArr);
+    } else {
+      const toast = Toast.create({ message: 'Something went wrong', duration: 2000, color: 'toast-error' });
+      toast.present();
+    }
+  }, []);
+
+  /**
+  * Sets the status bar to dark mode on iOS
+  */
+  useIonViewWillEnter(() => {
+    if (Capacitor.getPlatform() === 'ios')
+      StatusBar.setStyle({ style: Style.Dark });
+  }, []);
+
+
+  useEffect(() => {
+    context.setDarkMode(true);
+    document.body.classList.toggle("dark");
+    context.setDarkMode(true);
+    if (Capacitor.getPlatform() === "ios") {
+      Keyboard.setStyle(keyStyleOptionsDark);
+    }
+  }, [context]);
+
+
+  useEffect(() => {
+    setSchool();
+  }, []);
+
+
+  useEffect(() => {
+    context.setShowTabs(true);
+  }, []);
+
+  useEffect(() => {
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        CapacitorApp.exitApp();
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, []);
 
 
   return (
     <IonPage>
-      <IonContent>
-        <IonCardTitle>HumboldtHanks</IonCardTitle>
+      <IonHeader collapse="fade">
+        <IonToolbar mode='ios'>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ height: "1vh" }} />
+            <IonAvatar onClick={openImage}>
+              <img src={Hank} />
+            </IonAvatar>
+            <IonLabel>{aiName[schoolName]}</IonLabel>
+          </div>
+        </IonToolbar>
+      </IonHeader>
+      {/* <IonHeader className='ion-no-border'>
+        <IonToolbar className='ion-no-border'>
+          <div style={{height : "1vh"}} />
+          <img style={{ width: "90vw", marginLeft: "5vw", marginRight: "5vw" }} src={Hank} />
+        </IonToolbar>
+      </IonHeader> */}
+      <IonContent className="ion-padding" ref={contentRef}>
+        <IonFab style={context.darkMode ? { bottom: `${kbHeight}px`, height: "125px", width: "100vw", border: '2px solid #282828', borderRadius: "10px" }
+          : { bottom: `${kbHeight}px`, height: "125px", width: "100vw", border: '2px solid #e6e6e6', borderRadius: "10px" }} slot="fixed"
+          className={context.darkMode ? "text-area-dark" : "text-area-light"} vertical="bottom" edge>
+          {loadingAnswer &&
+            <IonProgressBar color='primary' type="indeterminate" />
+          }
+          <IonTextarea
+            mode="ios"
+            rows={3}
+            style={{ width: "69vw", marginLeft: "2.5vw" }}
+            spellcheck={true}
+            maxlength={300}
+            ref={textRef}
+            disabled={loadingAnswer}
+            placeholder={"Ask me anything!"}
+            id="commentModal"
+            className={"text-area-dark"}
+          />
+          <IonFab horizontal="end" vertical="top">
+            <IonRow>
+              <IonFabButton disabled={loadingAnswer} size="small" color={'primary'}
+                onClick={async () => {
+                  contentRef && contentRef.current && contentRef.current.scrollToBottom(500);
+                  if (!textRef || !textRef.current || !textRef.current.value || !schoolName) return;
+                  setLoadingAnswer(true);
+                  setAnswers(prevAnswers => [...prevAnswers, textRef.current?.value || '']);
+                  const ans: string = await testOpenAi(schoolName, textRef.current.value);
+                  if (!ans || ans.length <= 0) {
+                    console.log('something went wrong with AI, try again');
+                    Toast.error("Something went wrong with AI!");
+                    setLoadingAnswer(false);
+                    return;
+                  }
+                  setAnswers(prev => {
+                    let temp = [...prev];
+                    let temp2 = temp.splice(temp.length - 4, 4);
+                    return [...temp2, ans];
+                  }
+                  );
+                  setLoadingAnswer(false);
+                  textRef.current.value = '';
+                  await timeout(500);
+                  contentRef && contentRef.current && contentRef.current.scrollToBottom(500);
+                }}
+              >
+                <IonIcon icon={arrowUpOutline} color={!context.darkMode ? "light" : ""} size="small" mode="ios" />
+              </IonFabButton>
+            </IonRow>
+          </IonFab>
+        </IonFab>
+
+        {answers.map((ans: string | null, index) => {
+          if (index % 2 == 1) {
+            let messageClass: string = 'sent-humboldt-hank';
+            return (
+              <FadeIn key={index.toString() + ans?.slice(0, 10)} className={`message ${messageClass}`}>
+                <>
+                  <p
+                    onClick={(e: any) => { }
+                    } >{ans}
+                  </p>
+                </>
+              </FadeIn>
+            )
+          } else {
+            let messageClass: string = 'received-hank';
+            return (
+              <FadeIn key={index.toString() + ans?.slice(0, 10)} className={`message ${messageClass}`}>
+                <>
+                  <p
+                    onClick={(e: any) => { }
+                    } >{ans}
+                  </p>
+                </>
+              </FadeIn>
+            )
+          }
+        })}
+        <div style={{ height: "25vh" }} />
       </IonContent>
-    </IonPage>
-  )
+    </IonPage >
+  );
+
 };
 
-export default HumboldtHanks;
+export default HumboldtHank;

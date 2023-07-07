@@ -4,7 +4,7 @@ import {
   IonAvatar, IonBackButton, IonButtons, IonCol, IonContent, IonFab,
   IonHeader, IonItem, IonLabel, IonList,
   IonNote, IonPage, IonRow, IonSelect, IonSelectOption,
-  IonSpinner, IonText, IonTitle, IonToolbar, useIonRouter,
+  IonSpinner, IonTitle, IonToolbar, useIonRouter,
 } from "@ionic/react";
 import { chevronBackOutline } from "ionicons/icons";
 import { Virtuoso } from "react-virtuoso";

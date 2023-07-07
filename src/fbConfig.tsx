@@ -1663,10 +1663,11 @@ export const getEvents = async () => {
  * @description Runs the backend AI code from openAI 
  * to generate a response.
  * 
+ * @param {string} schoolName the name of the school 
  * @param {string} msg the question to ask the AI
  * @returns {string} the response from the AI
  */
-export const testOpenAi = async (msg: string) => {
+export const testOpenAi = async (schoolName: string, msg: string) => {
   const answer: any = await askAI({
     message: msg
   }).catch((err) => {

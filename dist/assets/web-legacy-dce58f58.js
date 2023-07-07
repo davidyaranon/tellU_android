@@ -1,0 +1,1 @@
+System.register(["./index-legacy-41b0ab7e.js"],(function(e,s){"use strict";var t;return{setters:[e=>{t=e.W}],execute:function(){e("SplashScreenWeb",class extends t{async show(e){}async hide(e){}})}}}));

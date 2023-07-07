@@ -773,6 +773,10 @@ ion-radio.ios {
   flex-direction: row-reverse;
 }
 
+.sent-humboldt-hank {
+  flex-direction: row-reverse;
+}
+
 .sent p {
   max-width: 250px;
   margin-bottom: 12px;
@@ -802,6 +806,21 @@ ion-radio.ios {
   align-self: flex-end;
 }
 
+.sent-humboldt-hank p {
+  max-width: 250px;
+  margin-bottom: 12px;
+  line-height: 24px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin-right: 10px;
+  position: relative;
+  font-size: 0.85em;
+  text-align: right;
+  color: rgb(255, 255, 255);
+  background: #46d6fa;
+  align-self: flex-end;
+}
+
 .received p {
   max-width: 250px;
   margin-bottom: 12px;
@@ -815,7 +834,21 @@ ion-radio.ios {
   text-align: left;
   background: #e5e5ea;
   color: black;
+}
 
+.received-hank p {
+  max-width: 250px;
+  margin-bottom: 12px;
+  line-height: 20px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  margin-left: 1%;
+  position: relative;
+  color: white;
+  font-size: 0.85em;
+  text-align: left;
+  background: #e5e5ea;
+  color: black;
 }
 
 .received-humboldt p {
