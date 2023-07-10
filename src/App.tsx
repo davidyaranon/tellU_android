@@ -89,7 +89,6 @@ const RoutingSystem: React.FunctionComponent = () => {
 
   /* state variables */
   const [selectedTab, setSelectedTab] = React.useState<string>('home');
-  let tabBarStyle: boolean = context.showTabs;
 
   /**
    * A function that presents an in-app toast notification
@@ -188,7 +187,7 @@ const RoutingSystem: React.FunctionComponent = () => {
         </IonRouterOutlet>
 
         {/* Bottom Tabs / Tab Bar */}
-        <IonTabBar style={tabBarStyle ? {} : { display: "none" }} slot="bottom">
+        <IonTabBar style={context.showTabs ? {} : { display: "none" }} slot="bottom">
           <IonTabButton className={context.darkMode ? "tab-dark" : "tab-light"} tab="home" href="/home">
             Home
             <IonIcon size='medium' style={{ bottom: "-20px" }} icon={selectedTab === 'home' ? homeSharp : homeOutline} color={selectedTab === 'home' ? "primary" : "light"} />

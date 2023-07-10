@@ -217,7 +217,7 @@ const Register: React.FC = () => {
 
   return (
     <IonPage>
-      <Toolbar color="primary" />
+      <Toolbar color="primary" text={'\n'} />
       <IonContent>
         <IonHeader className="ion-no-border" style={{ paddingBottom: "5vh" }}>
           <Header darkMode={context.darkMode} schoolName="" zoom={1.1} style={{ fontWeight: "bold", margin: 0 }} />

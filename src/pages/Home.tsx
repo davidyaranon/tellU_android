@@ -1,7 +1,7 @@
 // Ionic/Capacitor + React
 import React from 'react';
 import { useHistory } from 'react-router';
-import { IonContent, IonHeader, IonPage, IonSpinner, useIonRouter, useIonViewWillEnter } from '@ionic/react';
+import { IonAvatar, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonRow, IonSkeletonText, IonSpinner, useIonRouter, useIonViewWillEnter } from '@ionic/react';
 import { Preferences } from '@capacitor/preferences';
 import { Keyboard, KeyboardStyle, KeyboardStyleOptions } from "@capacitor/keyboard";
 import { StatusBar, Style } from "@capacitor/status-bar";
@@ -33,6 +33,10 @@ import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 // CSS
 import '../App.css';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { PostMessage } from '../components/Home/PostMessage';
+import PostImages from '../components/Shared/PostImages';
+import { PostType } from '../components/Shared/PostType';
+import ProfilePhoto from '../components/Shared/ProfilePhoto';
 
 
 const versionNum: string = '3.2.2';
@@ -469,15 +473,16 @@ const Home: React.FC = () => {
   }, [user, loading, schoolName]);
 
 
-  if (posts && posts.length > 0 && schoolName) {
-    return (
-      <IonPage className="ion-page-ios-notch">
+  return (
+    <IonPage className="ion-page-ios-notch">
+      {schoolName &&
         <div>
           {newPostsLoaded && <NewPostsButton schoolName={schoolName} handleNewPostsButtonClicked={handleNewPostsButtonClicked} />}
           {showProgressBar && <ProgressBar schoolName={schoolName} />}
         </div>
-
-        <IonContent fullscreen scrollY={false}>
+      }
+      <IonContent fullscreen scrollY={posts && posts.length > 0 && schoolName ? false : true}>
+        {posts && posts.length > 0 && schoolName ?
           <Virtuoso
             ref={virtuosoRef}
             overscan={1000}
@@ -501,22 +506,118 @@ const Home: React.FC = () => {
             style={{ height: "100%" }}
             components={{ Header, Footer }}
           />
-        </IonContent>
+          :
+          <>
+            <Header />
+            <IonList inset mode="md" >
+              <IonItem lines="none" mode="md">
+                <IonLabel>
+                  <IonRow>
+                    <IonAvatar class="posts-avatar">
+                      <IonSkeletonText animated />
+                    </IonAvatar>
+                    <p style={{ color: "var(--ion-color-light)", padding: "10px", fontWeight: 'bold' }}>
+                      <IonSkeletonText animated style={{ width: "35vw", height: "2.5vh" }} />
+                    </p>
+                  </IonRow>
+                  <div style={{ height: "1vh" }} />
+                  <p className="h2-message">
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                  </p>
+                </IonLabel>
+              </IonItem>
+            </IonList>
+            <IonList inset mode="md" >
+              <IonItem lines="none" mode="md">
+                <IonLabel>
+                  <IonRow>
+                    <IonAvatar class="posts-avatar">
+                      <IonSkeletonText animated />
+                    </IonAvatar>
+                    <p style={{ color: "var(--ion-color-light)", padding: "10px", fontWeight: 'bold' }}>
+                      <IonSkeletonText animated style={{ width: "35vw", height: "2.5vh" }} />
+                    </p>
+                  </IonRow>
+                  <div style={{ height: "1vh" }} />
+                  <p className="h2-message">
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                  </p>
+                </IonLabel>
+              </IonItem>
+            </IonList>
+            <IonList inset mode="md" >
+              <IonItem lines="none" mode="md">
+                <IonLabel>
+                  <IonRow>
+                    <IonAvatar class="posts-avatar">
+                      <IonSkeletonText animated />
+                    </IonAvatar>
+                    <p style={{ color: "var(--ion-color-light)", padding: "10px", fontWeight: 'bold' }}>
+                      <IonSkeletonText animated style={{ width: "35vw", height: "2.5vh" }} />
+                    </p>
+                  </IonRow>
+                  <div style={{ height: "1vh" }} />
+                  <p className="h2-message">
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                  </p>
+                </IonLabel>
+              </IonItem>
+            </IonList>
+            <IonList inset mode="md" >
+              <IonItem lines="none" mode="md">
+                <IonLabel>
+                  <IonRow>
+                    <IonAvatar class="posts-avatar">
+                      <IonSkeletonText animated />
+                    </IonAvatar>
+                    <p style={{ color: "var(--ion-color-light)", padding: "10px", fontWeight: 'bold' }}>
+                      <IonSkeletonText animated style={{ width: "35vw", height: "2.5vh" }} />
+                    </p>
+                  </IonRow>
+                  <div style={{ height: "1vh" }} />
+                  <p className="h2-message">
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                  </p>
+                </IonLabel>
+              </IonItem>
+            </IonList>
+            <IonList inset mode="md" >
+              <IonItem lines="none" mode="md">
+                <IonLabel>
+                  <IonRow>
+                    <IonAvatar class="posts-avatar">
+                      <IonSkeletonText animated />
+                    </IonAvatar>
+                    <p style={{ color: "var(--ion-color-light)", padding: "10px", fontWeight: 'bold' }}>
+                      <IonSkeletonText animated style={{ width: "35vw", height: "2.5vh" }} />
+                    </p>
+                  </IonRow>
+                  <div style={{ height: "1vh" }} />
+                  <p className="h2-message">
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                    <IonSkeletonText animated />
+                  </p>
+                </IonLabel>
+              </IonItem>
+            </IonList>
+          </>
+        }
+      </IonContent>
 
-        <MakePost user={user} schoolName={schoolName} profilePhoto={profilePhoto} handleSetShowProgressBar={handleSetShowProgressBar} />
+      <MakePost user={user} schoolName={schoolName} profilePhoto={profilePhoto} handleSetShowProgressBar={handleSetShowProgressBar} />
 
-      </IonPage>
-    );
-  }
-
-  // Loading posts...
-  return (
-    <IonPage>
-      <div className="ion-spinner">
-        <IonSpinner color={"primary"} />
-      </div>
     </IonPage>
   );
+
 
 };
 

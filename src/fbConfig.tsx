@@ -1680,9 +1680,11 @@ export const getEvents = async (schoolName: string) => {
  * 
  * @param {string} schoolName the name of the school 
  * @param {string} msg the question to ask the AI
- * @returns {string} the response from the AI
+ * @returns {any} the response from the AI
  */
 export const testOpenAi = async (schoolName: string, msg: string) => {
+  console.log(msg);
+  console.log('testing open ai');
   const answer: any = await askAI({
     message: msg
   }).catch((err) => {
@@ -1690,7 +1692,10 @@ export const testOpenAi = async (schoolName: string, msg: string) => {
     return '';
   });
 
-  return answer.data.content.toString();
+  console.log('done...')
+  console.log(answer);
+
+  return answer.data.content;
 }
 
 /**

@@ -157,23 +157,41 @@ const HumboldtHank = () => {
                   if (!textRef || !textRef.current || !textRef.current.value || !schoolName) return;
                   setLoadingAnswer(true);
                   setAnswers(prevAnswers => [...prevAnswers, textRef.current?.value || '']);
-                  const ans: string = await testOpenAi(schoolName, textRef.current.value);
-                  if (!ans || ans.length <= 0) {
-                    console.log('something went wrong with AI, try again');
-                    Toast.error("Something went wrong with AI!");
+
+                  // Create a promise that resolves after 15 seconds
+                  const timeoutPromise = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      reject(new Error('The function took too long to respond.'));
+                    }, 15000);
+                  });
+
+                  try {
+                    const ans = await Promise.race([testOpenAi(schoolName, textRef.current.value), timeoutPromise]);
+
+                    if (!ans) {
+                      console.log('something went wrong with AI, try again');
+                      const toast = Toast.create({ message: 'Something went wrong!' + aiName[schoolName] + ' must be sleeping...', duration: 2000, color: 'toast-error' });
+                      toast.present();
+                      setLoadingAnswer(false);
+                      return;
+                    }
+
+                    setAnswers(prev => {
+                      let temp = [...prev];
+                      let temp2 = temp.splice(temp.length - 4, 4);
+                      return [...temp2, ans];
+                    });
+
                     setLoadingAnswer(false);
-                    return;
+                    textRef.current.value = '';
+                    await timeout(500);
+                    contentRef && contentRef.current && contentRef.current.scrollToBottom(500);
+                  } catch (error) {
+                    console.error(error);
+                    const toast = Toast.create({ message: 'Something went wrong!' + aiName[schoolName] + ' must be sleeping...', duration: 2000, color: 'toast-error' });
+                    toast.present();
+                    setLoadingAnswer(false);
                   }
-                  setAnswers(prev => {
-                    let temp = [...prev];
-                    let temp2 = temp.splice(temp.length - 4, 4);
-                    return [...temp2, ans];
-                  }
-                  );
-                  setLoadingAnswer(false);
-                  textRef.current.value = '';
-                  await timeout(500);
-                  contentRef && contentRef.current && contentRef.current.scrollToBottom(500);
                 }}
               >
                 <IonIcon icon={arrowUpOutline} color={!context.darkMode ? "light" : ""} size="small" mode="ios" />

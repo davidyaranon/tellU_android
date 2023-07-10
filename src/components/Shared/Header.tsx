@@ -42,7 +42,6 @@ const headerInfo: Record<string, { url: string; backgroundSize: string, backgrou
  * tellU Header Component containing logo, school name, and (possible) background photo
  */
 class TellUHeader extends Component<any, any>{
-
   render() {
     const dark: boolean = this.props.darkMode;
     const zoom: number = this.props.zoom;
@@ -52,7 +51,7 @@ class TellUHeader extends Component<any, any>{
 
     return (
       <div style={{ width: "100%" }} >
-        <div style={{ width: "100%", borderRadius: "10px", display: "inline-block", backgroundImage: `url(${headerInfo[schoolName].url})`, backgroundSize: `${headerInfo[schoolName].backgroundSize}`, backgroundPosition: `${headerInfo[this.props.schoolName].backgroundPosition}` }}>
+        <div style={{ width: "100%", borderRadius: "10px", display: "inline-block", backgroundImage: `url(${headerInfo[schoolName].url})`, backgroundSize: `${headerInfo[schoolName].backgroundSize}`, backgroundPosition: `${headerInfo[schoolName].backgroundPosition}` }}>
           <IonHeader className="ion-no-border" style={{ textAlign: "center", top: "1vh" }}>
             <img draggable={false} className='quantum_logo' src={dark ? tellU_white : tellU} alt="QUANTUM" style={{ zoom: zoom }} />
             <p style={schoolStyle}>{schoolName}</p>

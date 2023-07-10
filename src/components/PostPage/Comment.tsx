@@ -241,15 +241,7 @@ export const PostComment = (props: any) => {
             disabled={disabledLikeButtonsComments === index || deleted || (Object.keys(comment.likes).length - 1) === -1}
             mode="md"
             fill="outline"
-            color={
-              comment &&
-                user &&
-                "likes" in comment &&
-                comment.likes[user.uid] !==
-                undefined ?
-                "toast-success"
-                : "medium"
-            }
+            color={comment && user && "likes" in comment && comment.likes[user.uid] !== undefined ? "primary" : "medium"}
             onClick={() => {
               setLikeAnimationComments(comment.key);
               setDisabledLikeButtonsComments(index);

@@ -363,11 +363,11 @@ const Events = React.memo(() => {
       const toast = Toast.create({ message: 'Something went wrong', duration: 2000, color: 'toast-error' });
       toast.present();
     }
-  }, []);
+  }, [Preferences]);
 
   React.useEffect(() => {
     setSchool();
-  }, []);
+  }, [Preferences]);
 
 
   return (

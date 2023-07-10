@@ -122,23 +122,14 @@ export const PostPageLikeDislike = memo((props: any) => {
   };
 
   return (
-    <IonItem lines="none" mode="md">
+    <IonItem lines="none" mode="md" style={{ marginLeft: "1%" }}>
       <IonButton
         onAnimationEnd={() => { setLikeAnimation(-1); }}
         className={likeAnimation === post.key ? "likeAnimation" : ""}
         disabled={disabledLikeButtons === index || Object.keys(likes).length - 1 === -1}
         mode="md"
         fill="outline"
-        color={
-          user &&
-            likes[user.uid] !== undefined && schoolName !== "Cal Poly Humboldt"
-            ? "toast-success"
-            : user && likes[user.uid] !== undefined && schoolName === "Cal Poly Humboldt" && schoolColorToggled
-              ? "tertiary"
-              : user && likes[user.uid] !== undefined && schoolName === "Cal Poly Humboldt" && !schoolColorToggled
-                ? "toast-success"
-                : "medium"
-        }
+        color={user && likes[user.uid] !== undefined ? "primary" : "medium"}
         onClick={() => {
           setLikeAnimation(post.key);
           setDisabledLikeButtons(index);

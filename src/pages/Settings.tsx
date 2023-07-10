@@ -263,9 +263,9 @@ const Settings: React.FC = () => {
     // if (user && (Capacitor.getPlatform() === 'ios' || Capacitor.getPlatform() === 'md')) {
     //   await GoogleAuth.signOut();
     // }
-    await logout();
     context.setShowTabs(false);
     await Preferences.clear();
+    await logout();
     context.setSchoolName('');
     const toast = Toast.create({ message: 'Logged out', duration: 2000, color: 'toast-success' });
     toast.present();
