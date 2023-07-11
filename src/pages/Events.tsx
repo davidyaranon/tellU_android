@@ -376,7 +376,7 @@ const Events = React.memo(() => {
 
         <>
           <IonHeader>
-            <h1 style={{ padding: "10px" }}><span style={{ fontWeight: 'bold' }}>Campus </span><span style={{ fontWeight: "lighter", color: "#61dbfb" }}>Events</span></h1>
+            <h1 style={{ padding: "1px", textAlign: 'center' }}><span style={{ fontWeight: 'bold' }}>Campus </span><span style={{ fontWeight: "lighter", color: "#61dbfb" }}>Events</span></h1>
           </IonHeader>
           <IonRow style={{ margin: "5px" }} class="ion-justify-content-center">
             {today && months.map((month, index) => {

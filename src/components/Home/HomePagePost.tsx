@@ -14,6 +14,7 @@ import { useToast } from "@agney/ir-toast";
 import '../../App.css';
 import { Dialog } from "@capacitor/dialog";
 import { warningSharp } from "ionicons/icons";
+import FadeIn from "@rcnoverwatcher/react-fade-in-react-18/src/FadeIn";
 
 export const HomePagePost = (props: any) => {
   const post = props.post;
@@ -58,88 +59,90 @@ export const HomePagePost = (props: any) => {
   }, [])
 
   return (
-    <IonList key={index} inset mode="md" >
-      <IonItem lines="none" mode="md" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
-        <IonLabel>
-          <IonRow>
-            <IonAvatar class="posts-avatar" onClick={(e) => { e.stopPropagation(); if (profileClickable !== false) history.push("/about/" + schoolName + "/" + post.uid); }} >
-              <ProfilePhoto uid={post.uid} />
-            </IonAvatar>
-            <p style={{ color: "var(--ion-color-light)", padding: "10px", fontWeight: 'bold' }}> {post.userName} </p>
-          </IonRow>
-          <PostType schoolName={schoolName} type={post.postType} marker={post.marker} POI={post.POI} timestamp={post.timestamp} />
-          <PostMessage schoolName={schoolName} message={post.message} classNumber={post.classNumber} className={post.className} reports={post.reports || 0} />
-          <PostImages userName={post.userName} imgSrc={post.imgSrc || []} reports={post.reports || 0} />
-        </IonLabel>
-      </IonItem>
-      {likes && dislikes &&
-        <IonItem lines="none" mode="md" style={{ marginLeft: "1%" }}>
-          <IonButton
-            onAnimationEnd={() => { setLikeAnimation(-1); }}
-            className={likeAnimation === post.key ? "likeAnimation" : ""}
-            disabled={isLiking || disabledLikeButtons === index || Object.keys(likes).length - 1 === -1}
-            mode="md"
-            fill="outline"
-            color={
-              user &&
-                likes[user.uid] !== undefined
-                ? "primary"
-                : "medium"
-            }
-            onClick={() => {
-              setLikeAnimation(post.key);
-              setDisabledLikeButtons(index);
-              setIsLiking(true);
-              handleUpVote(post.key, index, post);
-              setIsLiking(false);
-              setDisabledLikeButtons(-1);
-            }}
-          >
-            <KeyboardArrowUpIcon />
-            <p>{Object.keys(likes).length - 1} </p>
-          </IonButton>
-          <p>&nbsp;</p>
-          <IonButton mode="md" color="medium" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
-            <ForumIcon />
-            <p>&nbsp; {post.commentAmount} </p>
-          </IonButton>
-          <IonButton
-            onAnimationEnd={() => { setDislikeAnimation(-1); }}
-            className={dislikeAnimation === post.key ? "likeAnimation" : ""}
-            disabled={disabledLikeButtons === index || Object.keys(dislikes).length - 1 === -1}
-            mode="md"
-            fill="outline"
-            color={
-              index != -1 &&
-                user &&
-                dislikes[user.uid] !== undefined
-                ? "toast-error"
-                : "medium"
-            }
-            onClick={() => {
-              setDislikeAnimation(post.key);
-              setDisabledLikeButtons(index);
-              setIsLiking(true);
-              handleDownVote(post.key, index);
-              setIsLiking(false);
-              setDisabledLikeButtons(-1);
-            }}
-          >
-            <KeyboardArrowDownIcon />
-            <p>{Object.keys(dislikes).length - 1} </p>
-          </IonButton>
-          {"reports" in post && post.reports > 1 &&
-            <IonFab horizontal="end">
-              <IonIcon icon={warningSharp} color="warning" onClick={() => {
-                Dialog.alert({
-                  title: "Flagged Post",
-                  message: 'Post has been reported as sensitive/objectionable'
-                })
-              }}></IonIcon>
-            </IonFab>
-          }
+    <FadeIn key={index}>
+      <IonList inset mode="md" >
+        <IonItem lines="none" mode="md" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
+          <IonLabel>
+            <IonRow>
+              <IonAvatar class="posts-avatar" onClick={(e) => { e.stopPropagation(); if (profileClickable !== false) history.push("/about/" + schoolName + "/" + post.uid); }} >
+                <ProfilePhoto uid={post.uid} />
+              </IonAvatar>
+              <p style={{ color: "var(--ion-color-light)", padding: "10px", fontWeight: 'bold' }}> {post.userName} </p>
+            </IonRow>
+            <PostType schoolName={schoolName} type={post.postType} marker={post.marker} POI={post.POI} timestamp={post.timestamp} />
+            <PostMessage schoolName={schoolName} message={post.message} classNumber={post.classNumber} className={post.className} reports={post.reports || 0} />
+            <PostImages userName={post.userName} imgSrc={post.imgSrc || []} reports={post.reports || 0} />
+          </IonLabel>
         </IonItem>
-      }
-    </IonList>
+        {likes && dislikes &&
+          <IonItem lines="none" mode="md" style={{ marginLeft: "1%" }}>
+            <IonButton
+              onAnimationEnd={() => { setLikeAnimation(-1); }}
+              className={likeAnimation === post.key ? "likeAnimation" : ""}
+              disabled={isLiking || disabledLikeButtons === index || Object.keys(likes).length - 1 === -1}
+              mode="md"
+              fill="outline"
+              color={
+                user &&
+                  likes[user.uid] !== undefined
+                  ? "primary"
+                  : "medium"
+              }
+              onClick={() => {
+                setLikeAnimation(post.key);
+                setDisabledLikeButtons(index);
+                setIsLiking(true);
+                handleUpVote(post.key, index, post);
+                setIsLiking(false);
+                setDisabledLikeButtons(-1);
+              }}
+            >
+              <KeyboardArrowUpIcon />
+              <p>{Object.keys(likes).length - 1} </p>
+            </IonButton>
+            <p>&nbsp;</p>
+            <IonButton mode="md" color="medium" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
+              <ForumIcon />
+              <p>&nbsp; {post.commentAmount} </p>
+            </IonButton>
+            <IonButton
+              onAnimationEnd={() => { setDislikeAnimation(-1); }}
+              className={dislikeAnimation === post.key ? "likeAnimation" : ""}
+              disabled={disabledLikeButtons === index || Object.keys(dislikes).length - 1 === -1}
+              mode="md"
+              fill="outline"
+              color={
+                index != -1 &&
+                  user &&
+                  dislikes[user.uid] !== undefined
+                  ? "toast-error"
+                  : "medium"
+              }
+              onClick={() => {
+                setDislikeAnimation(post.key);
+                setDisabledLikeButtons(index);
+                setIsLiking(true);
+                handleDownVote(post.key, index);
+                setIsLiking(false);
+                setDisabledLikeButtons(-1);
+              }}
+            >
+              <KeyboardArrowDownIcon />
+              <p>{Object.keys(dislikes).length - 1} </p>
+            </IonButton>
+            {"reports" in post && post.reports > 1 &&
+              <IonFab horizontal="end">
+                <IonIcon icon={warningSharp} color="warning" onClick={() => {
+                  Dialog.alert({
+                    title: "Flagged Post",
+                    message: 'Post has been reported as sensitive/objectionable'
+                  })
+                }}></IonIcon>
+              </IonFab>
+            }
+          </IonItem>
+        }
+      </IonList>
+    </FadeIn>
   )
 }
