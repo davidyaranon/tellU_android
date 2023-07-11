@@ -3,13 +3,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth, { db, getUserPhotoUrl } from "../fbConfig";
 import { collection, limit, orderBy, query } from "firebase/firestore";
 import { useToast } from "@agney/ir-toast";
-import { IonCol, IonContent, IonPage, IonSpinner } from "@ionic/react";
+import { IonCol, IonContent, IonPage, IonSpinner, useIonRouter } from "@ionic/react";
 import FadeIn from "@rcnoverwatcher/react-fade-in-react-18/src/FadeIn";
 import "../App.css";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useCallback, useEffect, useState } from "react";
 import { Toolbar } from "../components/Shared/Toolbar";
 import { getDate } from "../helpers/timeago";
+import { navigateBack } from "../components/Shared/Navigation";
 
 interface MatchUserPostParams {
   directMessageId: string;
@@ -26,6 +27,7 @@ const DirectMessages = ({ match }: RouteComponentProps<MatchUserPostParams>) => 
   const [messages, loading] = useCollectionData(q);
   const [contactPhotoUrls, setContactPhotoUrls] = useState<string[]>([]);
   const Toast = useToast();
+  const router = useIonRouter();
 
 
   const handlePhotoUrls = useCallback(async () => {
@@ -51,14 +53,28 @@ const DirectMessages = ({ match }: RouteComponentProps<MatchUserPostParams>) => 
       console.log("running");
       handlePhotoUrls().catch((err) => { console.log(err); })
     }
-  }, [loading, messages])
+  }, [loading, messages]);
+
+  useEffect(() => {
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        navigateBack(router);
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, [router]);
 
   return (
     <IonPage>
       <Toolbar title={"DMs"} text={'\n'} schoolName={schoolName} />
       <IonContent scrollEvents>
 
-        <div >
+        <div>
           {loading &&
             <div className="ion-spinner">
               <IonSpinner color={'primary'} />

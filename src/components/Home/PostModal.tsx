@@ -2,7 +2,7 @@
 import {
   IonAvatar,
   IonButton, IonButtons, IonCard, IonCol, IonContent, IonFab,
-  IonIcon, IonImg, IonModal, IonRow, IonTextarea, IonToolbar
+  IonIcon, IonImg, IonItem, IonModal, IonRow, IonTextarea, IonToolbar
 } from "@ionic/react";
 import { Keyboard } from "@capacitor/keyboard";
 import { Camera, GalleryPhoto } from "@capacitor/camera";
@@ -118,22 +118,24 @@ export const PostModal = (props: any) => {
                   </IonAvatar>
                 </IonCol>
                 <IonCol>
-                  <IonTextarea
-                    aria-label=""
-                    spellcheck={true}
-                    ref={inputRef}
-                    rows={3}
-                    maxlength={500}
-                    style={context.darkMode ? { color: "white", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' } : { color: "black", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' }}
-                    disabled={prevPostUploading}
-                    placeholder="Start typing..."
-                    id="message"
-                  ></IonTextarea>
+                  <IonItem>
+                    <IonTextarea
+                      aria-label=""
+                      spellcheck={true}
+                      ref={inputRef}
+                      rows={3}
+                      maxlength={500}
+                      style={context.darkMode ? { color: "white", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' } : { color: "black", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' }}
+                      disabled={prevPostUploading}
+                      placeholder="Start typing..."
+                      id="message"
+                    ></IonTextarea>
+                  </IonItem>
                 </IonCol>
               </>
             )
               : (
-                <>
+                <IonItem>
                   <IonTextarea
                     aria-label=""
                     spellcheck={true}
@@ -145,7 +147,7 @@ export const PostModal = (props: any) => {
                     placeholder="Start typing..."
                     id="message"
                   ></IonTextarea>
-                </>
+                </IonItem>
               )}
           </IonRow>
           <br /> <br />
@@ -177,7 +179,7 @@ export const PostModal = (props: any) => {
                   return (
                     <IonCard key={"photo_" + index.toString()}>
                       <div style={{ position: 'relative' }}>
-                        <IonImg src={photo?.webPath} style={{opacity : .9}} />
+                        <IonImg src={photo?.webPath} style={{ opacity: .9 }} />
                         <div style={{ position: 'absolute', top: '0', right: '0' }}>
                           <IonButton fill='solid' color='light' onClick={() => { handleRemoveImage(index) }}>
                             <IonIcon size='small' icon={closeOutline} />

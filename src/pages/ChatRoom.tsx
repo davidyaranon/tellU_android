@@ -35,7 +35,7 @@ import "../App.css";
 import { v4 as uuidv4 } from "uuid";
 import { useToast } from "@agney/ir-toast";
 import { useAppContext } from "../my-context";
-import { dynamicNavigate } from "../components/Shared/Navigation";
+import { dynamicNavigate, navigateBack } from "../components/Shared/Navigation";
 import { timeout } from "../helpers/timeout";
 
 
@@ -170,7 +170,9 @@ const ChatRoom = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
    * @description This function is used to determine if a user prsses Enter (or Send on iOS)
    * @param key the key a user presses
    */
-  const isEnterPressed = (key: any) => {
+  const isEnterPressed = (key: string) => {
+    console.log(key);
+    console.log('\n\n\n\n\n');
     if (key === "Enter") {
       handleCommentSubmit();
     }
@@ -237,7 +239,21 @@ const ChatRoom = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
    */
   useEffect(() => {
     handleScroll();
-  }, [messages])
+  }, [messages]);
+
+  useEffect(() => {
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        navigateBack(router);
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, [router]);
 
 
   return (
@@ -340,10 +356,8 @@ const ChatRoom = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
             placeholder={loading ? "Loading..." : "Send a message..."}
             id="DM"
             disabled={loading || !contactInfo}
-            onKeyDown={e => isEnterPressed(e.key)}
-            onIonChange={(e: any) => {
-              setCurrMessage(e.detail.value);
-            }}
+            onKeyDown={e => { e.preventDefault(); isEnterPressed(e.key) }}
+            onIonInput={e => { e.preventDefault(); setCurrMessage(e.detail.value!) }}
             className={context.darkMode ? "text-area-dark" : "text-area-light"}
           ></IonTextarea>
           <IonFab vertical="top" horizontal="end">
@@ -483,6 +497,7 @@ function ChatMessage(props: any) {
         {message && message.length > 0 &&
           <>
             <p
+              style={{ color: "white" }}
               onClick={(e: any) => { }
               } >{message}
             </p>

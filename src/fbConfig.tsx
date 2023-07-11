@@ -1686,7 +1686,8 @@ export const testOpenAi = async (schoolName: string, msg: string) => {
   console.log(msg);
   console.log('testing open ai');
   const answer: any = await askAI({
-    message: msg
+    message: msg,
+    schoolName: schoolName
   }).catch((err) => {
     console.error(err);
     return '';
@@ -1696,7 +1697,7 @@ export const testOpenAi = async (schoolName: string, msg: string) => {
   console.log(answer);
 
   return answer.data.content;
-}
+};
 
 /**
  * @description Gets the user's data from Firestore in /userData/{uid}

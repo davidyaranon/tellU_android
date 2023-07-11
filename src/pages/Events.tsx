@@ -375,7 +375,7 @@ const Events = React.memo(() => {
       <IonContent fullscreen scrollY={false}>
 
         <>
-          <IonHeader>
+          <IonHeader className='ion-no-border'>
             <h1 style={{ padding: "1px", textAlign: 'center' }}><span style={{ fontWeight: 'bold' }}>Campus </span><span style={{ fontWeight: "lighter", color: "#61dbfb" }}>Events</span></h1>
           </IonHeader>
           <IonRow style={{ margin: "5px" }} class="ion-justify-content-center">

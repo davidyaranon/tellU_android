@@ -23,7 +23,7 @@ import { getColor } from "../helpers/getColor";
 import { PhotoViewer as CapacitorPhotoViewer, Image as CapacitorImage } from '@capacitor-community/photoviewer';
 import { getDate } from "../helpers/timeago";
 import { Toolbar } from "../components/Shared/Toolbar";
-import { dynamicNavigate } from "../components/Shared/Navigation";
+import { dynamicNavigate, navigateBack } from "../components/Shared/Navigation";
 
 interface MatchUserPostParams {
   type: string;
@@ -74,7 +74,21 @@ const Posttypes = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
         console.log("no school name");
       }
     }
-  }, [match.params.type, schoolName, user])
+  }, [match.params.type, schoolName, user]);
+
+  useEffect(() => {
+    const eventListener: any = (ev: CustomEvent<any>) => {
+      ev.detail.register(10, () => {
+        navigateBack(router);
+      });
+    };
+
+    document.addEventListener('ionBackButton', eventListener);
+
+    return () => {
+      document.removeEventListener('ionBackButton', eventListener);
+    };
+  }, [router]);
 
   const Footer = () => {
     return (

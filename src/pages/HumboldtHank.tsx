@@ -13,6 +13,7 @@ import { Image as CapacitorImage, PhotoViewer as CapacitorPhotoViewer } from '@c
 
 // import Hank from '../images/hank_blue.png';
 import Hank from '../images/hank_blue_crop.png';
+import Blaze from '../images/bronco.png';
 import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 import { timeout } from "../helpers/timeout";
 
@@ -22,7 +23,14 @@ const keyStyleOptionsDark: KeyboardStyleOptions = {
 
 const aiName: Record<string, string> = {
   "Cal Poly Humboldt": "Hank",
-  "UC Davis": "Davis",
+  "UC Davis": "Blaze the Bronco",
+  "UC Berkeley": "Berkeley",
+  "": ""
+};
+
+const aiImage: Record<string, string> = {
+  "Cal Poly Humboldt": Hank,
+  "UC Davis": Blaze,
   "UC Berkeley": "Berkeley",
   "": ""
 };
@@ -41,7 +49,7 @@ const HumboldtHank = () => {
 
   const openImage = () => {
     const img: CapacitorImage = {
-      url: aiName[schoolName],
+      url: aiImage[schoolName],
       title: aiName[schoolName]
     };
     CapacitorPhotoViewer.show({
@@ -118,7 +126,7 @@ const HumboldtHank = () => {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ height: "1vh" }} />
             <IonAvatar onClick={openImage}>
-              <img src={Hank} />
+              <img src={aiImage[schoolName]}/>
             </IonAvatar>
             <IonLabel>{aiName[schoolName]}</IonLabel>
           </div>
