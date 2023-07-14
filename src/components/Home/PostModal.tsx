@@ -118,24 +118,6 @@ export const PostModal = (props: any) => {
                   </IonAvatar>
                 </IonCol>
                 <IonCol>
-                  <IonItem>
-                    <IonTextarea
-                      aria-label=""
-                      spellcheck={true}
-                      ref={inputRef}
-                      rows={3}
-                      maxlength={500}
-                      style={context.darkMode ? { color: "white", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' } : { color: "black", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' }}
-                      disabled={prevPostUploading}
-                      placeholder="Start typing..."
-                      id="message"
-                    ></IonTextarea>
-                  </IonItem>
-                </IonCol>
-              </>
-            )
-              : (
-                <IonItem>
                   <IonTextarea
                     aria-label=""
                     spellcheck={true}
@@ -147,7 +129,23 @@ export const PostModal = (props: any) => {
                     placeholder="Start typing..."
                     id="message"
                   ></IonTextarea>
-                </IonItem>
+                </IonCol>
+              </>
+            )
+              : (
+                <>
+                  <IonTextarea
+                    aria-label=""
+                    spellcheck={true}
+                    ref={inputRef}
+                    rows={3}
+                    maxlength={500}
+                    style={context.darkMode ? { color: "white", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' } : { color: "black", height: "80px", fontSize: "large", paddingLeft: '5px', paddingRight: '15px' }}
+                    disabled={prevPostUploading}
+                    placeholder="Start typing..."
+                    id="message"
+                  ></IonTextarea>
+                </>
               )}
           </IonRow>
           <br /> <br />

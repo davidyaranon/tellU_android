@@ -92,11 +92,13 @@ const Settings: React.FC = () => {
 
 
   /**
-   * @description handles the use of the hardware back button and determines which modals to close.
+   * @description handles the use of the hardware back button and determines which modal(s) to close.
    */
   const handleSetModalStates = React.useCallback((showSpotifyModal: boolean, showAboutModal: boolean) => {
     setSpotifyModal(showSpotifyModal);
     setShowAboutModal(showAboutModal);
+    setShowEditEmailModal(false);
+    setShowEditUsernameModal(false);
   }, []);
 
   React.useEffect(() => {
@@ -105,7 +107,7 @@ const Settings: React.FC = () => {
         console.log("BACK BUTTON SETTINGS PAGE");
         if (spotifyModal === true) {
           handleSetModalStates(false, true);
-        } else if (showAboutModal === true) {
+        } else if (showAboutModal === true || showEditEmailModal === true || showEditUsernameModal === true) {
           handleSetModalStates(false, false);
         } else {
           CapacitorApp.exitApp();
@@ -139,7 +141,7 @@ const Settings: React.FC = () => {
     return () => {
       document.removeEventListener('ionBackButton', eventListener);
     };
-  }, [handleSetModalStates, spotifyModal, showAboutModal, router]);
+  }, [handleSetModalStates, spotifyModal, showAboutModal, showEditEmailModal, showEditUsernameModal, router]);
 
 
   const handleEditAbout = () => {
