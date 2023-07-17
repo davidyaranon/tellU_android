@@ -1,21 +1,26 @@
-import { Keyboard, KeyboardStyle, KeyboardStyleOptions } from "@capacitor/keyboard";
-import { IonContent, IonHeader, IonToolbar, IonIcon, IonTextarea, IonPage, IonFab, IonRow, IonFabButton, IonImg, useIonViewWillEnter, IonProgressBar, IonTitle, IonAvatar, IonLabel } from "@ionic/react";
-import { arrowUpOutline } from "ionicons/icons";
-import { useAppContext } from "../my-context";
-import { App as CapacitorApp } from "@capacitor/app";
-import { testOpenAi } from "../fbConfig";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Preferences } from "@capacitor/preferences";
-import { useToast } from "@agney/ir-toast";
+import {
+  IonContent, IonHeader, IonToolbar, IonIcon, IonTextarea, IonPage, IonFab,
+  IonRow, IonFabButton, useIonViewWillEnter, IonProgressBar, IonAvatar, IonLabel
+} from "@ionic/react";
+import { arrowUpOutline } from "ionicons/icons";
 import { Capacitor } from "@capacitor/core";
+import { App as CapacitorApp } from "@capacitor/app";
+import { Preferences } from "@capacitor/preferences";
 import { StatusBar, Style } from "@capacitor/status-bar";
+import { Keyboard, KeyboardStyle, KeyboardStyleOptions } from "@capacitor/keyboard";
 import { Image as CapacitorImage, PhotoViewer as CapacitorPhotoViewer } from '@capacitor-community/photoviewer';
 
-// import Hank from '../images/hank_blue.png';
+import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
+import { useToast } from "@agney/ir-toast";
+
+import { useAppContext } from "../my-context"
+import { timeout } from "../helpers/timeout";;
+import { testOpenAi } from "../fbConfig";
+
 import Hank from '../images/hank_blue_crop.png';
 import Blaze from '../images/bronco.png';
-import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
-import { timeout } from "../helpers/timeout";
+import Blitz from '../images/blitz.png';
 
 const keyStyleOptionsDark: KeyboardStyleOptions = {
   style: KeyboardStyle.Dark
@@ -24,19 +29,20 @@ const keyStyleOptionsDark: KeyboardStyleOptions = {
 const aiName: Record<string, string> = {
   "Cal Poly Humboldt": "Hank",
   "UC Davis": "Blaze the Bronco",
-  "UC Berkeley": "Berkeley",
+  "UC Berkeley": "Blitz the Bruin",
   "": ""
 };
 
 const aiImage: Record<string, string> = {
   "Cal Poly Humboldt": Hank,
   "UC Davis": Blaze,
-  "UC Berkeley": "Berkeley",
+  "UC Berkeley": Blitz,
   "": ""
 };
 
 const HumboldtHank = () => {
 
+  const Toast = useToast();
   const context = useAppContext();
 
   const [answers, setAnswers] = useState<any[]>([]);
@@ -45,8 +51,10 @@ const HumboldtHank = () => {
   const [schoolName, setSchoolName] = useState<string>('');
   const [kbHeight, setKbHeight] = useState<number>(0);
   const contentRef = useRef<HTMLIonContentElement>(null);
-  const Toast = useToast();
 
+  /**
+   * @description opens the 'contact photo' image using Capacitor
+   */
   const openImage = () => {
     const img: CapacitorImage = {
       url: aiImage[schoolName],
@@ -126,18 +134,13 @@ const HumboldtHank = () => {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ height: "1vh" }} />
             <IonAvatar onClick={openImage}>
-              <img src={aiImage[schoolName]}/>
+              <img src={aiImage[schoolName]} />
             </IonAvatar>
             <IonLabel>{aiName[schoolName]}</IonLabel>
           </div>
         </IonToolbar>
       </IonHeader>
-      {/* <IonHeader className='ion-no-border'>
-        <IonToolbar className='ion-no-border'>
-          <div style={{height : "1vh"}} />
-          <img style={{ width: "90vw", marginLeft: "5vw", marginRight: "5vw" }} src={Hank} />
-        </IonToolbar>
-      </IonHeader> */}
+
       <IonContent className="ion-padding" ref={contentRef}>
         <IonFab style={context.darkMode ? { bottom: `${kbHeight}px`, height: "125px", width: "100vw", border: '2px solid #282828', borderRadius: "10px" }
           : { bottom: `${kbHeight}px`, height: "125px", width: "100vw", border: '2px solid #e6e6e6', borderRadius: "10px" }} slot="fixed"

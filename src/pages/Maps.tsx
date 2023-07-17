@@ -7,7 +7,7 @@ import { useHistory } from "react-router";
 import {
   IonContent, IonCardTitle, IonCard, IonButton, IonIcon,
   IonFab, IonCardContent, IonSelect, IonSelectOption, IonPage, useIonViewDidEnter,
-  RouterDirection, useIonViewWillEnter, IonText
+  RouterDirection, useIonViewWillEnter, IonText, IonCheckbox
 } from "@ionic/react";
 import { schoolOutline } from "ionicons/icons";
 import { Keyboard, KeyboardStyle, KeyboardStyleOptions } from "@capacitor/keyboard";
@@ -64,6 +64,16 @@ function Maps() {
   const [overlayIndex, setOverlayIndex] = useState<number>(-1);
   const [markerFilter, setMarkerFilter] = useState<string>("ALL");
   const [filteredMarkers, setFilteredMarkers] = useState<Record<string, MapMarker[]>>(markers);
+
+  const handleChangeMapTile = async (isChecked: boolean): Promise<void> => {
+    if (isChecked) {
+      context.setMapTilerId('streets-v2-dark');
+      await Preferences.set({ key: "mapTilerId", value: "streets-v2-dark" });
+    } else {
+      context.setMapTilerId('streets');
+      await Preferences.set({ key: "mapTilerId", value: "streets" });
+    }
+  }
 
   const setMarkers = (filter: string) => {
     if (filter === "A") {
@@ -184,8 +194,6 @@ function Maps() {
   }, []);
 
 
-
-
   useEffect(() => {
     setSchool();
   }, [])
@@ -253,7 +261,7 @@ function Maps() {
         </div>
 
         <Map
-          provider={mapTiler}
+          provider={(x, y, z, dpr) => mapTiler(context.mapTilerId, x, y, z, dpr)}
           center={center}
           zoom={mapZoom}
           animate={true}
@@ -308,7 +316,7 @@ function Maps() {
             >
               <IonCard
                 onClick={() => { setClassName("ion-page-md-notch"); dynamicNavigate("markerInfo/" + schoolName + "/" + filteredMarkers[schoolName][overlayIndex].title, "forward"); }}
-                style={{ width: "55vw", opacity: "90%" }}
+                style={context.mapTilerId === 'streets' ? { width: "55vw", opacity: "90%" } : { width: "55vw", opacity: "95%" }}
                 mode="md"
               >
                 <IonCardContent>
@@ -341,11 +349,11 @@ function Maps() {
             </Overlay>
           ) : null}
           <IonFab horizontal="start" vertical="bottom" style={{ transform: 'translateY(15%)' }}>
-            <p style={{ fontSize: "1em", color: "#0D1117", fontWeight: "bold" }}>
+            <p style={context.mapTilerId === 'streets' ? { fontSize: "1em", color: "#0D1117", fontWeight: "bold" } : { fontSize: "1em", color: "#FFFFFF", fontWeight: "bold" }}>
               {schoolName}
             </p>
           </IonFab>
-          <IonFab horizontal="end" vertical="bottom">
+          <IonFab horizontal="end" vertical="bottom" style={{ transform: 'translateX(15%) translateY(-15%)' }}>
             <IonButton color="light-item" onClick={setDefaultCenter} mode="md">
               {context.darkMode ?
                 <img style={{ width: "20px" }} src={schoolOutlineWhite} />
@@ -354,6 +362,10 @@ function Maps() {
               }
             </IonButton>
           </IonFab>
+          <IonFab horizontal="end" vertical="bottom" style={{ transform: 'translateX(15%) translateY(-125%)' }}>
+            <IonCheckbox checked={context.mapTilerId === 'streets-v2-dark'} onIonChange={(e) => { handleChangeMapTile(e.detail.checked) }} color="light-item" style={{ '--size': "35px" }} />
+          </IonFab>
+
         </Map>
       </IonContent>
     </IonPage>

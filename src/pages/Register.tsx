@@ -137,7 +137,8 @@ const Register: React.FC = () => {
         if (typeof res === "string") {
           Toast.error('Connection interrupted. Your account should be created, try logging in');
         } else {
-          await setSchool(schoolName);
+          await Preferences.set({ key: "school", value: schoolName });
+          context.setSchoolName(schoolName);
           const notificationsToken: string = localStorage.getItem("notificationsToken") || "";
           if (notificationsToken.length <= 0) {
             FCM.deleteInstance().then(() => console.log("FCM instance deleted")).catch((err) => console.log(err));

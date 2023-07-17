@@ -896,7 +896,7 @@ ion-radio.ios {
   text-align: center;
   margin-left: 14%;
   color: #61DBFB;
-  background-color: #2f2f2f;
+  background-color: #0D1117;
   justify-content: center;
   align-content: center;
   align-items: center;
@@ -1396,7 +1396,6 @@ img.chat_avatar {
 }
 
 .event-a {
-  padding: 15px;
 }
 
 .event-img {

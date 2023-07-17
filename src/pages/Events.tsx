@@ -244,7 +244,7 @@ const Events = React.memo(() => {
    * The HTML strings are then parsed into React components.
    */
   const getEventInfo = React.useCallback(async () => {
-    if(!schoolName) return;
+    if (!schoolName) return;
     console.log(schoolName);
     const serverTimestamp = Timestamp.now().toDate();
     setToday(serverTimestamp);
@@ -274,11 +274,10 @@ const Events = React.memo(() => {
           let dayOfWeek = d.getDay();
           dateArr.push(getDayOfWeek(dayOfWeek) + ', ' + month + ' ' + day);
         }
-        let newString: string = "";
-        let newString2: string = "";
-        newString = htmlString.replace("<div>", "<div><div class=\"event-div\">");
-        newString2 = newString.replace("&lt;br/&gt;&lt;br/&gt;", "&lt;br/&gt;</div>");
-        htmlStrings[index] = newString2;
+        htmlString = htmlString.replace("<div>", "<div><div class=\"event-div\">");
+        htmlString = htmlString.replace("&lt;br/&gt;&lt;br/&gt;", "&lt;br/&gt;</div>");
+        htmlString = htmlString.replace(/(&lt;img.*?&gt;)/g, '$1<br /><br />');
+        htmlStrings[index] = htmlString;
       });
       setDates(dateArr);
       setHtmlArr(htmlStrings);
@@ -289,6 +288,8 @@ const Events = React.memo(() => {
         .then(async (data: string) => {
           if (data) {
             const replacedHtml = data.replace(/(\r\n|\n|\r|\t|\"|\'|\"\")/gm, "");
+            await Preferences.remove({ key: "events" });
+            await Preferences.remove({ key: "eventsLastUpdated" });
             await Preferences.set({ key: "events", value: replacedHtml });
             await Preferences.set({ key: "eventsLastUpdated", value: serverTimestamp.toDateString() });
             let myString = replacedHtml;
@@ -313,11 +314,10 @@ const Events = React.memo(() => {
                 let dayOfWeek = d.getDay();
                 dateArr.push(getDayOfWeek(dayOfWeek) + ', ' + month + ' ' + day);
               }
-              let newString: string = "";
-              let newString2: string = "";
-              newString = htmlString.replace("<div>", "<div><div class=\"event-div\">");
-              newString2 = newString.replace("&lt;br/&gt;&lt;br/&gt;", "&lt;br/&gt;</div>");
-              htmlStrings[index] = newString2;
+              htmlString = htmlString.replace("<div>", "<div><div class=\"event-div\">");
+              htmlString = htmlString.replace("&lt;br/&gt;&lt;br/&gt;", "&lt;br/&gt;</div>");
+              htmlString = htmlString.replace(/(&lt;img.*?&gt;)/g, '$1<br /><br />');
+              htmlStrings[index] = htmlString;
             });
             setDates(dateArr);
             setHtmlArr(htmlStrings);

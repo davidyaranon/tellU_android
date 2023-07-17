@@ -1600,6 +1600,32 @@ export const getPOIPosts = async (poiName: string) => {
   }
 };
 
+function extractDataFromXML(xmlString: string) {
+  let parser = new DOMParser();
+  let xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+  let items = xmlDoc.getElementsByTagName("item");
+  let result = [];
+
+  for (let i = 0; i < items.length; i++) {
+    let item = items[i];
+    let title = item.getElementsByTagName("title")[0]?.textContent || '';
+    let pubDate = item.getElementsByTagName("pubDate")[0]?.textContent || '';
+    let description = item.getElementsByTagName("description")[0]?.textContent || '';
+    let link = item.getElementsByTagName("link")[0]?.textContent || '';
+
+    result.push({
+      title: title,
+      pubDate: pubDate,
+      description: description,
+      link: link,
+    });
+  }
+
+  return result;
+}
+
+
 /**
  * @description Gets the latest updates from the school's events page
  * Translates the .rss language into html.
@@ -1610,20 +1636,40 @@ export const getPOIPosts = async (poiName: string) => {
  */
 export const getEvents = async (schoolName: string) => {
   let updates: any;
-
+  let isBerkeley: boolean = false;
   if (schoolName === 'Cal Poly Humboldt') {
     updates = await getHumboldtUpdates().catch((err) => { console.log(err); });
   } else if (schoolName === 'UC Davis') {
     updates = await getUcDavisUpdates().catch((err) => { console.log(err); });
   } else if (schoolName === "UC Berkeley") {
     updates = await getUcBerkeleyUpdates().catch((err) => { console.log(err); });
+    isBerkeley = true;
   } else {
     console.log('Invalid school name');
   }
   let line = "", htmlString = "";
   let inLineTag = false;
-  console.log(updates);
+  // console.log(updates.data);
   let lines = updates.data.split('\n');
+
+  if (isBerkeley) {
+
+    let data = extractDataFromXML(updates.data);
+
+    console.log(data);
+
+    data.forEach((item) => {
+      htmlString += "<h1 class=\"events-h1\">" + item.title + "</h1>";
+      htmlString += '\n';
+      htmlString += '<div class=\'event-div\'' + item.pubDate + '</div>';
+      htmlString += '\n';
+      htmlString += "<div>" + item.description + "</div>";
+      htmlString += '\n';
+      htmlString += "<a class=\"event-a\" href='" + item.link + "'>Read More</a>";
+      htmlString += '\n';
+    });
+  }
+
   for (let i = 0; i < lines.length; i++) {
     line = lines[i];
     if (inLineTag) {
@@ -1655,7 +1701,7 @@ export const getEvents = async (schoolName: string) => {
       if (link !== -1) {
         let endLink = line.indexOf("</link>");
         let linkStr = line.slice(link + 6, endLink);
-        htmlString += "<a class=\"event-a\" href='" + linkStr + "'>Read More</a>";
+        htmlString += "<br /> <br /> <a class=\"event-a\" href='" + linkStr + "'>Read More</a>";
         htmlString += '\n';
       }
       let endItem = line.indexOf("</item>");
@@ -1668,7 +1714,6 @@ export const getEvents = async (schoolName: string) => {
       inLineTag = true;
     }
   }
-  // console.log(htmlString);
 
   return htmlString;
 };

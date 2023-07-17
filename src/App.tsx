@@ -239,6 +239,16 @@ const App: React.FC = () => {
       StatusBar.setStyle({ style: Style.Dark });
     }
   }, []);
+  
+
+  const handleMapTiler = React.useCallback(async () => {
+    const mapId = await Preferences.get({ key: "mapTilerId" });
+    if (!mapId.value) {
+      context.setMapTilerId('streets');
+    } else {
+      context.setMapTilerId(mapId.value);
+    }
+  }, []);
 
 
   /**
@@ -293,8 +303,9 @@ const App: React.FC = () => {
    */
   useEffect(() => {
     setSchoolName().catch((err) => console.log(err));
-    handleDarkMode().catch((err) => { console.log(err); })
-    handleSensitivityToggle().catch((err) => { console.log(err); })
+    handleDarkMode().catch((err) => { console.log(err); });
+    handleMapTiler().catch((err) => { console.log(err); });
+    handleSensitivityToggle().catch((err) => { console.log(err); });
     if (Capacitor.getPlatform() !== 'web') {
       registerNotifications();
     }
