@@ -65,6 +65,11 @@ function Maps() {
   const [markerFilter, setMarkerFilter] = useState<string>("ALL");
   const [filteredMarkers, setFilteredMarkers] = useState<Record<string, MapMarker[]>>(markers);
 
+  /**
+   * @description handles the checkbox state change and enables/disables dark mode in maps tiler
+   * 
+   * @param {boolean} isChecked whether the checkbox is checked or not
+   */
   const handleChangeMapTile = async (isChecked: boolean): Promise<void> => {
     if (isChecked) {
       context.setMapTilerId('streets-v2-dark');
@@ -75,20 +80,21 @@ function Maps() {
     }
   }
 
-  const setMarkers = (filter: string) => {
+  /**
+   * @description filters the map markers to only include those selected by the user
+   * 
+   * @param {string} filter the kind of map pin to display {All, Dining, Housing, Academics, Recreation}
+   */
+  const setMarkers = (filter: string): void => {
     if (filter === "A") {
       setFilteredMarkers(markers);
     } else {
       const filteredData: Record<string, MapMarker[]> = {};
-
       Object.keys(markers).forEach((schoolName: string) => {
         filteredData[schoolName] = markers[schoolName].filter((marker: MapMarker) =>
           marker.tag.includes(filter)
         );
       });
-
-      console.log(filteredData);
-
       setFilteredMarkers(filteredData);
     }
   }
@@ -107,7 +113,7 @@ function Maps() {
   /**
    * @description Sets the map to a default view based on school location
    */
-  const setDefaultCenter = () => {
+  const setDefaultCenter = (): void => {
     setCenter([defaultLat, defaultLong]);
     setZoom(defaultZoom);
   };
@@ -117,7 +123,7 @@ function Maps() {
    * on school name and sets map center/zoom
    * accordingly
    */
-  const getSchoolLocation = () => {
+  const getSchoolLocation = (): void => {
     if (schoolInfo[schoolName as keyof typeof schoolInfo] !== undefined) {
       const latitude = schoolInfo[schoolName as keyof typeof schoolInfo][0];
       const longitude = schoolInfo[schoolName as keyof typeof schoolInfo][1];
@@ -363,7 +369,7 @@ function Maps() {
             </IonButton>
           </IonFab>
           <IonFab horizontal="end" vertical="bottom" style={{ transform: 'translateX(15%) translateY(-125%)' }}>
-            <IonCheckbox checked={context.mapTilerId === 'streets-v2-dark'} onIonChange={(e) => { handleChangeMapTile(e.detail.checked) }} color="light-item" style={{ '--size': "35px" }} />
+            <IonCheckbox checked={context.mapTilerId === 'streets-v2-dark'} onIonChange={(e) => { handleChangeMapTile(e.detail.checked) }} color="light-item" style={{ '--size': "35px", border: '2px solid #0D1117', borderRadius : "5px" }} />
           </IonFab>
 
         </Map>

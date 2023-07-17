@@ -192,6 +192,13 @@
 	--ion-color-light-item-contrast-rgb: 255,255,255;
 	--ion-color-light-item-shade: #212124;
 	--ion-color-light-item-tint: #3b3b3e;
+
+  --ion-color-class-select: #2f2f2f;
+  --ion-color-class-select-rgb: 37,37,41;
+	--ion-color-class-select-contrast: #ffffff;
+	--ion-color-class-select-contrast-rgb: 255,255,255;
+	--ion-color-class-select-shade: #212124;
+	--ion-color-class-select-tint: #3b3b3e;
 }
 
 body.dark {
@@ -495,6 +502,15 @@ body {
 	--ion-color-contrast-rgb: var(--ion-color-light-item-contrast-rgb);
 	--ion-color-shade: var(--ion-color-light-item-shade);
 	--ion-color-tint: var(--ion-color-light-item-tint);
+}
+
+.ion-color-class-select {
+	--ion-color-base: var(--ion-color-class-select);
+	--ion-color-base-rgb: var(--ion-color-class-select-rgb);
+	--ion-color-contrast: var(--ion-color-class-select-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-class-select-contrast-rgb);
+	--ion-color-shade: var(--ion-color-class-select-shade);
+	--ion-color-tint: var(--ion-color-class-select-tint);
 }
 
 .ion-color-general {
