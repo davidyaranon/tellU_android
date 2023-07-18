@@ -337,7 +337,7 @@ const PrivacyPolicy = () => {
         <IonModal backdropDismiss={false} isOpen={showPasswordModal} handle={false} breakpoints={[0, 1]} initialBreakpoint={1}>
           <IonContent>
             <div className="ion-modal">
-              <IonHeader mode="md">
+              <IonHeader mode="md" className='ion-no-border'>
                 <IonTitle color="light" class="ion-title">
                   {" "}
                   <div>Account deletion</div>{" "}
@@ -361,10 +361,11 @@ const PrivacyPolicy = () => {
                 </IonItem>
                 <br />
                 <IonButton
-                  color="toast-error"
+                  color="medium"
                   mode="md"
                   onClick={() => {
                     setPass("");
+                    setShowPasswordModal(false);
                   }}
                   fill="clear"
                   id="cancelButton"
@@ -372,7 +373,7 @@ const PrivacyPolicy = () => {
                   Cancel
                 </IonButton>
                 <IonButton
-                  color={"primary"}
+                  color="toast-error"
                   mode="md"
                   onClick={handleReAuthForDeletion}
                   fill="clear"
