@@ -16,19 +16,19 @@ import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 import { shareSocialOutline } from "ionicons/icons";
 import { Share } from "@capacitor/share";
 
-const truncatedMonths : Record<string, string> = {
-  "January" : "Jan",
-  "February" : "Feb",
-  "March" : "Mar",
-  "April" : "Apr",
-  "May" : "May",
-  "June" : "Jun",
-  "July" : "Jul",
-  "August" : "Aug",
-  "September" : "Sep",
-  "October" : "Oct",
-  "November" : "Nov",
-  "December" : "Dec"
+const truncatedMonths: Record<string, string> = {
+  "January": "Jan",
+  "February": "Feb",
+  "March": "Mar",
+  "April": "Apr",
+  "May": "May",
+  "June": "Jun",
+  "July": "Jul",
+  "August": "Aug",
+  "September": "Sep",
+  "October": "Oct",
+  "November": "Nov",
+  "December": "Dec"
 };
 
 const Events = React.memo(() => {
@@ -285,10 +285,14 @@ const Events = React.memo(() => {
       let splitStr: string = schoolName === "UC Berkeley" ? "</section>" : "</a>";
       let htmlStrings: string[] = newString3.split(splitStr);
       let dateArr: string[] = [];
-      console.log(htmlStrings);
+      console.log(htmlStrings[10]);
       htmlStrings.forEach((htmlString: string, index: number) => {
-        let match = htmlString.match(/(\w+), (\w+) (\d+), (\d+)/);
-        console.log(match);
+        let match;
+        if (schoolName === "UC Berkeley") {
+          match = htmlString.match(/(\w+), (\d+) (\w+) \d+/);
+        } else {
+          match = htmlString.match(/(\w+), (\w+) (\d+), (\d+)/);
+        }
         if (match) {
           let day = match[3];
           let month = match[2];
