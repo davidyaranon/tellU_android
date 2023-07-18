@@ -12,7 +12,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 // Firebase/Google
 import auth, { db, downVote, getAllPostsNextBatch, getAppVersionNum, getLikes, promiseTimeout, storage, upVote } from '../fbConfig';
-import { collection, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { collection, doc, getDoc, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 
 // Other imports/components
@@ -245,16 +245,25 @@ const Home: React.FC = () => {
 
   /**
    * Loads school from local storage (Preferences API).
-   * Currently just defaults to Cal Poly Humboldt.
-   * 
-   * @todo TODO: Add support for all other schools.
    */
   const setSchool = React.useCallback(async () => {
     const school = await Preferences.get({ key: 'school' });
+    console.log(school);
     if (school && school.value) {
       setSchoolName(school.value);
+    } else if (user) {
+      let school = "";
+      const userRef = doc(db, "userData", user.uid);
+      getDoc(userRef).then(async (userSnap) => {
+        if (userSnap.exists()) {
+          school = userSnap.data().school;
+          console.log(school);
+          setSchoolName(school);
+          await Preferences.set({ key: 'school', value: school });
+        }
+      });
     }
-  }, []);
+  }, [user]);
 
   const handleSetLikes = React.useCallback(() => {
     if (posts) {
@@ -322,7 +331,7 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     setSchool();
-  }, [setSchool]);
+  }, [user]);
 
   const handleGetVersion = React.useCallback(async () => {
     const serverVersion: null | string = await getAppVersionNum();

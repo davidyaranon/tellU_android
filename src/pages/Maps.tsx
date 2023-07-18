@@ -65,20 +65,6 @@ function Maps() {
   const [markerFilter, setMarkerFilter] = useState<string>("ALL");
   const [filteredMarkers, setFilteredMarkers] = useState<Record<string, MapMarker[]>>(markers);
 
-  /**
-   * @description handles the checkbox state change and enables/disables dark mode in maps tiler
-   * 
-   * @param {boolean} isChecked whether the checkbox is checked or not
-   */
-  const handleChangeMapTile = async (isChecked: boolean): Promise<void> => {
-    if (isChecked) {
-      context.setMapTilerId('streets-v2-dark');
-      await Preferences.set({ key: "mapTilerId", value: "streets-v2-dark" });
-    } else {
-      context.setMapTilerId('streets');
-      await Preferences.set({ key: "mapTilerId", value: "streets" });
-    }
-  }
 
   /**
    * @description filters the map markers to only include those selected by the user
@@ -368,10 +354,6 @@ function Maps() {
               }
             </IonButton>
           </IonFab>
-          <IonFab horizontal="end" vertical="bottom" style={{ transform: 'translateX(15%) translateY(-125%)' }}>
-            <IonCheckbox checked={context.mapTilerId === 'streets-v2-dark'} onIonChange={(e) => { handleChangeMapTile(e.detail.checked) }} color="light-item" style={{ '--size': "35px", border: '2px solid #0D1117', borderRadius : "5px" }} />
-          </IonFab>
-
         </Map>
       </IonContent>
     </IonPage>

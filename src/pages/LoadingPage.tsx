@@ -45,6 +45,7 @@ const LoadingPage = () => {
   React.useEffect(() => {
     const unsub = auth.onAuthStateChanged(async (user) => {
       if (user) {
+        console.log({user})
         console.log("logged in");
         context.setShowTabs(true);
         dynamicNavigate(router, '/home', 'root');

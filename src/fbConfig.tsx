@@ -9,7 +9,7 @@ import {
 import {
   createUserWithEmailAndPassword, getAuth, indexedDBLocalPersistence,
   initializeAuth, sendPasswordResetEmail, signInWithEmailAndPassword,
-  signOut, updateProfile, deleteUser,
+  signOut, updateProfile, deleteUser, EmailAuthProvider, reauthenticateWithCredential,
 } from "firebase/auth";
 import {
   get, getDatabase,
@@ -72,9 +72,8 @@ export const askAI = httpsCallable(functions, 'askAI');
  * @param {string} password provided user password
  * @param {string} school school the user is attending
  * 
- * @returns {Promise<any>}
  */
-export async function registerWithEmailAndPassword(name: string, email: string, password: string, school: string): Promise<any> {
+export async function registerWithEmailAndPassword(name: string, email: string, password: string, school: string) {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     if (res) {
@@ -84,31 +83,29 @@ export async function registerWithEmailAndPassword(name: string, email: string, 
         photoURL:
           "https://firebasestorage.googleapis.com/v0/b/quantum-61b84.appspot.com/o/profilePictures%2F301-3012952_this-free-clipart-png-design-of-blank-avatar.png?alt=media&token=90117292-9497-4b30-980e-2b17986650cd",
       });
-      try {
-        await setDoc(doc(db, "userData", user.uid.toString()), {
-          bio: "",
-          snapchat: "",
-          instagram: "",
-          tiktok: "",
-          spotify: "",
-          userName: name,
-          userEmail: email,
-          uid: user.uid,
-          school: school,
-          notifs: [],
-          timestamp: serverTimestamp(),
-          notificationsToken: "",
-        });
-        await setDoc(doc(db, "userPhotoUrls", user.uid.toString()), {
-          url: "https://firebasestorage.googleapis.com/v0/b/quantum-61b84.appspot.com/o/profilePictures%2F301-3012952_this-free-clipart-png-design-of-blank-avatar.png?alt=media&token=90117292-9497-4b30-980e-2b17986650cd"
-        });
-      } catch (docErr) {
-        console.log(docErr);
-      }
+      await setDoc(doc(db, "userData", user.uid.toString()), {
+        bio: "",
+        snapchat: "",
+        instagram: "",
+        tiktok: "",
+        spotify: "",
+        userName: name,
+        userEmail: email,
+        uid: user.uid,
+        school: school,
+        notifs: [],
+        timestamp: serverTimestamp(),
+        notificationsToken: "",
+      });
+      await setDoc(doc(db, "userPhotoUrls", user.uid.toString()), {
+        url: "https://firebasestorage.googleapis.com/v0/b/quantum-61b84.appspot.com/o/profilePictures%2F301-3012952_this-free-clipart-png-design-of-blank-avatar.png?alt=media&token=90117292-9497-4b30-980e-2b17986650cd"
+      });
       return res;
     }
-  } catch (err: any) {
-    return err.message.toString();
+    return undefined;
+  } catch (err) {
+    console.error(err);
+    return undefined;
   }
 }
 
@@ -162,21 +159,44 @@ export async function logout(): Promise<void> {
 /**
  * @description Deletes user from Firebase Auth and all data from Firestore (/userInfo/{userUid})
  * TO-DO: Delete all user data from all Firestore paths
+ * 
+ * @param {string} pass the password of the user to be deleted
  */
-export const deleteUserDataAndAccount = async (): Promise<void> => {
+export const deleteUserDataAndAccount = async (pass: string): Promise<string | void> => {
   try {
     const user = auth.currentUser;
-    const batch = writeBatch(db);
-    const userDoc = doc(db, "userInfo", user!.uid);
-    batch.delete(userDoc);
 
-    await deleteUser(user!).catch((err) => { console.log(err); });
-    await batch.commit().catch((err) => { console.log(err); });
+    if (!user) {
+      console.error("User not logged in...");
+      return "User not logged in...";
+    }
+
+    if (!pass) {
+      console.error("Email or password missing");
+      return "Email or password missing";
+    }
+
+    const credential = EmailAuthProvider.credential(user.email!, pass);
+    try {
+      await reauthenticateWithCredential(user, credential);
+
+      const batch = writeBatch(db);
+      const userDoc = doc(db, "userInfo", user!.uid);
+      batch.delete(userDoc);
+
+      await deleteUser(user!).catch((err) => { console.log(err); });
+      await batch.commit().catch((err) => { console.log(err); });
+
+    } catch (err) {
+      console.error(err);
+      return "Password is incorrect";
+    }
 
   } catch (err) {
     console.log(err);
+    return "Something went wrong";
   }
-}
+};
 
 /**
  * @description Acquires download URL from Firebase Cloud Storage with a given path

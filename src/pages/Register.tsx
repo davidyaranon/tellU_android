@@ -127,6 +127,7 @@ const Register: React.FC = () => {
           title: "Agree to Terms and Conditions",
           message: 'Don\'t post anything offensive, obscene, or harmful! Be nice... read our privacy policy at https://tellu-app.com/page/privacy-policy',
         });
+        console.log('checking old reg');
         // check old registration
         const res = await registerWithEmailAndPassword(
           userNameSignUp.trim(),
@@ -134,11 +135,10 @@ const Register: React.FC = () => {
           passwordSignUp,
           schoolName
         );
-        if (typeof res === "string") {
-          Toast.error('Connection interrupted. Your account should be created, try logging in');
+        console.log('reg done');
+        if (!res) {
+          Toast.error('Registration failed, try again');
         } else {
-          await Preferences.set({ key: "school", value: schoolName });
-          context.setSchoolName(schoolName);
           const notificationsToken: string = localStorage.getItem("notificationsToken") || "";
           if (notificationsToken.length <= 0) {
             FCM.deleteInstance().then(() => console.log("FCM instance deleted")).catch((err) => console.log(err));
@@ -162,8 +162,10 @@ const Register: React.FC = () => {
   }
 
   const setSchool = React.useCallback(async (school: string) => {
+    console.log('setting school: ' + school);
     await Preferences.set({ key: "school", value: school });
     context.setSchoolName(school);
+    console.log('context and Preferences set');
   }, []);
 
   React.useEffect(() => {
@@ -220,7 +222,8 @@ const Register: React.FC = () => {
             interface="action-sheet"
             interfaceOptions={selectInterfaceOptions}
             placeholder="University of California"
-            onIonChange={(e: any) => {
+            onIonChange={async (e) => {
+              await setSchool(e.detail.value);
               setSchoolName(e.detail.value);
               if (e.detail.value == 'Cal Poly Humboldt') {
                 setSchoolEmailEnding('humboldt.edu');
@@ -358,7 +361,7 @@ const Register: React.FC = () => {
 
         <div style={{ height: "1%" }} />
 
-        <IonButton className="login-button" onClick={() => { register(); }} fill="clear" expand="block" id="signInButton" >Register</IonButton>
+        <IonButton className="login-button" onClick={async () => { await register(); }} fill="clear" expand="block" id="signInButton" >Register</IonButton>
 
         <div style={{ height: "1%" }} />
 

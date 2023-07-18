@@ -29,7 +29,7 @@ import { PostType } from '../components/Shared/PostType';
 import ProfilePhoto from '../components/Shared/ProfilePhoto';
 import { PostMessage } from '../components/Home/PostMessage';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
-import { checkmarkCircleOutline, chevronBackOutline, logoInstagram, logoSnapchat, logoTiktok, refreshOutline, warningSharp } from 'ionicons/icons';
+import { checkmarkCircleOutline, chevronBackOutline, logoInstagram, logoSnapchat, logoTiktok, map, refreshOutline, warningSharp } from 'ionicons/icons';
 import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 import { EmailAuthProvider, reauthenticateWithCredential, updateEmail, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -245,6 +245,21 @@ const Settings: React.FC = () => {
     console.log("sensitivity", isChecked);
     context.setSensitivityToggled(isChecked);
     await Preferences.set({ key: 'sensitivityToggled', value: JSON.stringify(isChecked) });
+  };
+
+  /**
+   * @description handles the checkbox state change and enables/disables dark mode in maps tiler
+   * 
+   * @param {boolean} isChecked whether the checkbox is checked or not
+   */
+  const handleChangeMapTile = async (isChecked: boolean): Promise<void> => {
+    if (isChecked) {
+      context.setMapTilerId('streets-v2-dark');
+      await Preferences.set({ key: "mapTilerId", value: "streets-v2-dark" });
+    } else {
+      context.setMapTilerId('streets');
+      await Preferences.set({ key: "mapTilerId", value: "streets" });
+    }
   };
 
   /**
@@ -599,7 +614,6 @@ const Settings: React.FC = () => {
           }}
         >
         <SwiperSlide> */}
-        <div style={{ height: "2vh" }}></div>
         <IonHeader class="ion-no-border" style={{ textAlign: "center", fontSize: "1em", color: "#898989", transform: "translateY(15%)" }}>
           Settings
         </IonHeader>
@@ -675,6 +689,18 @@ const Settings: React.FC = () => {
               enableOnOffLabels={true}
               color={"primary"}
               onIonChange={(e) => { toggleSensitivity(e.detail.checked); Haptics.impact({ style: ImpactStyle.Light }); }}
+            />
+          </IonItem>
+          <IonItem mode="md">
+            <p style={{ fontSize: "0.85em" }}>Dark Maps</p>&nbsp;&nbsp;
+            <IonIcon color="medium" icon={map} />
+            <IonToggle
+              id="themeToggle"
+              slot="end"
+              checked={context.mapTilerId === "streets-v2-dark"}
+              enableOnOffLabels={true}
+              color={"primary"}
+              onIonChange={(e) => { handleChangeMapTile(e.detail.checked); Haptics.impact({ style: ImpactStyle.Light }); }}
             />
           </IonItem>
         </IonList>
