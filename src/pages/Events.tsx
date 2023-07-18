@@ -16,6 +16,21 @@ import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 import { shareSocialOutline } from "ionicons/icons";
 import { Share } from "@capacitor/share";
 
+const truncatedMonths : Record<string, string> = {
+  "January" : "Jan",
+  "February" : "Feb",
+  "March" : "Mar",
+  "April" : "Apr",
+  "May" : "May",
+  "June" : "Jun",
+  "July" : "Jul",
+  "August" : "Aug",
+  "September" : "Sep",
+  "October" : "Oct",
+  "November" : "Nov",
+  "December" : "Dec"
+};
+
 const Events = React.memo(() => {
 
   const context = useAppContext();
@@ -62,15 +77,16 @@ const Events = React.memo(() => {
    * @param {number} index the index of the month selected array
    */
   const filterEvents = (month: string, index: number) => {
+    let truncatedMonth = truncatedMonths[month];
     let start = 0, end = dates.length - 1;
     for (let i = 0; i < dates.length; i++) {
-      if (dates[i].includes(month)) {
+      if (dates[i].includes(month) || dates[i].includes(truncatedMonth)) {
         start = i;
         break;
       }
     }
     for (let i = dates.length - 1; i >= 0; i--) {
-      if (dates[i].includes(month)) {
+      if (dates[i].includes(month) || dates[i].includes(truncatedMonth)) {
         end = i;
         break;
       }
@@ -99,7 +115,7 @@ const Events = React.memo(() => {
   };
 
   /**
-   * @decscription returns current month 
+   * @description returns current month 
    * 
    * @param {number | undefined} month month number from 0 - 11 or undefined
    * @returns {string} month name
@@ -209,7 +225,7 @@ const Events = React.memo(() => {
    * @returns {"Today" | "Tomorrow" | ""} returns "Today" if the date is today, 
    * "Tomorrow" if the date is tomorrow, and "" otherwise.
    */
-  const getMessage = (dateStr1: string): string => {
+  const getMessage = (dateStr1: string): "Today" | "Tomorrow" | "" => {
     if (!today) {
       const toast = Toast.create({ message: 'Unable to load events, try again', duration: 2000, color: 'toast-error' });
       toast.present();
@@ -254,6 +270,7 @@ const Events = React.memo(() => {
       let myString = events.value;
       let substring = "img";
       let substring2 = "&lt;p";
+      let substring3 = "<p";
       let appendStringImg = " class=\"event-img\"";
       let appendStringP = " class=\"event-p\"";
       let newString = myString.replace(new RegExp(substring, 'g'), function (match) {
@@ -262,11 +279,16 @@ const Events = React.memo(() => {
       let newString2 = newString.replace(new RegExp(substring2, 'g'), function (match) {
         return match + appendStringP;
       });
-      console.log('getting events from local storage, same day');
-      let htmlStrings: string[] = newString2.split("</a>");
+      let newString3 = newString2.replace(new RegExp(substring3, 'g'), function (match) {
+        return match + appendStringP;
+      });
+      let splitStr: string = schoolName === "UC Berkeley" ? "</section>" : "</a>";
+      let htmlStrings: string[] = newString3.split(splitStr);
       let dateArr: string[] = [];
+      console.log(htmlStrings);
       htmlStrings.forEach((htmlString: string, index: number) => {
         let match = htmlString.match(/(\w+), (\w+) (\d+), (\d+)/);
+        console.log(match);
         if (match) {
           let day = match[3];
           let month = match[2];
@@ -295,6 +317,7 @@ const Events = React.memo(() => {
             let myString = replacedHtml;
             let substring = "img";
             let substring2 = "&lt;p";
+            let substring3 = "<p";
             let appendStringImg = " class=\"event-img\"";
             let appendStringP = " class=\"event-p\"";
             let newString = myString.replace(new RegExp(substring, 'g'), function (match) {
@@ -303,10 +326,20 @@ const Events = React.memo(() => {
             let newString2 = newString.replace(new RegExp(substring2, 'g'), function (match) {
               return match + appendStringP;
             });
-            let htmlStrings: string[] = newString2.split("</a>");
+            let newString3 = newString2.replace(new RegExp(substring3, 'g'), function (match) {
+              return match + appendStringP;
+            });
+            let splitStr: string = schoolName === "UC Berkeley" ? "</section>" : "</a>";
+            let htmlStrings: string[] = newString3.split(splitStr);
             let dateArr: string[] = [];
+            console.log(htmlStrings[10]);
             htmlStrings.forEach((htmlString: string, index: number) => {
-              let match = htmlString.match(/(\w+), (\w+) (\d+), (\d+)/);
+              let match;
+              if (schoolName === "UC Berkeley") {
+                match = htmlString.match(/(\w+), (\d+) (\w+) \d+/);
+              } else {
+                match = htmlString.match(/(\w+), (\w+) (\d+), (\d+)/);
+              }
               if (match) {
                 let day = match[3];
                 let month = match[2];

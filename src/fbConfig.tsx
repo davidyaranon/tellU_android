@@ -1613,7 +1613,8 @@ function extractDataFromXML(xmlString: string) {
     let pubDate = item.getElementsByTagName("pubDate")[0]?.textContent || '';
     let description = item.getElementsByTagName("description")[0]?.textContent || '';
     let link = item.getElementsByTagName("link")[0]?.textContent || '';
-
+    console.log(pubDate);
+    console.log('\n');
     result.push({
       title: title,
       pubDate: pubDate,
@@ -1653,21 +1654,20 @@ export const getEvents = async (schoolName: string) => {
   let lines = updates.data.split('\n');
 
   if (isBerkeley) {
-
     let data = extractDataFromXML(updates.data);
-
-    console.log(data);
-
     data.forEach((item) => {
+      htmlString += "<section>";
       htmlString += "<h1 class=\"events-h1\">" + item.title + "</h1>";
       htmlString += '\n';
-      htmlString += '<div class=\'event-div\'' + item.pubDate + '</div>';
+      htmlString += '<p style=\'padding-left:15px\'>' + item.pubDate.replace(/\s\+\d{4}$/, "") + '</p';
       htmlString += '\n';
       htmlString += "<div>" + item.description + "</div>";
       htmlString += '\n';
       htmlString += "<a class=\"event-a\" href='" + item.link + "'>Read More</a>";
       htmlString += '\n';
+      htmlString += "</section>"
     });
+    return htmlString;
   }
 
   for (let i = 0; i < lines.length; i++) {
