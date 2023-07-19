@@ -247,21 +247,28 @@ const Home: React.FC = () => {
    * Loads school from local storage (Preferences API).
    */
   const setSchool = React.useCallback(async () => {
-    const school = await Preferences.get({ key: 'school' });
+    const school = await Preferences.get({ key: 'school' }).catch((err) => console.error(err));
     console.log(school);
-    if (school && school.value) {
+    if (!schoolName && school && school.value) {
       setSchoolName(school.value);
-    } else if (user) {
+    } else if (!schoolName && user) {
+      console.log("Checking school...")
       let school = "";
       const userRef = doc(db, "userData", user.uid);
+      console.log(user.uid);
       getDoc(userRef).then(async (userSnap) => {
+        console.log("DONE")
         if (userSnap.exists()) {
           school = userSnap.data().school;
           console.log(school);
           setSchoolName(school);
           await Preferences.set({ key: 'school', value: school });
+        } else {
+          console.log("DOES NOT EXIST")
         }
       });
+    } else {
+      console.log("UHHH")
     }
   }, [user]);
 
@@ -331,7 +338,7 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     setSchool();
-  }, [user]);
+  }, [db, user]);
 
   const handleGetVersion = React.useCallback(async () => {
     const serverVersion: null | string = await getAppVersionNum();

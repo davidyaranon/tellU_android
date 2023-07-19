@@ -78,36 +78,43 @@ export async function registerWithEmailAndPassword(name: string, email: string, 
     const res = await createUserWithEmailAndPassword(auth, email, password);
     if (res) {
       const user = res.user;
-      await updateProfile(user, {
-        displayName: name,
-        photoURL:
-          "https://firebasestorage.googleapis.com/v0/b/quantum-61b84.appspot.com/o/profilePictures%2F301-3012952_this-free-clipart-png-design-of-blank-avatar.png?alt=media&token=90117292-9497-4b30-980e-2b17986650cd",
+      const transactionRes = await runTransaction(db, async (transaction) => {
+        const userDataRef = doc(db, "userData", user.uid);
+        transaction.set(userDataRef, {
+          bio: "",
+          snapchat: "",
+          instagram: "",
+          tiktok: "",
+          spotify: "",
+          userName: name,
+          userEmail: email,
+          uid: user.uid,
+          school: school,
+          notifs: [],
+          timestamp: serverTimestamp(),
+          notificationsToken: "",
+        });
+        return { success: true };
       });
-      await setDoc(doc(db, "userData", user.uid.toString()), {
-        bio: "",
-        snapchat: "",
-        instagram: "",
-        tiktok: "",
-        spotify: "",
-        userName: name,
-        userEmail: email,
-        uid: user.uid,
-        school: school,
-        notifs: [],
-        timestamp: serverTimestamp(),
-        notificationsToken: "",
-      });
-      await setDoc(doc(db, "userPhotoUrls", user.uid.toString()), {
-        url: "https://firebasestorage.googleapis.com/v0/b/quantum-61b84.appspot.com/o/profilePictures%2F301-3012952_this-free-clipart-png-design-of-blank-avatar.png?alt=media&token=90117292-9497-4b30-980e-2b17986650cd"
-      });
-      return res;
+      if(transactionRes.success) {
+        await updateProfile(user, {
+          displayName: name,
+          photoURL:
+            "https://firebasestorage.googleapis.com/v0/b/quantum-61b84.appspot.com/o/profilePictures%2F301-3012952_this-free-clipart-png-design-of-blank-avatar.png?alt=media&token=90117292-9497-4b30-980e-2b17986650cd",
+        });
+        return res;
+      } else {
+        console.log("Transaction on db failed");
+        await deleteUser(user);
+        return undefined;
+      }
     }
     return undefined;
   } catch (err) {
     console.error(err);
     return undefined;
   }
-}
+};
 
 /**
  * @description Signs in returning user using Firebase's 'logInWithEmailAndPassword()'
@@ -181,10 +188,10 @@ export const deleteUserDataAndAccount = async (pass: string): Promise<string | v
       await reauthenticateWithCredential(user, credential);
 
       const batch = writeBatch(db);
-      const userDoc = doc(db, "userInfo", user!.uid);
+      const userDoc = doc(db, "userData", user.uid);
       batch.delete(userDoc);
 
-      await deleteUser(user!).catch((err) => { console.log(err); });
+      await deleteUser(user!).catch((err) => { console.log(err); return "Unable to delete from database, try again..." });
       await batch.commit().catch((err) => { console.log(err); });
 
     } catch (err) {
