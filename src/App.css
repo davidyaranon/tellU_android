@@ -1392,10 +1392,10 @@ img.chat_avatar {
 }
 
 .event-div {
-  padding: 15px;
   font-weight: bold;
   font-size: 1em;
   color: #61dbfb;
+  padding-bottom: 10px;
 }
 
 .event-a {
@@ -1442,4 +1442,8 @@ ion-select.map-select {
 
 ion-select::after {
   display: none;
+}
+
+.p-div {
+  padding: 15px;
 }

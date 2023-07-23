@@ -96,7 +96,7 @@ export async function registerWithEmailAndPassword(name: string, email: string, 
         });
         return { success: true };
       });
-      if(transactionRes.success) {
+      if (transactionRes.success) {
         await updateProfile(user, {
           displayName: name,
           photoURL:
@@ -134,6 +134,7 @@ export async function logInWithEmailAndPassword(email: string, password: string)
 }
 
 /**
+ * @deprecated Use `signInWithEmailAndPassword`
  * @description Adds user to Firestore database ("/userInfo/{uid}")
  * 
  * @param {string} uid uid of new user
@@ -1627,6 +1628,12 @@ export const getPOIPosts = async (poiName: string) => {
   }
 };
 
+/**
+ * @description extracts certain parts of the XML response data
+ * 
+ * @param {string} xmlString 
+ * @returns {{ title: string; pubDate: string; description: string; link: string; }[]}
+ */
 function extractDataFromXML(xmlString: string) {
   let parser = new DOMParser();
   let xmlDoc = parser.parseFromString(xmlString, "text/xml");

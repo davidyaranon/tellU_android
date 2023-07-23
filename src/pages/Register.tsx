@@ -142,14 +142,14 @@ const Register: React.FC = () => {
           const notificationsToken: string = localStorage.getItem("notificationsToken") || "";
           if (notificationsToken.length <= 0) {
             FCM.deleteInstance().then(() => console.log("FCM instance deleted")).catch((err) => console.log(err));
-            FCM.getToken().then((token) => {
+            FCM.getToken().then(async (token) => {
               localStorage.setItem("notificationsToken", token.token);
-              updateNotificationsToken(token.token);
+              await updateNotificationsToken(token.token);
               console.log("FCM TOKEN: " + token.token);
             });
           } else {
             console.log("NOTIFICATIONS TOKEN EXISTS : " + notificationsToken);
-            updateNotificationsToken(notificationsToken);
+            await updateNotificationsToken(notificationsToken);
           }
           const toast = Toast.create({ message: 'Registered Successfully', duration: 2000, color: 'toast-success' });
           toast.present();

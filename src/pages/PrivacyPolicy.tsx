@@ -30,7 +30,7 @@ const PrivacyPolicy = () => {
    */
   const handleReAuthForDeletion = () => {
     if (!pass) {
-      const toast = Toast.create({ message: "Password unable to be read", duration: 2000, color: 'toast-success' });
+      const toast = Toast.create({ message: "Password unable to be read", duration: 2000, color: 'toast-error' });
       toast.present();
       toast.dismiss();
       return;

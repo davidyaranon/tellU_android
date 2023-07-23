@@ -1111,7 +1111,7 @@ const Settings: React.FC = () => {
       <IonModal backdropDismiss={false} isOpen={credentialsModal} handle={false} breakpoints={[0, 1]} initialBreakpoint={1}>
         <IonContent>
           <div className="ion-modal">
-            <IonHeader mode="md">
+            <IonHeader mode="md" className='ion-no-border'>
               <IonTitle color="light" class="ion-title">
                 {" "}
                 <div>Email Change</div>{" "}
@@ -1169,7 +1169,7 @@ const Settings: React.FC = () => {
       <IonModal backdropDismiss={false} isOpen={credentialsUserModal} handle={false} breakpoints={[0, 1]} initialBreakpoint={1}>
         <IonContent>
           <div className="ion-modal">
-            <IonHeader mode="md">
+            <IonHeader mode="md" className='ion-no-border'>
               <IonTitle color="light" className="ion-title">
                 {" "}
                 <div>Username Change</div>{" "}

@@ -10,11 +10,11 @@ export type ContextType = {
   setShowTabs: React.Dispatch<React.SetStateAction<boolean>>;
   darkMode: boolean;
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-  sensitivityToggled: boolean;
   schoolName: string;
+  setSchoolName: React.Dispatch<React.SetStateAction<string>>;
   mapTilerId: string;
   setMapTilerId: React.Dispatch<React.SetStateAction<string>>;
-  setSchoolName: React.Dispatch<React.SetStateAction<string>>;
+  sensitivityToggled: boolean;
   setSensitivityToggled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
