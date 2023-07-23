@@ -239,7 +239,7 @@ const App: React.FC = () => {
       StatusBar.setStyle({ style: Style.Dark });
     }
   }, []);
-  
+
 
   const handleMapTiler = React.useCallback(async () => {
     const mapId = await Preferences.get({ key: "mapTilerId" });
@@ -306,9 +306,7 @@ const App: React.FC = () => {
     handleDarkMode().catch((err) => { console.log(err); });
     handleMapTiler().catch((err) => { console.log(err); });
     handleSensitivityToggle().catch((err) => { console.log(err); });
-    if (Capacitor.getPlatform() !== 'web') {
-      registerNotifications();
-    }
+    registerNotifications();
   }, []);
 
 

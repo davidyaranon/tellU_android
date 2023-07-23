@@ -604,12 +604,13 @@ export const getOnePost = async (postKey: string, schoolName: string): Promise<D
  * @param {string} posterUid 
  * @param {string} commenterNotificationToken 
  * @param {string[]} attedUsersList 
+ * @param {string} username
  * 
  * @returns {Promise<any>} newly added comment with corresponding info
  */
 export const addCommentNew = async (postKey: string, schoolName: string,
   commentString: string, blob: any, id: string, notificationsToken: string,
-  posterUid: string, commenterNotificationToken: string, attedUsersList: string[]) => {
+  posterUid: string, commenterNotificationToken: string, attedUsersList: string[], username: string) => {
   try {
     if (auth && database && auth.currentUser && db) {
       const uid = auth.currentUser.uid;
@@ -664,7 +665,7 @@ export const addCommentNew = async (postKey: string, schoolName: string,
         comment: commentString,
         taggedUsers: attedUsersList,
         data: {
-          url: "/post/" + postKey
+          url: "/post/" + schoolName + "/" + username + "/" + postKey
         },
         icon: "https://firebasestorage.googleapis.com/v0/b/quantum-61b84.appspot.com/o/FCMImages%2FtellU_hat_logo.png?alt=media&token=827e8b14-3c58-4f48-a852-7a22899416c9"
       });
@@ -1348,8 +1349,9 @@ export const getCurrentUserData = async (): Promise<DocumentData | undefined> =>
  * @param {string} notificationsToken 
  * @param {string} message 
  * @param {string} contactUid 
+ * @param {string} schoolName
  */
-export const sendDm = async (chatroomString: string, notificationsToken: string, message: string, contactUid: string) => {
+export const sendDm = async (chatroomString: string, notificationsToken: string, message: string, contactUid: string, schoolName: string) => {
   try {
     if (auth && db) {
       console.log('sending dm to ', notificationsToken);
@@ -1365,7 +1367,7 @@ export const sendDm = async (chatroomString: string, notificationsToken: string,
         message: message,
         posterUid: contactUid,
         data: {
-          url: "/chatroom/" + chatroomString
+          url: "/chatroom/" + schoolName + "/" + chatroomString
         },
         icon: "https://firebasestorage.googleapis.com/v0/b/quantum-61b84.appspot.com/o/FCMImages%2FtellU_hat_logo.png?alt=media&token=827e8b14-3c58-4f48-a852-7a22899416c9"
       })

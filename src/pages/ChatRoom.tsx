@@ -161,7 +161,7 @@ const ChatRoom = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
       });
       if (contactInfo && "notificationsToken" in contactInfo && schoolName) {
         console.log('sending dm to: ', contactInfo.notificationsToken);
-        await sendDm(collectionPath, contactInfo.notificationsToken, tempComment, contactInfo.uid);
+        await sendDm(collectionPath, contactInfo.notificationsToken, tempComment, contactInfo.uid, schoolName);
       }
     }
   };
@@ -171,8 +171,6 @@ const ChatRoom = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
    * @param key the key a user presses
    */
   const isEnterPressed = (key: string) => {
-    console.log(key);
-    console.log('\n\n\n\n\n');
     if (key === "Enter") {
       handleCommentSubmit();
     }
@@ -356,8 +354,8 @@ const ChatRoom = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
             placeholder={loading ? "Loading..." : "Send a message..."}
             id="DM"
             disabled={loading || !contactInfo}
-            onKeyDown={e => { e.preventDefault(); isEnterPressed(e.key) }}
-            onIonInput={e => { e.preventDefault(); setCurrMessage(e.detail.value!) }}
+            onKeyDown={e => { isEnterPressed(e.key) }}
+            onIonInput={e => { setCurrMessage(e.detail.value!) }}
             className={context.darkMode ? "text-area-dark" : "text-area-light"}
           ></IonTextarea>
           <IonFab vertical="top" horizontal="end">
