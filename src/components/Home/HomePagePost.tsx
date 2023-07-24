@@ -75,7 +75,7 @@ export const HomePagePost = (props: any) => {
           </IonLabel>
         </IonItem>
         {likes && dislikes &&
-          <IonItem lines="none" mode="md" style={{ marginLeft: "1%" }}>
+          <IonItem lines="none" mode="md">
             <IonButton
               onAnimationEnd={() => { setLikeAnimation(-1); }}
               className={likeAnimation === post.key ? "likeAnimation" : ""}

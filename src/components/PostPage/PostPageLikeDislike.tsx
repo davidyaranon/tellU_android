@@ -122,7 +122,7 @@ export const PostPageLikeDislike = memo((props: any) => {
   };
 
   return (
-    <IonItem lines="none" mode="md" style={{ marginLeft: "1%" }}>
+    <IonItem lines="none" mode="md">
       <IonButton
         onAnimationEnd={() => { setLikeAnimation(-1); }}
         className={likeAnimation === post.key ? "likeAnimation" : ""}
