@@ -465,3 +465,46 @@ export const classSelections: { [key: string]: { [key: string]: string[] }; } = 
     "": []
   }
 };
+
+type EmojiRecord = Record<string, string>;
+const emojiRecord: EmojiRecord = {
+  'CS': '💻',
+  'FOR': '🌳',
+  'ANTH': '🦕',
+  'ART': '🎨',
+  'BIOL': '🧬',
+  'BOT': '🌷',
+  'CHEM': '🧪',
+  'COMM': '📠',
+  'CRIM': '🚔',
+  'CRGS': '🏳️‍🌈',
+  'DANC': '💃🏻',
+  'ECON': '🤑',
+  'EDUC': '📚',
+  'ENGR': '📐',
+  'ENGL': '📕',
+  'FILM': '🎬',
+  'FISH': '🐠',
+  'FREN': '🇫🇷',
+  'GEOG': '🌎',
+  'GEOL': '🪨',
+  'JMC': '📰',
+  'MATH': '➗✖️',
+  'HIST': '🌏',
+  'KINS': '💪',
+  'OCN': '🌊',
+  'PYSC': '🧠',
+  'PHIL': '🧐',
+  'WLDF': '🦁',
+  'ZOOL': '🦁',
+};
+
+export function selectEmoji(postClassName: string): string {
+  for (const key in emojiRecord) {
+    if (postClassName.startsWith(key)) {
+      return emojiRecord[key];
+    }
+  }
+  // Return a default emoji if no match is found
+  return '📚';
+}

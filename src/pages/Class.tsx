@@ -24,7 +24,7 @@ import RoomIcon from '@mui/icons-material/Room';
 import ProfilePhoto from "../components/Shared/ProfilePhoto";
 import { getColor } from "../helpers/getColor";
 import { getDate } from "../helpers/timeago";
-import { classSelections } from "../helpers/class-selections-config";
+import { classSelections, selectEmoji } from "../helpers/class-selections-config";
 import { navigateBack } from "../components/Shared/Navigation";
 
 const selectOptions = {
@@ -51,65 +51,8 @@ const Class = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
 
   const getClassPosts = async () => {
     if (postClassName) {
-      if (postClassName.includes('CS')) {
-        setEmoji('💻');
-      } else if (postClassName.includes('FOR')) {
-        setEmoji('🌳');
-      } else if (postClassName.includes('ANTH')) {
-        setEmoji('🦕');
-      } else if (postClassName.includes('ART')) {
-        setEmoji('🎨');
-      } else if (postClassName.includes('BIOL')) {
-        setEmoji('🧬');
-      } else if (postClassName.includes('BOT')) {
-        setEmoji('🌷');
-      } else if (postClassName.includes('CHEM')) {
-        setEmoji('🧪');
-      } else if (postClassName.includes('COMM')) {
-        setEmoji('📠');
-      } else if (postClassName.includes('CRIM')) {
-        setEmoji('🚔');
-      } else if (postClassName.includes('CRGS')) {
-        setEmoji('🏳️‍🌈');
-      } else if (postClassName.includes('DANC')) {
-        setEmoji('💃🏻');
-      } else if (postClassName.includes('ECON')) {
-        setEmoji('🤑');
-      } else if (postClassName.includes('EDUC')) {
-        setEmoji('📚');
-      } else if (postClassName.includes('ENGR')) {
-        setEmoji('📐');
-      } else if (postClassName.includes('ENGL')) {
-        setEmoji('📕');
-      } else if (postClassName.includes('FILM')) {
-        setEmoji('🎬');
-      } else if (postClassName.includes('FISH')) {
-        setEmoji('🐠');
-      } else if (postClassName.includes('FREN')) {
-        setEmoji('🇫🇷');
-      } else if (postClassName.includes('GEOG')) {
-        setEmoji('🌎');
-      } else if (postClassName.includes('GEOL')) {
-        setEmoji('🪨');
-      } else if (postClassName.includes('JMC')) {
-        setEmoji('📰');
-      } else if (postClassName.includes('MATH')) {
-        setEmoji('➗✖️');
-      } else if (postClassName.includes('HIST')) {
-        setEmoji('🌏');
-      } else if (postClassName.includes('KINS')) {
-        setEmoji('💪');
-      } else if (postClassName.includes('OCN')) {
-        setEmoji('🌊');
-      } else if (postClassName.includes('PYSC')) {
-        setEmoji('🧠');
-      } else if (postClassName.includes('PHIL')) {
-        setEmoji('🧐');
-      } else if (postClassName.includes('WLDF') || postClassName.includes('ZOOL')) {
-        setEmoji('🦁');
-      } else {
-        setEmoji('📚');
-      }
+      const emoji: string = selectEmoji(postClassName);
+      setEmoji(emoji);
       const classPosts = promiseTimeout(15000, getClassPostsDb(postClassName, schoolName));
       classPosts.then((posts) => {
         console.log(posts);
@@ -190,7 +133,7 @@ const Class = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
       <>
         <IonHeader className='ion-no-border'>
           <IonToolbar mode='ios' className='ion-no-border'>
-            {postClassName && <IonTitle>All {postClassName} Posts {emoji}</IonTitle>}
+            {postClassName && classNumberFilter && <IonTitle>{postClassName} {classNumberFilter} Posts {emoji}</IonTitle>}
             <IonButtons>
               <IonBackButton style={{ fontSize: '.75em', marginLeft: '5px' }} defaultHref="/home" className="back-button" icon={chevronBackOutline} text={"\n"} color={"primary"} >
               </IonBackButton>
@@ -208,6 +151,7 @@ const Class = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
                   filterPosts(e);
                 }}
               >
+                <IonSelectOption key={"ALL"} value={"ALL"}>All</IonSelectOption>
                 {classSelections[schoolName][postClassName].map((classNumber: string, index: number) => {
                   return (
                     <IonSelectOption key={index} value={classNumber}>{classNumber}</IonSelectOption>
