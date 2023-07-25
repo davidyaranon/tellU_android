@@ -22,6 +22,7 @@ import { UserAboutCard } from '../components/Shared/UserAboutCard';
 import { timeout } from "../helpers/timeout";
 import { Haptics, ImpactStyle } from "@capacitor/haptics";
 import { navigateBack } from "../components/Shared/Navigation";
+import { Share } from "@capacitor/share";
 
 interface MatchParams {
   uid: string;
@@ -53,6 +54,16 @@ const UserProfile = ({ match }: RouteComponentProps<MatchParams>) => {
   const [userPosts, setUserPosts] = useState<any[]>([]);
   const [lastKey, setLastKey] = useState<any>();
   const [noMorePosts, setNoMorePosts] = useState<boolean>(false);
+
+  /**
+   * @description handles the share modal when a user wants to share the about page
+   */
+  const handleShare = async () => {
+    await Share.share({
+      "text": "Checkout this user on tellU",
+      "url": "https://quantum-61b84.firebaseapp.com" + window.location.pathname
+    });
+  };
 
   /**
    * @description upvotes a post and updates the state
@@ -307,7 +318,7 @@ const UserProfile = ({ match }: RouteComponentProps<MatchParams>) => {
 
   return (
     <IonPage >
-      <Toolbar user={user} uid={uid} dm={true} schoolName={schoolName} title={""} text={"\n"} />
+      <Toolbar share={true} handleShare={handleShare} user={user} uid={uid} dm={true} schoolName={schoolName} title={""} text={"\n"} />
       <IonContent fullscreen scrollY={false}>
         <Virtuoso
           overscan={1000}

@@ -5,7 +5,7 @@
 import { useToast } from "@agney/ir-toast";
 import { Dialog } from "@capacitor/dialog";
 import { IonBackButton, IonButton, IonButtons, IonHeader, IonIcon, IonTitle, IonToolbar } from "@ionic/react";
-import { alertCircleOutline, chatbubbleOutline, chevronBackOutline } from "ionicons/icons";
+import { alertCircleOutline, chatbubbleOutline, chevronBackOutline, shareSocialOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 import '../../App.css';
 import { useAppContext } from "../../my-context";
@@ -21,6 +21,8 @@ export const Toolbar = (props: any) => {
   const dm = props.dm;
   const user = props.user;
   const uid = props.uid;
+  const share = props.share;
+  const handleShare = props.handleShare;
 
   const Toast = useToast();
   const history = useHistory();
@@ -53,14 +55,21 @@ export const Toolbar = (props: any) => {
               icon={chevronBackOutline}
               text={text || "Back"}
               color={color ? color : "primary"}
-              style={{fontSize : '.75em', marginLeft : '5px'}}
+              style={{ fontSize: '.75em', marginLeft: '5px' }}
             >
             </IonBackButton>
           </IonButtons>
+          {share &&
+            <IonButtons slot='end'>
+              <IonButton color={"primary"} slot="end" onClick={() => { handleShare() }}>
+                <IonIcon icon={shareSocialOutline} />
+              </IonButton>
+            </IonButtons>
+          }
           {schoolName && setShowReportModal &&
             <IonButtons slot='end'>
               <IonButton color={"primary"} slot="end" onClick={() => { reportPost(); }}>
-                <IonIcon icon={alertCircleOutline} size={'small'}/>
+                <IonIcon icon={alertCircleOutline} size={'small'} />
               </IonButton>
             </IonButtons>
           }
@@ -80,7 +89,7 @@ export const Toolbar = (props: any) => {
                       elements.push(user.uid);
                       elements.push(uid);
                     }
-                    history.push("/chatroom/" + schoolName + "/" +  elements[0] + '_' + elements[1], 'forward');
+                    history.push("/chatroom/" + schoolName + "/" + elements[0] + '_' + elements[1], 'forward');
                   } else {
                     console.log(user.uid)
                     console.log(user);

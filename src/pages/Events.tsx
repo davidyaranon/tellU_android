@@ -53,7 +53,7 @@ const Events = React.memo(() => {
 
   const shareEvent = async (decodedString: any): Promise<void> => {
     if (typeof decodedString === 'string') return;
-    let title = 'Check out this event at school:\n';
+    let title = 'Let me tellU about this event at school:\n';
     let text = '';
     let url = '';
     let dialogTitle = 'Share this event!';

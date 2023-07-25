@@ -36,6 +36,7 @@ import { CommentLoading, PostLoading } from "../components/PostPage/PostLoading"
 import { ReportModal } from "../components/PostPage/ReportModal";
 import { PostComment } from "../components/PostPage/Comment";
 import { navigateBack } from "../components/Shared/Navigation";
+import { Share } from "@capacitor/share";
 
 interface MatchUserPostParams {
   school: string;
@@ -91,7 +92,14 @@ const Post = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
 
   const handleShowReportModal = React.useCallback((show: boolean) => {
     setShowReportModal(show)
-  }, [])
+  }, []);
+
+  const handleShare = async () => {
+    await Share.share({
+      "text": "Checkout this post on tellU",
+      "url": "https://quantum-61b84.firebaseapp.com" + window.location.pathname
+    });
+  };
 
   /**
    * @description Sends an image to Firestore storage under /commentImages/{uuid}
@@ -399,7 +407,7 @@ const Post = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
   //TO-DO: Replace comments with Virtuoso component
   return (
     <IonPage>
-      <Toolbar setShowReportModal={handleShowReportModal} schoolName={schoolName} title={userName + '\'s Post'} text={"\n"} />
+      <Toolbar share={true} handleShare={handleShare} setShowReportModal={handleShowReportModal} schoolName={schoolName} title={userName + '\'s Post'} text={"\n"} />
       <IonContent fullscreen ref={contentRef} scrollEvents>
         <IonLoading isOpen={deletingComment} duration={0} message={"Deleting post..."} />
         <ReportModal schoolName={schoolName} postKey={postKey} handleShowReportModal={handleShowReportModal} isOpen={showReportModal} />
