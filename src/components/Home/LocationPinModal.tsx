@@ -1,7 +1,6 @@
 /* Ionic/React + Capacitor */
 import {
-  IonButton, IonButtons, IonCardTitle, IonCheckbox, IonHeader,
-  IonIcon,
+  IonButton, IonButtons, IonCheckbox, IonIcon,
   IonItem, IonLabel, IonList, IonModal, IonNote, IonRadio, IonRadioGroup, IonTitle, IonToolbar, useIonLoading
 } from "@ionic/react";
 import { useState } from "react";
@@ -24,6 +23,10 @@ const locationOptions: GeolocationOptions = {
   enableHighAccuracy: true,
   timeout: 5000
 };
+
+function area(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number): number {
+  return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0);
+}
 
 export const LocationPinModal = (props: any) => {
 
@@ -172,10 +175,6 @@ export const LocationPinModal = (props: any) => {
     messageAdd();
   };
 
-  function area(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number): number {
-    return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0);
-  }
-
   /**
    * @description sees if the user is currently in a POI based on their location
    * 
@@ -188,6 +187,8 @@ export const LocationPinModal = (props: any) => {
       POIs = humboldtPOIs;
     } else if (context.schoolName === "UC Davis") {
       POIs = davisPOIs;
+    } else if (context.schoolName === "UC Berkeley") {
+      // POIs = berkeleyPOIs;
     }
     for (const [key, value] of Object.entries(POIs)) {
       const arr: number[] = value;
@@ -217,14 +218,14 @@ export const LocationPinModal = (props: any) => {
       const pos = await Geolocation.getCurrentPosition(locationOptions);
       const poi: string = checkPOI(pos.coords.latitude, pos.coords.longitude);
       if ((poi === "") || (!poi) || (poi.length < 0)) {
-        const toast = Toast.create({ message: 'Location not in a POI', duration: 2000, color: 'toast-error' });
+        const toast = Toast.create({ message: 'Looks like you are not near a pinned location!', duration: 2000, color: 'toast-error' });
         toast.present();
         dismiss();
         return;
       }
       setPOI(poi.trim());
       setPosition(pos);
-      const toast = Toast.create({ message: 'POI: ' + poi + ' added!', duration: 2000, color: 'toast-success' });
+      const toast = Toast.create({ message: 'Location: ' + poi + ' added!', duration: 2000, color: 'toast-success' });
       toast.present();
       toast.dismiss();
       dismiss();
@@ -313,14 +314,14 @@ export const LocationPinModal = (props: any) => {
             checked={locationChecked}
             onIonChange={(e) => {
               setLocationChecked(e.detail.checked);
-              if (e.detail.checked) getLocation();
-              else setPosition(null);
+              if (e.detail.checked) { getLocation(); }
+              else { setPosition(null); setPOI(''); }
             }}
           />
         </IonItem>
       </IonList>
 
-      {POI.length > 0 ?
+      {POI.length > 0 && locationChecked ?
         <IonNote style={{ textAlign: "center" }}>Location: {POI}</IonNote>
         :
         <IonNote style={{ textAlign: "center", width: "95vw", padding: "10px" }}>*Uses your current location to link your post to a on campus.</IonNote>

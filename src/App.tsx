@@ -66,6 +66,7 @@ import { useAppContext } from "./my-context";
 import { FCM } from '@capacitor-community/fcm';
 import aiIconFilled from './images/aiFilled.svg';
 import aiIconUnfilled from './images/aiUnfilled.svg';
+import AppUrlListener from './AppUrlListener';
 
 // Global variables
 setupIonicReact({ mode: 'md' }); // ios for iPhone, md for Android, affects ALL components
@@ -159,6 +160,8 @@ const RoutingSystem: React.FunctionComponent = () => {
 
     /* Allows use of toast popups throughout app using the useToast() hook */
     <ToastProvider value={{ color: "primary", duration: 2000 }}>
+
+      <AppUrlListener></AppUrlListener>
 
       {/* Routing */}
       <IonTabs onIonTabsDidChange={(e) => { setSelectedTab(e.detail.tab) }}>
