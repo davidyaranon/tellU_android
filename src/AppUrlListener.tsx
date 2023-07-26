@@ -1,9 +1,14 @@
+/* Capacitor */
 import { App, URLOpenListenerEvent } from "@capacitor/app";
+import { Capacitor } from "@capacitor/core";
+
+/* React */
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useHistory } from "react-router";
+
+/* Firebase */
 import auth from "./fbConfig";
-import { Capacitor } from "@capacitor/core";
 
 const AppUrlListener: React.FC<any> = () => {
 
@@ -12,20 +17,16 @@ const AppUrlListener: React.FC<any> = () => {
 
   useEffect(() => {
     if (!loading) {
-      if (Capacitor.getPlatform() === 'web') {
-        history.push('https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link');
-      } else {
-        if (user) {
-          App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-            const domain = 'quantum-61b84.firebaseapp.com'
-            const slug = event.url.split(domain);
-            const path = slug.pop();
-            if (path && (path.includes('post/') || path.includes('about/'))) {
-              console.log('setting path to ' + path);
-              history.push(path);
-            }
-          });
-        }
+      if (Capacitor.getPlatform() !== 'web' && user) {
+        App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+          const domain = 'quantum-61b84.firebaseapp.com'
+          const slug = event.url.split(domain);
+          const path = slug.pop();
+          if (path && (path.includes('post/') || path.includes('about/'))) {
+            console.log('setting path to ' + path);
+            history.push(path);
+          }
+        });
       }
     }
   }, [loading, user]);

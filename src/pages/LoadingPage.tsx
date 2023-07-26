@@ -16,6 +16,7 @@ import tellU_logo from "../images/tellU_splash_2_1_2048x2048.png";
 import "../App.css";
 import { useAppContext } from "../my-context";
 import { Capacitor } from "@capacitor/core";
+import { useHistory } from "react-router";
 
 const keyStyleOptionsDark: KeyboardStyleOptions = {
   style: KeyboardStyle.Dark
@@ -26,6 +27,7 @@ const LoadingPage = () => {
   // hooks
   const context = useAppContext();
   const router = useIonRouter();
+  const history = useHistory();
   const [isOffline, setIsOffline] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -61,6 +63,12 @@ const LoadingPage = () => {
       }
     });
     return unsub;
+  }, []);
+
+  React.useEffect(() => {
+    if (Capacitor.getPlatform() === 'web') {
+      window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
+    }
   }, []);
 
   /**

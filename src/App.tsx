@@ -121,14 +121,17 @@ const RoutingSystem: React.FunctionComponent = () => {
     });
   }
 
+  React.useEffect(() => {
+    if (Capacitor.getPlatform() === 'web') {
+      window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
+    }
+  }, []);
+
   /**
    * Runs once on app load
    * Adds a listener to PushNotifications
    */
   useEffect(() => {
-    if (Capacitor.getPlatform() !== 'md') {
-      return;
-    }
     PushNotifications.addListener(
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
