@@ -1,0 +1,12 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.v3.quantum",
+      "sha256_cert_fingerprints": ["65:92:04:ED:4D:9D:D6:D2:59:A0:E0:C4:03:02:5F:0D:AC:FD:E1:E5:ED:59:06:33:73:44:3E:5F:3A:01:75:F2"]
+    }
+  }
+]

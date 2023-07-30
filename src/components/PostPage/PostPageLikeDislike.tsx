@@ -142,7 +142,7 @@ export const PostPageLikeDislike = memo((props: any) => {
       </IonButton>
       <p>&nbsp;</p>
       {!postKeyMatch &&
-        <IonButton mode="md" color="medium" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
+        <IonButton mode="md" color="medium" onClick={() => { history.push("/post/" + schoolName + "/" + encodeURIComponent(post.userName) + "/" + post.key); }}>
           <ForumIcon />
           <p>&nbsp; {post.commentAmount} </p>
         </IonButton>

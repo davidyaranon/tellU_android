@@ -47,7 +47,7 @@ interface MatchUserPostParams {
 const Post = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
   const postKey = match.params.key;
   const schoolName = match.params.school;
-  const userName = match.params.userName;
+  const userName = decodeURIComponent(match.params.userName);
 
   /* Hooks */
   const [user] = useAuthState(auth);

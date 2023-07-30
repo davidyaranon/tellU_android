@@ -183,7 +183,7 @@ const Class = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
               return (
                 <FadeIn key={post.key}>
                   <IonList inset={true} mode="md">
-                    <IonItem lines="none" mode="md" onClick={() => { history.push("/post/" + schoolName + "/" + post.userName + "/" + post.key); }}>
+                    <IonItem lines="none" mode="md" onClick={() => { history.push("/post/" + schoolName + "/" + encodeURIComponent(post.userName) + "/" + post.key); }}>
                       <IonLabel class="ion-text-wrap">
                         <IonRow>
                           <FadeIn>

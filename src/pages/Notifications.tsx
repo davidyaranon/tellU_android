@@ -125,7 +125,7 @@ const Notifications = () => {
                   <FadeIn key={"postnotif_" + notif.postKey + index.toString()}>
                     <IonList inset={true} mode="ios">
                       <IonItem lines="none" mode="ios" onClick={() => { 
-                        const key = notif.postKey.toString(); history.push("post/Cal%20Poly%20Humboldt/" + notif.userName + '/' + key); }}>
+                        const key = notif.postKey.toString(); history.push("post/Cal%20Poly%20Humboldt/" + encodeURIComponent(notif.userName) + '/' + key); }}>
                         <IonFab horizontal="end" vertical="top">
                           <IonNote style={{ fontSize: "0.75em" }}>
                             {" "}

@@ -123,6 +123,7 @@ const RoutingSystem: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     if (Capacitor.getPlatform() === 'web') {
+      history.replace('/landing-page');
       window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
     }
   }, []);

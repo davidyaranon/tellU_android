@@ -9,6 +9,10 @@ import { useAppContext } from "../../my-context";
 import FadeIn from "@rcnoverwatcher/react-fade-in-react-18/src/FadeIn";
 import Spotify from "react-spotify-embed";
 
+const achievements = [
+  ""
+]
+
 export const UserAboutCard = (props: any) => {
 
   const busy = props.busy;
@@ -165,11 +169,13 @@ export const UserAboutCard = (props: any) => {
           )}
         </IonCardContent>
       </IonCard>
+
       {!noPostsYet &&
         <div style={{ textAlign: "center", alignItems: "center" }}>
           <IonLabel>Posts</IonLabel>
         </div>
       }
+
     </FadeIn>
   );
 }

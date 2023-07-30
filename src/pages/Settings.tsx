@@ -282,8 +282,8 @@ const Settings: React.FC = () => {
     // }
     context.setShowTabs(false);
     await Preferences.clear();
-    await logout();
     context.setSchoolName('');
+    await logout();
     const toast = Toast.create({ message: 'Logged out', duration: 2000, color: 'toast-success' });
     toast.present();
     toast.dismiss();
