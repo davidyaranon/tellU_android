@@ -9,9 +9,6 @@ import { useAppContext } from "../../my-context";
 import FadeIn from "@rcnoverwatcher/react-fade-in-react-18/src/FadeIn";
 import Spotify from "react-spotify-embed";
 
-const achievements = [
-  ""
-]
 
 export const UserAboutCard = (props: any) => {
 
@@ -100,7 +97,7 @@ export const UserAboutCard = (props: any) => {
                 <IonRow>
                   {userSnapchat && userSnapchat.length > 0 ? (
                     <>
-                      <IonCol>
+                      <IonCol className='ion-text-center'>
                         <IonChip outline color="snapchat-yellow">
                           <IonText style={{ fontSize: "0.75em" }}>
                             <IonIcon style={{}} icon={logoSnapchat} />
@@ -113,7 +110,7 @@ export const UserAboutCard = (props: any) => {
                   ) : null}
                   {userInstagram && userInstagram.length > 0 ? (
                     <>
-                      <IonCol>
+                      <IonCol className='ion-text-center'>
                         <IonChip outline color="instagram-hex">
                           <IonText onClick={() => { window.open("https://instagram.com/" + userInstagram.replace('@','')); }} style={{ fontSize: "0.75em" }}>
                             <IonIcon style={{}} icon={logoInstagram} />
@@ -126,7 +123,7 @@ export const UserAboutCard = (props: any) => {
                   ) : null}
                   {userTiktok && userTiktok.length > 0 ? (
                     <>
-                      <IonCol>
+                      <IonCol className='ion-text-center'>
                         <IonChip outline color="tik-tok-hex">
                           <IonText onClick={() => { window.open('https://www.tiktok.com/@' + userTiktok.replace('@','') + '?lang=en'); }} style={{ fontSize: "0.75em" }}>
                             <IonIcon style={{}} icon={logoTiktok} />
