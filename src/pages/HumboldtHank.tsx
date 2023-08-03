@@ -9,7 +9,6 @@ import { App as CapacitorApp } from "@capacitor/app";
 import { Preferences } from "@capacitor/preferences";
 import { StatusBar, Style } from "@capacitor/status-bar";
 import { Keyboard, KeyboardStyle, KeyboardStyleOptions } from "@capacitor/keyboard";
-import { Image as CapacitorImage, PhotoViewer as CapacitorPhotoViewer } from '@capacitor-community/photoviewer';
 
 import FadeIn from '@rcnoverwatcher/react-fade-in-react-18/src/FadeIn';
 import { useToast } from "@agney/ir-toast";
@@ -51,23 +50,6 @@ const HumboldtHank = () => {
   const [schoolName, setSchoolName] = useState<string>('');
   const [kbHeight, setKbHeight] = useState<number>(0);
   const contentRef = useRef<HTMLIonContentElement>(null);
-
-  /**
-   * @description opens the 'contact photo' image using Capacitor
-   */
-  const openImage = () => {
-    const img: CapacitorImage = {
-      url: aiImage[schoolName],
-      title: aiName[schoolName]
-    };
-    CapacitorPhotoViewer.show({
-      images: [img],
-      mode: 'one',
-      options: {
-        title: true
-      }
-    });
-  };
 
   /**
    * Loads school from local storage (Preferences API)
@@ -133,7 +115,7 @@ const HumboldtHank = () => {
         <IonToolbar mode='ios' className='ion-no-border'>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ height: "1vh" }} />
-            <IonAvatar onClick={openImage}>
+            <IonAvatar>
               <img src={aiImage[schoolName]} />
             </IonAvatar>
             <IonLabel>{aiName[schoolName]}</IonLabel>

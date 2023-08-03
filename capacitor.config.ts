@@ -4,6 +4,7 @@ const config: CapacitorConfig = {
   appId: 'com.example.v3.quantum',
   appName: 'tellU',
   webDir: 'dist',
+  loggingBehavior: 'none',
   server: {
     androidScheme: 'https'
   },

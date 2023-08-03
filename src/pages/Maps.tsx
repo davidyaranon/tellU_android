@@ -229,27 +229,24 @@ function Maps() {
   return (
     <IonPage className={className}>
       <IonContent fullscreen={true} className="no-scroll-content">
-        <div className={!context.darkMode ? "overlaySearch" : "overlaySearchDark"}>
+        <div className={context.darkMode ? "overlaySearchDark" : "overlaySearch"}>
           <IonSelect
             interface="action-sheet"
+            interfaceOptions={selectOptions}
             okText="Filter"
             cancelText="Cancel"
+            className='map-select'
+            style={markerFilter === 'A' ? { marginLeft: "45%" } : markerFilter === "Dining" ? { marginLeft: "37.5%" } : { marginLeft: "35%" }}
             value={markerFilter}
             placeholder="Filter: ALL"
             onIonChange={(e: any) => {
               setOverlayIndex(-1);
               updateMarkers(e.detail.value);
             }}
-            style={{ fontWeight: "bold" }}
           >
             <IonSelectOption value="A">All</IonSelectOption>
             <IonSelectOption value="Dining">Dining</IonSelectOption>
             <IonSelectOption value="Housing">Housing</IonSelectOption>
-            {schoolName && schoolName === "UC Davis" &&
-              <>
-                <IonSelectOption value="Stores">Stores</IonSelectOption>
-              </>
-            }
             <IonSelectOption value="Academics">Academics</IonSelectOption>
             <IonSelectOption value="Recreation">Recreation</IonSelectOption>
           </IonSelect>
@@ -272,12 +269,12 @@ function Maps() {
         >
           <ZoomControl style={{ left: "85%", top: "50%", opacity: "95%", zIndex: '100' }} buttonStyle={context.darkMode ? zoomControlButtonsStyleDark : zoomControlButtonsStyle} />
 
-          {filteredMarkers[schoolName] && filteredMarkers[schoolName].map((marker, index) => {
+          {filteredMarkers[schoolName] && filteredMarkers[schoolName].map((marker: MapMarker, index: number) => {
             return (
               <Marker
                 color={marker.color}
                 style={{ opacity: "85%" }}
-                key={marker.title}
+                key={marker.title + index.toString()}
                 anchor={[marker.location[0], marker.location[1]]}
                 width={35}
                 offset={[0, -5]}
@@ -325,18 +322,25 @@ function Maps() {
                     </p>
                   </IonFab>
                   <div style={{ height: "1vh" }} />
-                  <p>
-                    {filteredMarkers[schoolName][overlayIndex].description[0].substring(0, 110) + " ... "} <IonText color={getIonColor(filteredMarkers[schoolName][overlayIndex].color)}>(more)</IonText>
-                  </p>
+                  {filteredMarkers[schoolName][overlayIndex].description[0] &&
+                    <p>
+                      {filteredMarkers[schoolName][overlayIndex].description[0].substring(0, 110) + " ... "} <IonText color={getIonColor(filteredMarkers[schoolName][overlayIndex].color)}>(more)</IonText>
+                    </p>
+                  }
                   {filteredMarkers[schoolName][overlayIndex].imgSrc &&
-                    filteredMarkers[schoolName][overlayIndex].imgSrc.length > 0 ? (
+                    filteredMarkers[schoolName][overlayIndex].imgSrc.length > 0 &&
+                    filteredMarkers[schoolName][overlayIndex].imgSrc[0].length > 0 ? (
                     <>
                       <div style={{ height: "1vh" }} />
-                      <div
+                      <img
                         className="ion-img-container"
-                        style={{ backgroundImage: `url(${filteredMarkers[schoolName][overlayIndex].imgSrc[0]})`, borderRadius: '10px' }}
-                      >
-                      </div>
+                        style={{ borderRadius: '10px', width: '100%' }}
+                        src={filteredMarkers[schoolName][overlayIndex].imgSrc[0]}
+                        alt=""
+                        onError={() => {
+                          filteredMarkers[schoolName][overlayIndex].imgSrc = [];
+                        }}
+                      />
                     </>
                   ) : null}
                 </IonCardContent>

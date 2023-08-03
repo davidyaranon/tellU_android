@@ -85,19 +85,19 @@ export const UserAboutCard = (props: any) => {
                   </IonCol>
                   {userMajor && userMajor.length > 0 ? (
                     <IonCol class="ion-padding-top" size="8">
-                      <p style={{ fontSize: "1.5em" }}>{username}</p>
+                      <p style={{ fontSize: "1.25em" }}>{username}</p>
                       <IonNote style={{ fontSize: "1em" }}>
                         {userMajor}
                       </IonNote>
                     </IonCol>
                   ) : <IonCol class="ion-padding-top" size="8">
-                    <p className="ion-padding-top" style={{ fontSize: "1.5em" }}> {username}</p>
+                    <p className="ion-padding-top" style={{ fontSize: "1.25em" }}> {username}</p>
                   </IonCol>}
                 </IonRow>
                 <IonRow>
                   {userSnapchat && userSnapchat.length > 0 ? (
                     <>
-                      <IonCol className='ion-text-center'>
+                      <IonCol>
                         <IonChip outline color="snapchat-yellow">
                           <IonText style={{ fontSize: "0.75em" }}>
                             <IonIcon style={{}} icon={logoSnapchat} />
@@ -110,7 +110,7 @@ export const UserAboutCard = (props: any) => {
                   ) : null}
                   {userInstagram && userInstagram.length > 0 ? (
                     <>
-                      <IonCol className='ion-text-center'>
+                      <IonCol>
                         <IonChip outline color="instagram-hex">
                           <IonText onClick={() => { window.open("https://instagram.com/" + userInstagram.replace('@','')); }} style={{ fontSize: "0.75em" }}>
                             <IonIcon style={{}} icon={logoInstagram} />
@@ -123,7 +123,7 @@ export const UserAboutCard = (props: any) => {
                   ) : null}
                   {userTiktok && userTiktok.length > 0 ? (
                     <>
-                      <IonCol className='ion-text-center'>
+                      <IonCol>
                         <IonChip outline color="tik-tok-hex">
                           <IonText onClick={() => { window.open('https://www.tiktok.com/@' + userTiktok.replace('@','') + '?lang=en'); }} style={{ fontSize: "0.75em" }}>
                             <IonIcon style={{}} icon={logoTiktok} />

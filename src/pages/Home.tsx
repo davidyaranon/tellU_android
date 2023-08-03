@@ -39,7 +39,7 @@ import { PostType } from '../components/Shared/PostType';
 import ProfilePhoto from '../components/Shared/ProfilePhoto';
 
 
-const versionNum: string = '3.2.2';
+const versionNum: string = '4.1';
 const keyStyleOptionsDark: KeyboardStyleOptions = {
   style: KeyboardStyle.Dark
 };
@@ -335,6 +335,10 @@ const Home: React.FC = () => {
   React.useEffect(() => {
     hideSplashScreen();
   }, []);
+
+  React.useEffect(() => {
+    context.setInitLoad(true);
+  }, [])
 
   React.useEffect(() => {
     setSchool();

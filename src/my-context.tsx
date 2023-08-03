@@ -16,19 +16,22 @@ export type ContextType = {
   setMapTilerId: React.Dispatch<React.SetStateAction<string>>;
   sensitivityToggled: boolean;
   setSensitivityToggled: React.Dispatch<React.SetStateAction<boolean>>;
+  initLoad: boolean;
+  setInitLoad: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Context = React.createContext<ContextType | null>(null);
 export const ContextProvider = ({ children }: Props) => {
   const [showTabs, setShowTabs] = React.useState<boolean>(false);
   const [darkMode, setDarkMode] = React.useState<boolean>(false);
+  const [initLoad, setInitLoad] = React.useState<boolean>(false);
   const [schoolName, setSchoolName] = React.useState<string>('');
   const [mapTilerId, setMapTilerId] = React.useState<string>('streets');
   const [sensitivityToggled, setSensitivityToggled] = React.useState<boolean>(false);
 
   const memoizedContextValue = React.useMemo(() => ({
-    showTabs, setShowTabs, darkMode, setDarkMode, schoolName, setSchoolName, mapTilerId, setMapTilerId, sensitivityToggled, setSensitivityToggled
-  }), [showTabs, setShowTabs, darkMode, setDarkMode, schoolName, setSchoolName, mapTilerId, setMapTilerId, sensitivityToggled, setSensitivityToggled]);
+    showTabs, setShowTabs, darkMode, setDarkMode, schoolName, setSchoolName, initLoad, setInitLoad, mapTilerId, setMapTilerId, sensitivityToggled, setSensitivityToggled
+  }), [showTabs, setShowTabs, darkMode, setDarkMode, schoolName, setSchoolName, initLoad, setInitLoad, mapTilerId, setMapTilerId, sensitivityToggled, setSensitivityToggled]);
 
   return (
     <Context.Provider value={memoizedContextValue}> {children} </Context.Provider>

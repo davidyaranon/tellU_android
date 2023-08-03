@@ -151,7 +151,7 @@ export const SettingsHeader = (props: any) => {
           </IonButton>
         </IonButtons>
       </IonToolbar><IonHeader mode="md" class="ion-no-border" style={{ textAlign: "center", }}>
-        <IonAvatar className="user-avatar">
+        <IonAvatar className="user-avatar-settings">
           <IonImg draggable={false} style={{ opacity: "80%" }} className="user-image" src={profilePhoto}></IonImg>
           <IonIcon size="large" icon={cameraReverseOutline} onClick={handleProfilePictureEdit}
             style={{ zIndex: "2", position: "absolute", margin: "auto", left: "54%", top: "0%" }} />

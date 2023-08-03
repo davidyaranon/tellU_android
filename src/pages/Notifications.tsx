@@ -12,6 +12,7 @@ import { Virtuoso } from 'react-virtuoso';
 import { Toolbar } from '../components/Shared/Toolbar';
 import { getDate } from '../helpers/timeago';
 import { navigateBack } from '../components/Shared/Navigation';
+import { useAppContext } from '../my-context';
 
 
 /**
@@ -25,6 +26,7 @@ const Notifications = () => {
   const [user, loading, error] = useAuthState(auth);
   const Toast = useToast();
   const router = useIonRouter();
+  const context = useAppContext();
 
   /* State Variables */
   const [notifs, setNotifs] = useState<any[] | null>(null);
@@ -95,12 +97,16 @@ const Notifications = () => {
                       <IonItem lines="none" mode="ios" onClick={() => {
                         let url: string = '';
                         let chatroomString : string = notif.chatroomString;
+                        console.log(chatroomString);
                         if (chatroomString.includes("chatroom")) {
-                          url = notif.chatroomString.slice(0, 9) + "/Cal%20Poly%20Humboldt" + notif.chatroomString.slice(9);
+                          console.log('includes');
+                          url = notif.chatroomString.slice(0, 9) + "/" + encodeURIComponent(context.schoolName) + notif.chatroomString.slice(9);
                         } else {
-                          url = notif.chatroomString.slice(0, 5) + "/Cal%20Poly%20Humboldt" + notif.chatroomString.slice(9);
+                          console.log('does not include');
+                          url = notif.chatroomString.slice(0, 5) + "/" + encodeURIComponent(context.schoolName) + notif.chatroomString.slice(9);
                         }
-                        history.push(url);
+                        console.log('url after: ' + url);
+                        history.push(chatroomString);
                       }}>
                         <IonFab horizontal="end" vertical="top">
                           <IonNote style={{ fontSize: "0.75em" }}>
@@ -125,7 +131,7 @@ const Notifications = () => {
                   <FadeIn key={"postnotif_" + notif.postKey + index.toString()}>
                     <IonList inset={true} mode="ios">
                       <IonItem lines="none" mode="ios" onClick={() => { 
-                        const key = notif.postKey.toString(); history.push("post/Cal%20Poly%20Humboldt/" + encodeURIComponent(notif.userName) + '/' + key); }}>
+                        const key = notif.postKey.toString(); history.push("/post/" + encodeURIComponent(context.schoolName) + "/" + encodeURIComponent(notif.userName) + '/' + key); }}>
                         <IonFab horizontal="end" vertical="top">
                           <IonNote style={{ fontSize: "0.75em" }}>
                             {" "}

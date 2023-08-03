@@ -51,6 +51,7 @@ const LoadingPage = () => {
         console.log("logged in");
         context.setShowTabs(true);
         dynamicNavigate(router, '/home', 'root');
+        context.setInitLoad(true);
       } else {
         const isOffline = await Network.getStatus();
         if (isOffline.connected) {
@@ -65,12 +66,12 @@ const LoadingPage = () => {
     return unsub;
   }, []);
 
-  React.useEffect(() => {
-    if (Capacitor.getPlatform() === 'web') {
-      history.replace('/landing-page');
-      window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (Capacitor.getPlatform() === 'web') {
+  //     history.replace('/landing-page');
+  //     window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
+  //   }
+  // }, []);
 
   /**
    * Shows offline message if user has no connection

@@ -139,7 +139,9 @@ const Register: React.FC = () => {
         if (!res) {
           Toast.error('Registration failed, try again');
         } else {
+          console.log('registration done');
           const notificationsToken: string | null = localStorage.getItem("notificationsToken");
+          console.log(notificationsToken);
           if (!notificationsToken || notificationsToken.length <= 0) {
             FCM.deleteInstance().then(() => console.log("FCM instance deleted")).catch((err) => console.log(err));
             FCM.getToken().then(async (token) => {

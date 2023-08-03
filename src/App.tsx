@@ -20,7 +20,7 @@ import MapMarkerInfo from './pages/MapMarkerInfo';
 import HumboldtHank from './pages/HumboldtHank';
 
 // Ionic/Capacitor + React
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Route, useHistory } from 'react-router-dom';
 import {
   IonApp, IonIcon, IonRouterOutlet, IonTabBar,
@@ -121,18 +121,14 @@ const RoutingSystem: React.FunctionComponent = () => {
     });
   }
 
-  React.useEffect(() => {
-    if (Capacitor.getPlatform() === 'web') {
-      history.replace('/landing-page');
-      window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (Capacitor.getPlatform() === 'web') {
+  //     history.replace('/landing-page');
+  //     window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
+  //   }
+  // }, []);
 
-  /**
-   * Runs once on app load
-   * Adds a listener to PushNotifications
-   */
-  useEffect(() => {
+  const handlePushNotificationListeners = useCallback(() => {
     PushNotifications.addListener(
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
@@ -158,7 +154,16 @@ const RoutingSystem: React.FunctionComponent = () => {
     ).then(() => {
       console.log('adding listener for notif action performed');
     });
-  }, []);
+  }, [])
+
+  /**
+   * Runs once on app load
+   * Adds a listener to PushNotifications
+   */
+  useEffect(() => {
+    if (context.initLoad)
+      handlePushNotificationListeners();
+  }, [context.initLoad]);
 
   return (
 
