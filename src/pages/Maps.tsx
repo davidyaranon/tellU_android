@@ -229,24 +229,27 @@ function Maps() {
   return (
     <IonPage className={className}>
       <IonContent fullscreen={true} className="no-scroll-content">
-        <div className={context.darkMode ? "overlaySearchDark" : "overlaySearch"}>
+        <div className={!context.darkMode ? "overlaySearch" : "overlaySearchDark"}>
           <IonSelect
             interface="action-sheet"
-            interfaceOptions={selectOptions}
             okText="Filter"
             cancelText="Cancel"
-            className='map-select'
-            style={markerFilter === 'A' ? { marginLeft: "45%" } : markerFilter === "Dining" ? { marginLeft: "37.5%" } : { marginLeft: "35%" }}
             value={markerFilter}
             placeholder="Filter: ALL"
             onIonChange={(e: any) => {
               setOverlayIndex(-1);
               updateMarkers(e.detail.value);
             }}
+            style={{ fontWeight: "bold" }}
           >
             <IonSelectOption value="A">All</IonSelectOption>
             <IonSelectOption value="Dining">Dining</IonSelectOption>
             <IonSelectOption value="Housing">Housing</IonSelectOption>
+            {schoolName && schoolName === "UC Davis" &&
+              <>
+                <IonSelectOption value="Stores">Stores</IonSelectOption>
+              </>
+            }
             <IonSelectOption value="Academics">Academics</IonSelectOption>
             <IonSelectOption value="Recreation">Recreation</IonSelectOption>
           </IonSelect>

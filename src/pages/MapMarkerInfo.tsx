@@ -188,7 +188,7 @@ const MapMarkerInfo = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
             return (
               <SwiperSlide key={image + index.toString()} onClick={handleUploadImage}>
                 <IonCard style={{ backgroundColor: "#0D1117" }}>
-                  <img src={image} style={{ borderRadius: "10px" }} />
+                  <img src={image} alt={markerTitle} style={{ borderRadius: "10px" }} />
                 </IonCard>
               </SwiperSlide>
             );
@@ -205,11 +205,11 @@ const MapMarkerInfo = ({ match }: RouteComponentProps<MatchUserPostParams>) => {
         <div style={{ textAlign: "center" }}>
           {posts && posts.length === 0 ?
             <>
-              <IonCardTitle style={{ textAlign: "center", fontSize: "1.em" }}>No {markerTitle} Posts Yet</IonCardTitle>
+              <IonCardTitle style={{ textAlign: "center", fontSize: "1em" }}>No Posts Yet</IonCardTitle>
               <IonNote>Go there and make a post now!</IonNote>
             </>
             :
-            <IonCardTitle style={{ textAlign: "center", fontSize: "1em" }}>Posts</IonCardTitle>
+            <IonCardTitle style={{ textAlign: "center", fontSize: "0.9em" }}>Posts</IonCardTitle>
           }
           {!posts &&
             <>
