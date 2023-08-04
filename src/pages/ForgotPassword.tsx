@@ -3,11 +3,11 @@ import { IonButton, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonPage 
 import { KeyboardResizeOptions, Keyboard, KeyboardResize } from "@capacitor/keyboard";
 
 import { useToast } from "@agney/ir-toast";
-import Header from "../components/Shared/Header";
-import { timeout } from "../components/Shared/Timeout";
+import Header from "./Header";
 import { sendPasswordReset } from "../fbConfig";
 import { useAppContext } from "../my-context";
-import { Toolbar } from "../components/Shared/Toolbar";
+import { Toolbar } from "./Toolbar";
+import { timeout } from "./Timeout";
 
 // global variables
 const defaultResizeOptions: KeyboardResizeOptions = { mode: KeyboardResize.Body }
@@ -70,7 +70,7 @@ const ForgotPassword = () => {
 
   return (
     <IonPage>
-      <Toolbar color="primary" text="Sign In" />
+      <Toolbar color="primary" text="Back" />
 
       <IonContent scrollY={false}>
 

@@ -1,15 +1,10 @@
 // Ionic/Capacitor + React
-import { IonContent, IonNote, IonPage, useIonRouter } from "@ionic/react";
+import { IonContent, IonPage } from "@ionic/react";
 import React from "react";
-import { Network } from '@capacitor/network';
 import { Keyboard, KeyboardStyle, KeyboardStyleOptions } from "@capacitor/keyboard";
 import { StatusBar, Style } from "@capacitor/status-bar";
 
-// Firebase/Google
-import auth from "../fbConfig";
-
 // Other imports/components
-import { dynamicNavigate } from "../components/Shared/Navigation";
 import tellU_logo from "../images/tellU_splash_2_1_2048x2048.png";
 
 // CSS
@@ -26,9 +21,7 @@ const LoadingPage = () => {
 
   // hooks
   const context = useAppContext();
-  const router = useIonRouter();
   const history = useHistory();
-  const [isOffline, setIsOffline] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     context.setDarkMode(true);
@@ -40,53 +33,15 @@ const LoadingPage = () => {
     }
   }, [context]);
 
-  /**
-   * Auth state listener for Firebase auth
-   * Sets tabs visibility based on auth state
-   */
   React.useEffect(() => {
-    const unsub = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        console.log({user})
-        console.log("logged in");
-        context.setShowTabs(true);
-        dynamicNavigate(router, '/home', 'root');
-        context.setInitLoad(true);
+    if (Capacitor.getPlatform() === 'web') {
+      if (window.location.href.includes('delete-account') || window.location.href.includes('forgot-password')) {
+        history.replace('/landing-page');
       } else {
-        const isOffline = await Network.getStatus();
-        if (isOffline.connected) {
-          console.log("logged out");
-          context.setShowTabs(false);
-          dynamicNavigate(router, '/landing-page', 'root');
-        } else {
-          setIsOffline(true);
-        }
+        window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
       }
-    });
-    return unsub;
+    }
   }, []);
-
-  // React.useEffect(() => {
-  //   if (Capacitor.getPlatform() === 'web') {
-  //     history.replace('/landing-page');
-  //     window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
-  //   }
-  // }, []);
-
-  /**
-   * Shows offline message if user has no connection
-   */
-  if (isOffline) { // TODO: return an offline image / animation
-    return (
-      <IonPage>
-        <IonContent className="ion-padding" scrollY={false}>
-          <div className="centered">
-            <IonNote> You are offline. </IonNote>
-          </div>
-        </IonContent>
-      </IonPage>
-    );
-  }
 
   /**
    * Loading screen

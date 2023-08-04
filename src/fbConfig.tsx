@@ -168,23 +168,29 @@ export async function logout(): Promise<void> {
  * @description Deletes user from Firebase Auth and all data from Firestore (/userInfo/{userUid})
  * TO-DO: Delete all user data from all Firestore paths
  * 
+ * @param {string} email the email address of the user to be deleted
  * @param {string} pass the password of the user to be deleted
+ * 
+ * @returns {string | true} whether the deletion was successful or an error message.
  */
-export const deleteUserDataAndAccount = async (pass: string): Promise<string | void> => {
+export const deleteUserDataAndAccount = async (email: string, pass: string): Promise<string | true> => {
   try {
-    const user = auth.currentUser;
 
-    if (!user) {
-      console.error("User not logged in...");
-      return "User not logged in...";
+    const res = await signInWithEmailAndPassword(auth, email, pass);
+
+    if(!res || !res.user) {
+      console.error("Could not sign in!");
+      return "Something went wrong with this username/password combination";
     }
 
-    if (!pass) {
+    const user = res.user;
+
+    if (!email || !pass) {
       console.error("Email or password missing");
       return "Email or password missing";
     }
 
-    const credential = EmailAuthProvider.credential(user.email!, pass);
+    const credential = EmailAuthProvider.credential(email, pass);
     try {
       await reauthenticateWithCredential(user, credential);
 
@@ -194,6 +200,8 @@ export const deleteUserDataAndAccount = async (pass: string): Promise<string | v
 
       await deleteUser(user!).catch((err) => { console.log(err); return "Unable to delete from database, try again..." });
       await batch.commit().catch((err) => { console.log(err); });
+
+      return true;
 
     } catch (err) {
       console.error(err);

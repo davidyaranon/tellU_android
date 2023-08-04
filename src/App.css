@@ -75,7 +75,7 @@ ion-input {
 .back-button {
   background-color: transparent;
   border-radius: 5px;
-  padding-left: 0.75rem;
+  padding-left: 2.5%;
   font-size: 1.1em;
 }
 
@@ -123,8 +123,20 @@ ion-input {
   background: linear-gradient(90deg, rgba(0, 191, 255, 1) 0%, rgba(97, 219, 251, 1) 75%, rgba(28, 198, 255, 1) 100%);
 }
 
+.delete-account-button {
+  width: 85%;
+  margin: auto;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  height: 65px;
+  color: white;
+  font-size: large;
+  border-radius: 5px;
+  background: var(--ion-color-toast-error);
+}
+
 .login-label {
-  padding-left: 10%;
+  padding-left: 8%;
   color: var(--ion-color-primary);
 }
 
