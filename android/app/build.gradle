@@ -9,7 +9,7 @@ android {
         dataBinding = true
     }
     defaultConfig {
-        applicationId "com.example.v3.quantum"
+        applicationId "com.tellU.v3.quantum"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -41,6 +41,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461090594003:android:274f8be18d73ac76140826",
+        "android_client_info": {
+          "package_name": "com.tellU.v3.quantum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461090594003-0tamr6ksiqhibofup8tfvmet7mbihi50.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArFeXHrrxBBux0GSbq-3_wIAPjXyl7UK8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461090594003-0tamr6ksiqhibofup8tfvmet7mbihi50.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "461090594003-iddha6e096ldj8avupovqsurjmn0cqe8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.v3.quantum"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
