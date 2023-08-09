@@ -63,7 +63,7 @@ export const DeleteAccount = () => {
 
         <IonHeader className='ion-no-border' style={{ padding: "5vh" }}>
           <Header darkMode={context.darkMode} schoolName="" zoom={1.2} />
-          <p style={{ textAlign: "center", fontSize: "1.5em", fontFamily: 'sans-serif' }}>Forgot Password</p>
+          <p style={{ textAlign: "center", fontSize: "1.5em", fontFamily: 'sans-serif' }}>Delete Account</p>
         </IonHeader>
 
         <p className="ion-text-center" style={{paddingLeft : "15%", paddingRight: "15%"}}>Enter your email and password to delete your tellU account. All user posts will be deleted. No emails/passwords are saved. There is no account recovery once deleted. You can also delete your account within the tellU app.</p>
@@ -79,7 +79,7 @@ export const DeleteAccount = () => {
         </IonItem>
         <br />
         <IonButton className="delete-account-button" disabled={buttonDisabled} onClick={() => { handleDeleteAccount(); }} fill="clear" expand="block" id="signInButton" >Delete Account</IonButton>
-
+        <br /> <br /><br /> <br />
       </IonContent>
     </IonPage>
   );

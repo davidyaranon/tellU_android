@@ -1,10 +1,9 @@
-import LoadingPage from './pages/LoadingPage';
 import LandingPage from './pages/LandingPage';
 import ForgotPassword from './pages/ForgotPassword';
 
 // Ionic/Capacitor + React
 import React from 'react';
-import { Route, useHistory } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import {
   IonApp, IonRouterOutlet, setupIonicReact
 } from '@ionic/react';
@@ -37,28 +36,21 @@ const historyInstance = createBrowserHistory();
 
 const RoutingSystem: React.FunctionComponent = () => {
 
-  const history = useHistory();
   const context = useAppContext();
 
   React.useEffect(() => {
     context.setDarkMode(true);
-    if (Capacitor.getPlatform() === 'web') {
-      if (window.location.href.includes('delete-account') || window.location.href.includes('forgot-password')) {
-        history.replace('/landing-page');
-      } else {
-        window.location.href = 'https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link';
-      }
-    }
+    window.open('https://apps.apple.com/us/app/tellu/id6443764288?ign-itscg=30200&ign-itsct=apps_box_link', '_blank');
   }, []);
 
   return (
     <ToastProvider value={{ duration: 2000 }}>
       <IonRouterOutlet>
-        <Route path="/" exact component={LoadingPage} />
-        <Route path="/loadingPage" exact component={LoadingPage} />
+        <Route path="/" exact component={LandingPage} />
         <Route path="/landing-page" exact component={LandingPage} />
         <Route path="/forgot-password" exact component={ForgotPassword} />
         <Route path="/delete-account" exact component={DeleteAccount} />
+        <Route component={LandingPage} />
       </IonRouterOutlet>
     </ToastProvider>
   )

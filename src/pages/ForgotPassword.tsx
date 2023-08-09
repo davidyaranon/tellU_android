@@ -72,7 +72,7 @@ const ForgotPassword = () => {
     <IonPage>
       <Toolbar color="primary" text="Back" />
 
-      <IonContent scrollY={false}>
+      <IonContent>
 
         <IonHeader className='ion-no-border' style={{ padding: "5vh" }}>
           <Header darkMode={context.darkMode} schoolName="" zoom={1.2} />
