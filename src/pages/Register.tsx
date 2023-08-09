@@ -97,7 +97,7 @@ const Register: React.FC = () => {
       }
     }
     if (userNameSignUp.trim() === "" || passwordSignUp.trim() === "" || emailSignUp.trim() === "") {
-      const toast = Toast.create({ message: 'Enter avalue in each field', duration: 2000, color: 'toast-error' });
+      const toast = Toast.create({ message: 'Enter a value in each field', duration: 2000, color: 'toast-error' });
       toast.present();
     } else if (schoolName.length == 0) {
       const toast = Toast.create({ message: "Select a University", duration: 2000, color: 'toast-error' });

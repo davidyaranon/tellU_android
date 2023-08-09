@@ -178,11 +178,11 @@ export const PostModal = (props: any) => {
                     <IonCard key={"photo_" + index.toString()}>
                       <div style={{ position: 'relative' }}>
                         <IonImg src={photo?.webPath} style={{ opacity: .9 }} />
-                        <div style={{ position: 'absolute', top: '0', right: '0' }}>
+                        {/* <div style={{ position: 'absolute', top: '0', right: '0' }}>
                           <IonButton fill='solid' color='light' onClick={() => { handleRemoveImage(index) }}>
                             <IonIcon size='small' icon={closeOutline} />
                           </IonButton>
-                        </div>
+                        </div> */}
                       </div>
                     </IonCard>
                   )
